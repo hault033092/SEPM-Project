@@ -1,11 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
+import { Signin, Signup, Verification } from "./pages/";
 
 function App() {
-  return (
-    <div className='App'>
-      <h1>Hello world</h1>
-    </div>
-  )
+	return (
+		<Verification />
+	);
 }
 
-export default App
+export default App;
