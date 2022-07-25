@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
 	Input,
-	ErrorMessage,
+	validationMessage,
 	Button,
 	Logo,
 	SelectBox,
@@ -35,7 +35,7 @@ const SignupCont = styled(StyledContainer)`
 const StyledTitle = styled.p`
 	color: #ffffff;
 	font-weight: 600;
-	font-size: 6vw;
+	font-size: 4vw;
 	margin: 2vw;
 `;
 
@@ -238,7 +238,7 @@ const Signup = ({ studentEmail = "s3878170@rmit.edu.vn" }) => {
 								onKeyPress={_handleSubmit}
 								isMultipleLine
 							/>
-							{!isValid && <ErrorMessage message={errorMessage} />}
+							{!isValid && <validationMessage message={errorMessage} />}
 						</StyledContainer>
 						<StyledContainer width='100%' items='flex-end'>
 							<Button

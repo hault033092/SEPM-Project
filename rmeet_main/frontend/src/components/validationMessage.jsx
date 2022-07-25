@@ -7,15 +7,15 @@ const StyledText = styled.p`
 	width: 100%;
 	font-size: 2vw;
 	margin: 5px;
-	color: #E60028;
+	color: ${props => props.color};
 `;
 
-const ErrorMessage = ({ message }) => {
-	return <StyledText>{message}</StyledText>;
+const validationMessage = ({ message, color }) => {
+	return <StyledText color={color}>{message}</StyledText>;
 };
 
-ErrorMessage.propTypes = {
+validationMessage.propTypes = {
 	message: PropTypes.string.isRequired,
 };
 
-export default ErrorMessage;
+export default validationMessage;

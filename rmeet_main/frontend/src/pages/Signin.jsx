@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Input, ErrorMessage, Button, Image, Logo } from "../components";
+import { Input, validationMessage, Button, Image, Logo } from "../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
@@ -21,7 +21,7 @@ const StyledContainer = styled.div`
 
 const SigninCont = styled(StyledContainer)`
 	width: ${props => (props.isMobile ? "80%" : "50%")};
-	height: 80%;
+
 	padding: 3%;
 	margin-left: 3vw;
 	background-color: #000054;
@@ -40,6 +40,7 @@ const StyledText = styled.p`
 	color: #ffffff;
 	font-size: 2vw;
 	text-decoration: underline;
+	padding-top: 5%;
 `;
 
 const Signin = () => {
@@ -110,7 +111,7 @@ const Signin = () => {
 					width={"100%"}
 					isPassword={true}
 				/>
-				{!isValid && <ErrorMessage message={errorMessage} />}
+				{!isValid && <validationMessage message={errorMessage} />}
 				<Button title={"Log in"} onClick={_handleSubmit} disabled={!isValid} />
 				<StyledText onClick={_handleSignUp}>create new account</StyledText>
 			</SigninCont>

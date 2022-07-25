@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Input, ErrorMessage, Button, Logo } from "../components";
+import emailjs from '@emailjs/browser';
+import { Input, validationMessage, Button, Logo } from "../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
+	generateRandomNum,
 } from "../util/accountValidation";
 
 const StyledContainer = styled.div`
@@ -69,13 +71,16 @@ const Verification = () => {
 	const [codeErrorMessage, setCodeErrorMessage] = useState("");
 	const [isValidEmail, setIsValidEmail] = useState(false);
 	const [isValidCodeInput, setIsValidCodeInput] = useState(false);
+	const [isSuccessSendEmail, setIsSuccessSendEmail] = useState(false);
 	const [disabledCodeInput, setDisabledCodeInput] = useState(true);
 
 	const sysCode = useRef(null);
 
 	const generateCode = () => {
-		sysCode.current = "111111";
+		sysCode.current = generateRandomNum(100000, 999999);
 	};
+
+	console.log(sysCode.current);
 
 	useEffect(() => {
 		generateCode();
@@ -113,7 +118,23 @@ const Verification = () => {
 	};
 
 	const _sendCode = e => {
-		console.log("send code! code:", sysCode);
+		e.preventDefault();
+		const serviceID = "default_service";
+		const templateID = "template_6c8c2ja";
+		const accPublicKey = "lwab-hOM-Z0QUdaDH";
+		const content = {
+			userEmail: email,
+			code: sysCode.current,
+		};
+
+		emailjs
+			.send(serviceID, templateID, content, accPublicKey)
+			.then(res => {
+				console.log(res)
+				setIsSuccessSendEmail(true);
+			})
+			.catch(error => console.log(error));
+
 		setDisabledCodeInput(false);
 	};
 
@@ -166,6 +187,13 @@ const Verification = () => {
 					onClick={_sendCode}
 					disabled={!isValidEmail}
 				/>
+				{isSuccessSendEmail && (
+					<ErrorMessage
+						message={
+							"We sent the email to your student email. Check your inbox to crate your account."
+						}
+					/>
+				)}
 				<StyledContainer
 					width='100%'
 					direction='column'
