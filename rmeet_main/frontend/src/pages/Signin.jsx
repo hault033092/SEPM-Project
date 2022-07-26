@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Input, validationMessage, Button, Image, Logo } from "../components";
+import { Input, ValidationMessage, Button, Image, Logo } from "../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
@@ -21,7 +21,6 @@ const StyledContainer = styled.div`
 
 const SigninCont = styled(StyledContainer)`
 	width: ${props => (props.isMobile ? "80%" : "50%")};
-
 	padding: 3%;
 	margin-left: 3vw;
 	background-color: #000054;
@@ -90,8 +89,8 @@ const Signin = () => {
 			width='90vw'
 			height='90vh'
 			margin='5vh 5vw'
-			direction={(screenWidth <= 900) ? "column" : "row"}>
-			<SigninCont isMobile={(screenWidth <= 900)}>
+			direction={screenWidth <= 900 ? "column" : "row"}>
+			<SigninCont isMobile={screenWidth <= 900}>
 				<StyledTitle>RMEET</StyledTitle>
 				<Input
 					label={"Email"}
@@ -111,15 +110,15 @@ const Signin = () => {
 					width={"100%"}
 					isPassword={true}
 				/>
-				{!isValid && <validationMessage message={errorMessage} />}
+				{!isValid && <ValidationMessage message={errorMessage} />}
 				<Button title={"Log in"} onClick={_handleSubmit} disabled={!isValid} />
 				<StyledText onClick={_handleSignUp}>create new account</StyledText>
 			</SigninCont>
 			<StyledContainer
 				direction='column'
 				content={"space-between"}
-				width={(screenWidth <= 900) ? "80%" : "50%"}>
-				{(screenWidth <= 900) || <Logo width={"30vw"} height={"30vh"} />}
+				width={screenWidth <= 900 ? "80%" : "50%"}>
+				{screenWidth <= 900 || <Logo width={"30vw"} height={"30vh"} />}
 				<StyledContainer direction={"row"} content={"space-around"}>
 					<FontAwesomeIcon icon={solid("angle-left")} size='6x' />
 					<Logo width={"30vw"} height={"30vh"} />

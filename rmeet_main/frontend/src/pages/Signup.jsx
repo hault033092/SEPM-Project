@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
 	Input,
-	validationMessage,
+	ValidationMessage,
 	Button,
 	Logo,
 	SelectBox,
@@ -238,7 +238,7 @@ const Signup = ({ studentEmail = "s3878170@rmit.edu.vn" }) => {
 								onKeyPress={_handleSubmit}
 								isMultipleLine
 							/>
-							{!isValid && <validationMessage message={errorMessage} />}
+							{!isValid && <ValidationMessage message={errorMessage} />}
 						</StyledContainer>
 						<StyledContainer width='100%' items='flex-end'>
 							<Button

@@ -1,8 +1,8 @@
-import { Signin, Signup, Verification } from "./pages/";
+import { Signin, Signup, Verification, BoardMain, BoardDetail } from "./pages/";
 
 function App() {
 	return (
-		<Verification />
+		<BoardMain />
 	);
 }
 

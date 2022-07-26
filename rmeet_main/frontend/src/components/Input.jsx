@@ -118,7 +118,7 @@ Input.propTypes = {
 Input.defaultProps = {
 	onKeyPress: () => {},
 	onChange: () => {},
-	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1.5vW" },
+	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1vW" },
 };
 
 export default Input;

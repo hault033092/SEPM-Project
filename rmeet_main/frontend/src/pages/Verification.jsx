@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import emailjs from '@emailjs/browser';
-import { Input, validationMessage, Button, Logo } from "../components";
+import emailjs from "@emailjs/browser";
+import OtpInput from "react-otp-input";
+import { Input, ValidationMessage, Button, Logo } from "../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
@@ -29,8 +30,8 @@ const LabelContainer = styled(StyledContainer)`
 `;
 
 const SignupCont = styled(StyledContainer)`
-	width: ${props => (props.screenWidth <= 900 ? "80%" : "60%")};
-	padding: 5% 3%;
+	width: ${props => (props.screenWidth <= 900 ? "80%" : "800px")};
+	padding: 3% 3%;
 	margin-left: 10%;
 	background-color: #000054;
 	border-radius: 50px;
@@ -51,22 +52,10 @@ const StyledText = styled.p`
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : 0)};
 `;
 
-const CodeInputStyle = {
-	width: "5vw",
-	height: "8vw",
-	padding: "15%",
-	fontSize: "5vw",
-};
-
 const Verification = () => {
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 	const [email, setEmail] = useState("");
-	const [num1, setNum1] = useState("");
-	const [num2, setNum2] = useState("");
-	const [num3, setNum3] = useState("");
-	const [num4, setNum4] = useState("");
-	const [num5, setNum5] = useState("");
-	const [num6, setNum6] = useState("");
+	const [code, setCode] = useState("");
 	const [emailErrorMessage, setEmailErrorMessage] = useState("");
 	const [codeErrorMessage, setCodeErrorMessage] = useState("");
 	const [isValidEmail, setIsValidEmail] = useState(false);
@@ -79,8 +68,6 @@ const Verification = () => {
 	const generateCode = () => {
 		sysCode.current = generateRandomNum(100000, 999999);
 	};
-
-	console.log(sysCode.current);
 
 	useEffect(() => {
 		generateCode();
@@ -95,15 +82,8 @@ const Verification = () => {
 	}, [email, emailErrorMessage]);
 
 	useEffect(() => {
-		setIsValidCodeInput(
-			num1 && num2 && num3 && num4 && num5 && num6 && !codeErrorMessage
-		);
-	}, [num1, num2, num3, num4, num5, num6, codeErrorMessage]);
-
-	const isValidCode = () => {
-		const userCode = num1 + num2 + num3 + num4 + num5 + num6;
-		return sysCode.current === userCode;
-	};
+		setIsValidCodeInput(code && !codeErrorMessage);
+	}, [code, codeErrorMessage]);
 
 	const _handleWindowSizeChange = () => {
 		setScreenWidth(window.innerWidth);
@@ -115,6 +95,10 @@ const Verification = () => {
 		setEmailErrorMessage(
 			validateStudentEmail(refinedEmail) ? "" : "Please verify your email"
 		);
+	};
+
+	const _handleCodeChange = e => {
+		setCode(e);
 	};
 
 	const _sendCode = e => {
@@ -130,7 +114,7 @@ const Verification = () => {
 		emailjs
 			.send(serviceID, templateID, content, accPublicKey)
 			.then(res => {
-				console.log(res)
+				console.log(res);
 				setIsSuccessSendEmail(true);
 			})
 			.catch(error => console.log(error));
@@ -139,7 +123,7 @@ const Verification = () => {
 	};
 
 	const _handleSubmit = e => {
-		if (isValidCode()) {
+		if (sysCode.current === code) {
 			console.log("confirm valid code!");
 			console.log("navigate to signup page!");
 			return;
@@ -147,27 +131,22 @@ const Verification = () => {
 
 		setIsValidCodeInput(false);
 		setCodeErrorMessage("Invalid code. Please try again.");
-		setNum1("");
-		setNum2("");
-		setNum3("");
-		setNum4("");
-		setNum5("");
-		setNum6("");
+		setCode("");
 	};
 
 	return (
 		<StyledContainer
-			direction={screenWidth <= 900 ? "column-reverse" : "row"}
-			width='90vw'
-			height='90vh'
-			margin='5vh 5vw'>
+			direction={screenWidth <= 900 ? "column" : "row"}
+			width='70vw'
+			height='60vh'
+			margin='20vh 15vw'>
 			<StyledContainer
 				direction={screenWidth <= 900 ? "row" : "column"}
 				content={"space-between"}
 				width={screenWidth <= 900 ? "80%" : "40%"}
 				height={"30vh"}>
 				<Logo width={"30vw"} height={"30vh"} />
-				<StyledText fontSize='3vw'>
+				<StyledText fontSize='2vw'>
 					RMEET is a private community for only RMIT students in Vietnam.
 				</StyledText>
 			</StyledContainer>
@@ -181,17 +160,18 @@ const Verification = () => {
 					onChange={_handleEmailChange}
 					onKeyPress={_sendCode}
 				/>
-				{!isValidEmail && <ErrorMessage message={emailErrorMessage} />}
+				{!isValidEmail && <ValidationMessage message={emailErrorMessage} />}
 				<Button
 					title={"Send code"}
 					onClick={_sendCode}
 					disabled={!isValidEmail}
 				/>
 				{isSuccessSendEmail && (
-					<ErrorMessage
+					<ValidationMessage
 						message={
 							"We sent the email to your student email. Check your inbox to crate your account."
 						}
+						color='#005B09'
 					/>
 				)}
 				<StyledContainer
@@ -208,72 +188,16 @@ const Verification = () => {
 							Verification code:
 						</StyledText>
 					</LabelContainer>
-					<StyledContainer width='100%' direction='row' content='space-evenly'>
-						<StyledContainer>
-							<Input
-								value={num1}
-								maxLength={1}
-								onChange={e => {
-									setNum1(e.target.value);
-								}}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-							<Input
-								value={num2}
-								maxLength={1}
-								onChange={e => {
-									setNum2(e.target.value);
-								}}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-							<Input
-								value={num3}
-								maxLength={1}
-								onChange={e => {
-									setNum3(e.target.value);
-								}}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-						</StyledContainer>
-						<StyledContainer>
-							<Input
-								value={num4}
-								maxLength={1}
-								onChange={e => setNum4(e.target.value)}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-							<Input
-								value={num5}
-								maxLength={1}
-								onChange={e => {
-									setNum5(e.target.value);
-								}}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-							<Input
-								value={num6}
-								maxLength={1}
-								onChange={e => {
-									setNum6(e.target.value);
-								}}
-								onKeyPress={_handleSubmit}
-								isLabelHidden={true}
-								style={CodeInputStyle}
-								disabled={disabledCodeInput}
-							/>
-						</StyledContainer>
-					</StyledContainer>
-					{!isValidCodeInput && <ErrorMessage message={codeErrorMessage} />}
+					<OtpInput
+						value={code}
+						onChange={_handleCodeChange}
+						numInputs={6}
+						separator={<span></span>}
+						isDisabled={!isValidEmail}
+					/>
+					{!isValidCodeInput && (
+						<ValidationMessage message={codeErrorMessage} />
+					)}
 					<Button
 						title={"Verify"}
 						onClick={_handleSubmit}

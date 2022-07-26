@@ -12,4 +12,8 @@ npm i --save @fortawesome/react-fontawesome@latest
 npm install @emailjs/browser --save
 
 
+3. otp component:
+npm i react-otp-input
+
+
 

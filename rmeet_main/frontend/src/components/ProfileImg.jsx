@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import DefaultImg from "../lib/img/user.svg";
 import Image from "./Image";
 
 const Container = styled.div`
@@ -14,8 +15,8 @@ const Container = styled.div`
 `;
 
 const BtnContainer = styled(Container)`
-	width: 5vw;
-	height: 5vw;
+	width: ${props => props.width ? props.width : "5vw"};
+	height:  ${props => props.height ? props.height : "5vw"};
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -41,11 +42,11 @@ const StyledInput = styled.input.attrs(({}) => ({
 	display: none;
 `;
 
-const PhotoButton = ({ onChange, iconSize }) => {
+const PhotoButton = ({ onChange, iconSize, width, height }) => {
 	return (
 		<>
 			<StyledLabel htmlFor='uploadInput'>
-				<BtnContainer>
+				<BtnContainer width={width} height={height}>
 					<FontAwesomeIcon icon={solid("camera")} size={iconSize} />
 				</BtnContainer>
 			</StyledLabel>
@@ -54,10 +55,21 @@ const PhotoButton = ({ onChange, iconSize }) => {
 	);
 };
 
-const ProfileImg = ({ src, onChangePhoto, screenWidth, isShowButton }) => {
+const ProfileImg = ({
+	screenWidth,
+	src,
+	width,
+	height,
+	onChangePhoto,
+	isShowButton,
+}) => {
 	const iconSize = useRef(null);
 
 	useEffect(() => {
+		if (screenWidth === 0) {
+			return;
+		}
+
 		if (screenWidth <= 500) {
 			iconSize.current = "2xs";
 		} else if (screenWidth <= 950) {
@@ -77,24 +89,35 @@ const ProfileImg = ({ src, onChangePhoto, screenWidth, isShowButton }) => {
 				src={src}
 				alt={"Profile Image"}
 				style={{
-					width: "10vw",
-					height: "10vw",
+					width,
+					height,
 					borderRadius: "50%",
 					padding: "5%",
 				}}
 			/>
 			{isShowButton && (
-				<PhotoButton onChange={onChangePhoto} iconSize={iconSize.current} />
+				<PhotoButton onChange={onChangePhoto} iconSize={iconSize.current} width={width} height={height}/>
 			)}
 		</Container>
 	);
 };
 
 ProfileImg.propTypes = {
-	src: PropTypes.string.isRequired,
-	onChangePhoto: PropTypes.func.isRequired,
 	screenWidth: PropTypes.number,
+	src: PropTypes.string,
+	width: PropTypes.string,
+	height: PropTypes.string,
+	onChangePhoto: PropTypes.func,
 	isShowButton: PropTypes.bool,
+};
+
+ProfileImg.defaultProps = {
+	screenWidth: 0,
+	src: DefaultImg,
+	isShowButton: false,
+	onChangePhoto: () => {},
+	width: "10vw",
+	height: "10vw",
 };
 
 export default ProfileImg;

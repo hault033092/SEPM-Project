@@ -5,17 +5,23 @@ import PropTypes from "prop-types";
 const StyledText = styled.p`
 	align-items: flex-start;
 	width: 100%;
-	font-size: 2vw;
+	font-size: 1vw;
+	font-weight: 600;
 	margin: 5px;
 	color: ${props => props.color};
 `;
 
-const validationMessage = ({ message, color }) => {
+const ValidationMessage = ({ message, color }) => {
 	return <StyledText color={color}>{message}</StyledText>;
 };
 
-validationMessage.propTypes = {
+ValidationMessage.propTypes = {
 	message: PropTypes.string.isRequired,
+	color: PropTypes.string,
 };
 
-export default validationMessage;
+ValidationMessage.defaultProps = {
+	color: "#E60028",
+};
+
+export default ValidationMessage;
