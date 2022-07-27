@@ -5,7 +5,8 @@ import Image from "./Image";
 import Logo from "./Logo";
 import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
-import BoardSummary from "./BoardSummary"
+import BoardSummary from "./BoardSummary";
+import { StyledContainer } from "./StyledContainer";
 
 export {
 	Input,
@@ -16,4 +17,5 @@ export {
 	SelectBox,
 	ProfileImg,
 	BoardSummary,
+	StyledContainer,
 };

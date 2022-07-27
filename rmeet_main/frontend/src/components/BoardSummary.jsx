@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
+import React, { useContext, useRef } from "react";
+import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { ProfileImg, Button } from "../components";
 
 const StyledContainer = styled.div`
-	display: flex;
+	display: ${props => (props.display ? props.display : "flex")};
 	width: ${props => (props.width ? props.width : "auto")};
 	height: ${props => (props.height ? props.height : "auto")};
 	margin: ${props => (props.margin ? props.margin : "0")};
@@ -17,16 +17,22 @@ const StyledContainer = styled.div`
 	align-self: ${props => (props.self ? props.self : "center")};
 `;
 
+const MainCont = styled(StyledContainer).attrs(({ theme }) => ({}))`
+	background-color: ${props => props.theme.forumBg};
+	border: ${props => "3px solid" + props.theme.mainBlue};
+`;
+
 const StyledText = styled.p`
 	font-weight: ${props => props.weight};
 	font-size: ${props => props.size};
 	color: ${props => (props.color ? props.color : "#00000")};
+	margin: ${props => (props.margin ? props.margin : "0")};
 `;
 
-const Tag = styled(Button).attrs(({ title, isLastTag }) => ({
+const Tag = styled(Button).attrs(({ title, isLastTag, theme }) => ({
 	title,
 	style: {
-		btnColor: isLastTag ? "#b0b0b0" : "#3F3FEF",
+		btnColor: isLastTag ? "#696969" : theme.tagBlue,
 		width: "auto",
 		padding: "0.8vh 1.5vw",
 		margin: "0 3% 0 0",
@@ -35,22 +41,25 @@ const Tag = styled(Button).attrs(({ title, isLastTag }) => ({
 	},
 }))``;
 
+
+
 const BoardSummary = ({ user, post }) => {
-	// const [isMyPost] = useRef(null);
+	const isMyPost = useRef(post.writerID === user.userID);
+	const theme = useContext(ThemeContext);
+	console.log(isMyPost.current);
 
 	return (
-		<StyledContainer
+		<MainCont
 			className='mainCont'
 			direction='column'
 			content='space-around'
-			padding='3%'>
+			padding='20px'>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
-				<ProfileImg width="2vw" height="2vw"/>
-				<StyledContainer width='auto' content='flex-start' self='flex-start'>
+				<ProfileImg src={user.userProfileImg} width='6vw' height='6vw' />
+				<StyledContainer width='auto' content='flex-start' self='flex-start' display={isMyPost.current ? "flex" : "none"}>
 					<FontAwesomeIcon
 						icon={solid("ellipsis-vertical")}
-						font-size='2vw'
-						aria-hidden={false}
+						fontSize='1.5vw'
 					/>
 				</StyledContainer>
 			</StyledContainer>
@@ -59,19 +68,16 @@ const BoardSummary = ({ user, post }) => {
 				direction='column'
 				items='flex-start'
 				width='100%'>
-				<StyledText weight='600' size='1.5vw'>
-					Looking for 1 more team member
+				<StyledText weight='600' size='1.5vw' margin='20px 0 0 0'>
+					{post.title}
 				</StyledText>
-				<StyledText weight='100' size='0.5vw'>
-					Created at: 07-08-2022
+				<StyledText weight='100' size='0.8vw'>
+					Created at: {post.createdAt}
 				</StyledText>
 			</StyledContainer>
 			<StyledContainer className='subCont' padding='1%'>
-				<StyledText weight='300' size='1vw'>
-					Hi guys, my name is Giang Nhat Khanh (s3878182) and on behalf of my
-					ISYS2101 group, I would like to post this discussion to find the last
-					member to complete our roster. As of right now, we have 3 team members
-					including myself who are all familiar with the primary concepts of...
+				<StyledText weight='300' size='1.2vw'>
+					{post.content.slice(0, 247)}...
 				</StyledText>
 			</StyledContainer>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
@@ -80,42 +86,50 @@ const BoardSummary = ({ user, post }) => {
 					width='55%'
 					margin='0 5% 0 0'
 					content='flex-start'>
-					<Tag title='# findTeammates' />
-					<Tag title='# findTeammembers' />
-					<Tag title='+ 5' isLastTag />
+					{post.tags.map((tag, index) => (
+						<Tag key={index} title={"# " + tag} />
+					))}
 				</StyledContainer>
 				<StyledContainer
 					className='IconMainCont'
 					width='40%'
 					content='flex-end'>
-					<StyledContainer className='IconSubCont' width='auto' margin="0 5% 0 0">
+					<StyledContainer
+						className='IconSubCont'
+						width='auto'
+						margin='0 5% 0 0'>
 						<StyledContainer width='auto' margin='0 10px 0 0'>
 							<FontAwesomeIcon
 								icon={regular("comment")}
-								font-size='2vw'
-								color='#2626CC'
+								fontSize='2vw'
+								color={theme.tagBlue}
 							/>
 						</StyledContainer>
-						<StyledText weight={500} size='1vw' color='#2626CC'>
-							23
+						<StyledText weight={500} size='1vw' color={theme.tagBlue}>
+							{post.numOfComment}
 						</StyledText>
 					</StyledContainer>
 					<StyledContainer className='IconSubCont' width='auto'>
 						<StyledContainer width='auto' margin='0 10px 0 0'>
 							<FontAwesomeIcon
 								icon={regular("face-smile")}
-								font-size='2vw'
-								color='#E60028'
+								fontSize='2vw'
+								color={theme.mainRed}
 							/>
 						</StyledContainer>
-						<StyledText weight={500} size='1vw' color='#E60028'>
-							46
+						<StyledText weight={500} size='1vw' color={theme.mainRed}>
+							{post.numOfLike}
 						</StyledText>
 					</StyledContainer>
 				</StyledContainer>
 			</StyledContainer>
-		</StyledContainer>
+		</MainCont>
 	);
 };
+
+// ProfileImg.propTypes = {
+// 	user: PropTypes.object.isRequired,
+// 	post: PropTypes.object.isRequired,
+// };
 
 export default BoardSummary;

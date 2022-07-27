@@ -7,16 +7,16 @@ import DefaultImg from "../lib/img/user.svg";
 import Image from "./Image";
 
 const Container = styled.div`
-	width: 10vw;
-	height: 10vw;
+	width: ${props => (props.width ? props.width : "5vw")};
+	height: ${props => (props.height ? props.height : "5vw")};
 	border-radius: 50%;
 	position: relative;
 	background-color: #ccc;
 `;
 
 const BtnContainer = styled(Container)`
-	width: ${props => props.width ? props.width : "5vw"};
-	height:  ${props => props.height ? props.height : "5vw"};
+	width: ${props => (props.width ? props.width : "5vw")};
+	height: ${props => (props.height ? props.height : "5vw")};
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -84,7 +84,7 @@ const ProfileImg = ({
 	}, [screenWidth]);
 
 	return (
-		<Container>
+		<Container width={width} height={height}>
 			<Image
 				src={src}
 				alt={"Profile Image"}
@@ -96,7 +96,12 @@ const ProfileImg = ({
 				}}
 			/>
 			{isShowButton && (
-				<PhotoButton onChange={onChangePhoto} iconSize={iconSize.current} width={width} height={height}/>
+				<PhotoButton
+					onChange={onChangePhoto}
+					iconSize={iconSize.current}
+					width={width}
+					height={height}
+				/>
 			)}
 		</Container>
 	);

@@ -2,22 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Input, ValidationMessage, Button, Image, Logo } from "../components";
+import { Input, ValidationMessage, Button, Image, Logo, StyledContainer } from "../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
 } from "../util/accountValidation";
-
-const StyledContainer = styled.div`
-	display: flex;
-	width: ${props => (props.width ? props.width : "auto")};
-	height: ${props => (props.height ? props.height : "auto")};
-	margin: ${props => (props.margin ? props.margin : "0")};
-	padding: ${props => (props.padding ? props.padding : "auto")};
-	flex-direction: ${props => (props.direction ? props.direction : "row")};
-	justify-content: ${props => (props.content ? props.content : "center")};
-	align-items: ${props => (props.items ? props.items : "center")};
-`;
 
 const SigninCont = styled(StyledContainer)`
 	width: ${props => (props.isMobile ? "80%" : "50%")};
