@@ -6,6 +6,6 @@ export const theme = {
 	iconBlue: "#2626CC",
 	lightGrey: "#D9D9D9",
 	darkGrey: "#D2D2D2",
-	white: "#ffffff",
+	screenBg: "#ffffff",
   forumBg: "beige",
 };

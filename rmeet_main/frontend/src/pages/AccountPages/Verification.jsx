@@ -2,14 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import emailjs from "@emailjs/browser";
 import OtpInput from "react-otp-input";
-import { Input, ValidationMessage, Button, Logo, StyledContainer } from "../components";
+import {
+	Input,
+	ValidationMessage,
+	Button,
+	Logo,
+	StyledContainer,
+} from "../../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
 	generateRandomNum,
-} from "../util/accountValidation";
-
-
+} from "../../util/accountValidation";
 
 const LabelContainer = styled(StyledContainer)`
 	width: 100%;
@@ -128,7 +132,7 @@ const Verification = () => {
 	return (
 		<StyledContainer
 			direction={screenWidth <= 900 ? "column" : "row"}
-			width='70vw'
+			width={screenWidth <= 900 ? "80%" : "50%"}
 			height='60vh'
 			margin='20vh 15vw'>
 			<StyledContainer

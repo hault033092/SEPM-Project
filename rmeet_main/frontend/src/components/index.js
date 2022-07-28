@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
 import BoardSummary from "./BoardSummary";
+import SearchBar from "./SearchBar"
 import { StyledContainer } from "./StyledContainer";
 
 export {
@@ -18,4 +19,5 @@ export {
 	ProfileImg,
 	BoardSummary,
 	StyledContainer,
+	SearchBar,
 };

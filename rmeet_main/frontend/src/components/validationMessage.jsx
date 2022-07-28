@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const StyledText = styled.p`
 	align-items: flex-start;
 	width: 100%;
-	font-size: 1vw;
+	font-size: 100%;
 	font-weight: 600;
 	margin: 5px;
 	color: ${props => props.color};

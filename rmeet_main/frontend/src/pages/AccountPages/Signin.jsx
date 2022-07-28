@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Input, ValidationMessage, Button, Image, Logo, StyledContainer } from "../components";
+import { Input, ValidationMessage, Button, Image, Logo, StyledContainer } from "../../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
-} from "../util/accountValidation";
+} from "../../util/accountValidation";
 
 const SigninCont = styled(StyledContainer)`
-	width: ${props => (props.isMobile ? "80%" : "50%")};
+	width: ${props => props.width};
 	padding: 3%;
 	margin-left: 3vw;
 	background-color: #000054;
@@ -75,7 +75,7 @@ const Signin = () => {
 
 	return (
 		<StyledContainer
-			width='90vw'
+			width={screenWidth <= 900 ? "80%" : "50%"}
 			height='90vh'
 			margin='5vh 5vw'
 			direction={screenWidth <= 900 ? "column" : "row"}>

@@ -6,9 +6,11 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 	disabled: disabled,
 }))`
 	width: ${props => props.style.width};
+	height: ${props => props.style.height};
 	padding: ${props => props.style.padding};
 	font-size: ${props => props.style.fontSize};
-	font-weight: 500;
+	font-weight: ${props => props.style.fontWeight};
+	text-align: ${props => props.style.textAlign};
 	background-color: ${props => props.style.btnColor};
 	border-radius: ${props => props.style.borderRadius};
 	border: none;
@@ -40,10 +42,13 @@ Button.propTypes = {
 Button.defaultProps = {
 	style: {
 		margin: "10px 0",
+		padding: "0.8vh 1vw",
 		btnColor: "#E60028",
 		width: "100%",
-		padding: "0.8vh 1vw",
+		height: "auto",
 		fontSize: "1.5vw",
+		fontWeight: "500",
+		textAlign: "center",
 		borderRadius: "10px",
 	},
 };

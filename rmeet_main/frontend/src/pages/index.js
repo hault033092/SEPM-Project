@@ -1,7 +1,8 @@
-import Signin from "./Signin";
-import Signup from "./Signup";
-import Verification from "./Verification";
+import Signin from "./AccountPages/Signin";
+import Signup from "./AccountPages/Signup";
+import Verification from "./AccountPages/Verification";
 import BoardMain from "./BoardPages/BoardMain";
 import BoardDetail from "./BoardPages/BoardDetail";
+
 
 export { Signin, Signup, Verification, BoardMain, BoardDetail };

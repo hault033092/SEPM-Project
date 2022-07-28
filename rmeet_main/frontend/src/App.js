@@ -5,7 +5,7 @@ import {theme} from "./lib/style/theme"
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<Signup />
+			<BoardMain />
 		</ThemeProvider>
 	);
 }

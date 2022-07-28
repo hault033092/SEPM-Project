@@ -8,12 +8,13 @@ import {
 	SelectBox,
 	ProfileImg,
 	StyledContainer,
-} from "../components";
-import { removeWhitespace } from "../util/accountValidation";
-import ProfileImgSrc from "../lib/img/user.svg";
+} from "../../components";
+import { majors } from '../../lib/data/data';
+import { removeWhitespace } from "../../util/accountValidation";
+
 
 const SignupCont = styled(StyledContainer)`
-	width: ${props => (props.isMobile ? "80%" : "70%")};
+	width: ${props => props.width};
 	padding: 5%;
 	margin-left: 3vw;
 	background-color: #000054;
@@ -40,7 +41,7 @@ const Signup = ({ studentEmail = "s3878170@rmit.edu.vn" }) => {
 	const email = useRef(studentEmail);
 
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-	const [profileImg, setProfileImg] = useState(ProfileImgSrc);
+	const [profileImg, setProfileImg] = useState("");
 	const [username, setUserName] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [pwdConfirm, setPwdConfirm] = useState("");
@@ -48,32 +49,6 @@ const Signup = ({ studentEmail = "s3878170@rmit.edu.vn" }) => {
 	const [Bio, setBio] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
-
-	const majors = {
-		SSET: [
-			{ key: "BH073", value: "Electronic and Computer Systems Engineering" },
-			{ key: "BH120", value: "Software Engineering" },
-			{ key: "BH070", value: "Applied Science (Aviation)" },
-			{ key: "BH199", value: "Science (Food Technology and Nutrition)" },
-			{ key: "BH123", value: "Robotics and Mechatronics Engineering" },
-			{ key: "BH154", value: "Applied Science (Psychology)" },
-			{ key: "BH162", value: "Information Technology" },
-		],
-		SCD: [
-			{ key: "BP309", value: "Design (Digital Media)" },
-			{ key: "BP316", value: "Design Studies" },
-			{ key: "BP222", value: "Communication (Professional Communication)" },
-			{ key: "BP317", value: "Languages" },
-			{ key: "BP327", value: "Fashion (Enterprise)" },
-			{ key: "BP325", value: "Digital Film and Video" },
-			{ key: "BP214", value: "Design (Games)" },
-		],
-		SBM: [
-			{ key: "BP343", value: "Business" },
-			{ key: "BP312", value: "Tourism and Hospitality Management" },
-			{ key: "BP318", value: " Digital Marketing" },
-		],
-	};
 
 	useEffect(() => {
 		window.addEventListener("resize", _handleWindowSizeChange);
@@ -138,7 +113,7 @@ const Signup = ({ studentEmail = "s3878170@rmit.edu.vn" }) => {
 
 	return (
 		<StyledContainer
-			width='90vw'
+			width={screenWidth <= 900 ? "80%" : "50%"}
 			height='90vh'
 			margin='5vh 5vw'
 			direction={screenWidth <= 900 ? "column-reverse" : "row"}>

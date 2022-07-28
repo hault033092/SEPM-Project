@@ -1,25 +1,73 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { BoardSummary } from "../../components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import {
+	BoardSummary,
+	StyledContainer,
+	SearchBar,
+	Button,
+} from "../../components";
+import { sampleTagList, currentUser, postList } from "../../lib/data/data";
+
+const Nav = styled(StyledContainer)`
+	width: 20%;
+	height: 100%;
+`;
+
+const Screen = styled(StyledContainer)`
+	width: 70%;
+	height: 100%;
+	margin: 5% 0;
+	flex-direction: column;
+	border: 3px solid tomato;
+`;
+
+const StickyCont = styled.div`
+	background-color: #fff;
+	width: 100%;
+	position: sticky;
+	top: 0;
+	display: flex;
+	z-index: 999;
+`;
 
 const BoardMain = () => {
-	const user = {
-		userID: "000000",
-		userProfileImg: "https://picsum.photos/200",
+	const [searchTag, setSearchTag] = useState("");
+
+	const _onSearchValChange = e => {
+		setSearchTag(e.target.value);
 	};
 
-	const post = {
-		postID: "123455",
-		writerID: "111111",
-		title: "Looking for 1 more team member",
-		content:
-			"Hi guys, my name is Giang Nhat Khanh (s3878182) and on behalf of my ISYS2101 group, I would like to post this discussion to find the last member to complete our roster. As of right now, we have 3 team members including myself who are all familiar with the primary concepts of frontend/backend development, writing technical report documents as well as being keen communicators. Therefore, we would expect our potential teammate to fulfill these requirements in order to collaborate smoothly throughout the project. We would be grateful that someone could reply to this post and hopefully we can work together to ace this course! ",
-		tags: ["findTeammates", "SSET", "IT", "tag1", "tag2"],
-		numOfComment: "23",
-		numOfLike: "46",
-		createdAt: "07-08-2022",
+	const _handlePost = () => {
+		console.log("navigate to post page");
 	};
-	return <BoardSummary user={user} post={post} />;
+
+	
+
+
+
+	return (
+		<StyledContainer height='100%'>
+			<Nav></Nav>
+			<Screen>
+				<StickyCont>
+					<SearchBar
+						value={searchTag}
+						onChange={_onSearchValChange}
+						width='70%'
+						tagList={sampleTagList}
+					/>
+					<Button title='Post' onClick={_handlePost} style={{ width: "20%" }} />
+				</StickyCont>
+				<div style={{border: "3px solid violet"}}>
+				{Object.values(postList).map((post, index) => (
+						<BoardSummary key={index} user={currentUser} post={post} />
+					))}
+				</div>
+			</Screen>
+		</StyledContainer>
+	);
 };
 
 export default BoardMain;
