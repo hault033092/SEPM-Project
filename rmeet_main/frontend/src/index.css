@@ -17,6 +17,12 @@ body {
   height: 100vh;
 }
 
+nav a.active,
+nav a:last-child.active {
+  background-color: #000054;
+  color: #FFFFFF;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
