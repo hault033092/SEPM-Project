@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -7,7 +7,7 @@ const MainCont = styled.div`
 	width: ${props => props.width};
 	display: flex;
 	flex-direction: column;
-	background: #ffffff;
+	justify-content: space-between;
 	border-radius: 5px;
 	box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.15);
 `;
@@ -17,20 +17,23 @@ const SearchCont = styled.div`
 `;
 
 const IconCont = styled.div`
-	width: 5%;
+	width: 25%;
+	display: flex;
+`;
+
+const IconWrapper = styled.div`
+	width: 30%;
+	margin-left: 5%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background: tomato;
-	:focus {
-		outline: none;
-	}
 `;
 
 const ResCont = styled.div``;
 
 const Input = styled.input`
-	width: 95%;
+	width: 100%;
 	border: none;
 	height: 100%;
 	border-radius: 5px;
@@ -56,24 +59,61 @@ const StyledList = styled.li`
 
 	:hover {
 		background: #ececec;
+		cursor: pointer;
 	}
 `;
 
-const SearchBar = ({ value, onChange, tagList, onKeyPress, width }) => {
+const List = ({ value, onSetValue, onSubmit }) => {
+	const _onClick = () => {
+		onSetValue(value);
+		onSubmit();
+	};
+
+	return (
+		<div
+			onClick={_onClick}
+			onMouseEnter={() => {
+				onSetValue(value);
+			}}>
+			<StyledList>{value}</StyledList>
+		</div>
+	);
+};
+
+const SearchBar = ({
+	value,
+	onChange,
+	valuesList,
+	onSubmit,
+	onDelete,
+	setValue,
+	width,
+}) => {
 	const [matchedList, setMatchedList] = useState([]);
 	const _searchMatchedList = () => {
 		if (value.length <= 2) {
-      setMatchedList([]);
+			setMatchedList([]);
 			return;
 		}
+
 		let res = [];
-		for (let idx = 0; idx < tagList.length; idx++) {
-			if (tagList[idx].startsWith(value)) {
-				res.push(tagList[idx]);
+		for (let idx = 0; idx < valuesList.length; idx++) {
+			if (valuesList[idx].toLowerCase().includes(value.toLowerCase())) {
+				res.push(valuesList[idx]);
 			}
 		}
-
 		setMatchedList(res);
+	};
+
+	const _onEnterPress = e => {
+		if (e.key === "Enter") {
+			onSubmit();
+		}
+	};
+
+	const _onSubmit = () => {
+		setMatchedList([]);
+		onSubmit();
 	};
 
 	return (
@@ -83,16 +123,30 @@ const SearchBar = ({ value, onChange, tagList, onKeyPress, width }) => {
 					value={value}
 					onChange={onChange}
 					onKeyUp={_searchMatchedList}
+					onKeyPress={_onEnterPress}
 					isLabelHidden
+					style={{ padding: "1.5%", fontSize: "1.2vw" }}
 				/>
-				<IconCont onClick={onKeyPress}>
-					<FontAwesomeIcon icon={solid("search")} fontSize='1.5vw' />
+				<IconCont onClick={_onSubmit}>
+					{value.length > 0 && (
+						<IconWrapper onClick={onDelete}>
+							<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
+						</IconWrapper>
+					)}
+					<IconWrapper>
+						<FontAwesomeIcon icon={solid("search")} fontSize='1.5vw' />
+					</IconWrapper>
 				</IconCont>
 			</SearchCont>
-			<ResCont className='recommendTagList'>
+			<ResCont className='recommendValuesList'>
 				<StyledUl>
 					{matchedList.map((item, index) => (
-						<StyledList key={index}>{item}</StyledList>
+						<List
+							key={index}
+							value={item}
+							onSetValue={setValue}
+							onSubmit={_onSubmit}
+						/>
 					))}
 				</StyledUl>
 			</ResCont>

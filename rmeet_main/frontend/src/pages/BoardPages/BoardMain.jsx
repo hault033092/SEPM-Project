@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 import {
 	BoardSummary,
 	StyledContainer,
 	SearchBar,
 	Button,
 } from "../../components";
-import { sampleTagList, currentUser, postList } from "../../lib/data/data";
+
+import {
+	sampleTagList,
+	sampleCurrentUser,
+	samplePostList,
+} from "../../lib/data/data";
 
 const Nav = styled(StyledContainer)`
 	width: 20%;
@@ -23,17 +29,22 @@ const Screen = styled(StyledContainer)`
 	border: 3px solid tomato;
 `;
 
-const StickyCont = styled.div`
-	background-color: #fff;
+const SearchBarCont = styled.div`
 	width: 100%;
-	position: sticky;
-	top: 0;
+	height: 10%;
 	display: flex;
+	justify-content: space-between;
 	z-index: 999;
+`;
+
+const BoardCont = styled.div`
+	height: 90%;
+	overflow-y: scroll;
 `;
 
 const BoardMain = () => {
 	const [searchTag, setSearchTag] = useState("");
+	const [postList, setPostList] = useState(samplePostList);
 
 	const _onSearchValChange = e => {
 		setSearchTag(e.target.value);
@@ -43,28 +54,51 @@ const BoardMain = () => {
 		console.log("navigate to post page");
 	};
 
-	
+	const _handleBoardOnClick = () => {
+		console.log("navigate to board detail page");
+	};
 
+	const _handleSearch = () => {
+		console.log("search processing runs!!");
+		console.log("search for", searchTag);
+		// setPostList(newPostList)
+	};
 
+	const _handleDelete = () => {
+		setSearchTag("");
+	};
+
+	const _handleTagEvent = value => {
+		setSearchTag(value);
+	};
 
 	return (
 		<StyledContainer height='100%'>
 			<Nav></Nav>
 			<Screen>
-				<StickyCont>
+				<h1>Board</h1>
+				<SearchBarCont>
 					<SearchBar
 						value={searchTag}
 						onChange={_onSearchValChange}
-						width='70%'
-						tagList={sampleTagList}
+						onSubmit={_handleSearch}
+						onDelete={_handleDelete}
+						setValue={_handleTagEvent}
+						width='75%'
+						valuesList={sampleTagList}
 					/>
 					<Button title='Post' onClick={_handlePost} style={{ width: "20%" }} />
-				</StickyCont>
-				<div style={{border: "3px solid violet"}}>
-				{Object.values(postList).map((post, index) => (
-						<BoardSummary key={index} user={currentUser} post={post} />
+				</SearchBarCont>
+				<BoardCont>
+					{Object.values(postList).map((post, index) => (
+						<BoardSummary
+							key={index}
+							user={sampleCurrentUser}
+							post={post}
+							onClick={_handleBoardOnClick}
+						/>
 					))}
-				</div>
+				</BoardCont>
 			</Screen>
 		</StyledContainer>
 	);

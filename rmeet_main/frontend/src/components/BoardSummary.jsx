@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { ProfileImg, Button } from "../components";
 
-export const StyledContainer = styled.div`
+const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
 	width: ${props => (props.width ? props.width : "auto")};
 	height: ${props => (props.height ? props.height : "auto")};
@@ -44,7 +44,7 @@ const Tag = styled(Button).attrs(({ title, isLastTag, theme }) => ({
 	},
 }))``;
 
-const BoardSummary = ({ user, post }) => {
+const BoardSummary = ({ user, post, onClick }) => {
 	const isMyPost = useRef(post.writerID === user.userID);
 	const theme = useContext(ThemeContext);
 	return (
@@ -53,8 +53,9 @@ const BoardSummary = ({ user, post }) => {
 			direction='column'
 			content='space-around'
 			padding='10px 20px'
-			margin="10px 0 0 0"
-			theme={theme}>
+			margin='10px 0 0 0'
+			theme={theme}
+			onClick={onClick}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
 				<ProfileImg src={user.userProfileImg} width='5vw' height='5vw' />
 				<StyledContainer
