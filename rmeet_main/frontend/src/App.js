@@ -1,11 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import Clock from './components/Clock';
+import LiveDate from './components/LiveDate';
 
 function App() {
   return (
     <div className='App'>
-      <h1>Hello world</h1>
       <Clock/>
+      <LiveDate/>
     </div>
   )
 }
