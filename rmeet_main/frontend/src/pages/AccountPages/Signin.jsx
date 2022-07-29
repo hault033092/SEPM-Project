@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Input, ValidationMessage, Button, Image, Logo, StyledContainer } from "../../components";
+import { Input, ValidationMessage, Button, Logo, StyledContainer, AutoSlideshow } from "../../components";
 import {
 	validateStudentEmail,
 	removeWhitespace,
 } from "../../util/accountValidation";
+import { imagesData } from "../../lib/data";
 
 const SigninCont = styled(StyledContainer)`
 	width: ${props => props.width};
@@ -109,9 +110,7 @@ const Signin = () => {
 				width={screenWidth <= 900 ? "80%" : "50%"}>
 				{screenWidth <= 900 || <Logo width={"30vw"} height={"30vh"} />}
 				<StyledContainer direction={"row"} content={"space-around"}>
-					<FontAwesomeIcon icon={solid("angle-left")} size='6x' />
-					<Logo width={"30vw"} height={"30vh"} />
-					<FontAwesomeIcon icon={solid("angle-right")} size='6x' />
+				<AutoSlideshow images={imagesData} delayTime={4000} />
 				</StyledContainer>
 			</StyledContainer>
 		</StyledContainer>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
@@ -153,5 +154,17 @@ const SearchBar = ({
 		</MainCont>
 	);
 };
+
+SearchBar.propTypes = {
+	value: PropTypes.string,
+	onChange:PropTypes.func,
+	valuesList: PropTypes.array,
+	onSubmit:PropTypes.func,
+	onDelete:PropTypes.func,
+	setValue:PropTypes.func,
+	width:PropTypes.string,
+};
+
+
 
 export default SearchBar;

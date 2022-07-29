@@ -8,4 +8,5 @@ export const theme = {
 	darkGrey: "#D2D2D2",
 	screenBg: "#ffffff",
   forumBg: "beige",
+	slideMsg: "#fcda60",
 };

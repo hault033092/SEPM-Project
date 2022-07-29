@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import DefaultImg from "../lib/img/user.svg";
+import {user} from "../lib/img/icon";
 import Image from "./Image";
 
 const Container = styled.div`
@@ -118,7 +118,7 @@ ProfileImg.propTypes = {
 
 ProfileImg.defaultProps = {
 	screenWidth: 0,
-	src: DefaultImg,
+	src: user,
 	isShowButton: false,
 	onChangePhoto: () => {},
 	width: "10vw",

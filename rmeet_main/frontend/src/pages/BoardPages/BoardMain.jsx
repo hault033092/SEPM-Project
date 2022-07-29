@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import {
 	BoardSummary,
@@ -14,7 +12,7 @@ import {
 	sampleTagList,
 	sampleCurrentUser,
 	samplePostList,
-} from "../../lib/data/data";
+} from "../../lib/data";
 
 const Nav = styled(StyledContainer)`
 	width: 20%;

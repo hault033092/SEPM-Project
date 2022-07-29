@@ -1,3 +1,10 @@
+import {
+	logoNoTitle,
+	getTeammates,
+	sendMessage,
+	createReview,
+} from "../img/illustration";
+
 export const sampleTagList = [
 	"findTeammates",
 	"findRoommates",
@@ -174,3 +181,13 @@ export const majors = {
 		{ key: "BP318", value: " Digital Marketing" },
 	],
 };
+
+export const imagesData = [
+	{ src: logoNoTitle, desc: "Private community\n for \n only RMIT" },
+	{ src: getTeammates, desc: "Ask help\n and\n share information!" },
+	{ src: sendMessage, desc: "Send message!" },
+	{
+		src: createReview,
+		desc: "Create a course review!",
+	},
+];

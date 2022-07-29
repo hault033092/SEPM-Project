@@ -1,11 +1,11 @@
 import Image from "./Image";
 import PropTypes from "prop-types";
-import LogoSrc from "../lib/img/logo.svg";
+import {logo} from "../lib/img/illustration";
 
 const Logo = ({ width, height }) => {
 	return (
 		<Image
-			src={LogoSrc}
+			src={logo}
 			alt={"RMEET logo image"}
 			style={{
 				width,

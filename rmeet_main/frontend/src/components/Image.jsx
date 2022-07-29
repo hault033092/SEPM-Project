@@ -7,8 +7,7 @@ const StyledImage = styled.img`
 	height: ${props => props.style.height};
 	border-radius: ${props => props.style.borderRadius};
 	padding: ${props => props.style.padding};
-
-	
+	filter: ${props => props.style.filter};;
 `;
 
 const Image = ({ src, alt, style }) => {
@@ -16,7 +15,7 @@ const Image = ({ src, alt, style }) => {
 };
 
 Image.defaultProps = {
-	style: { width: "auto", height: "auto", borderRadius: "0", padding: "auto" },
+	style: { width: "auto", height: "auto", borderRadius: "0", padding: "auto", filter: "none"},
 };
 
 Image.propTypes = {

@@ -7,6 +7,7 @@ import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
 import BoardSummary from "./BoardSummary";
 import SearchBar from "./SearchBar"
+import AutoSlideshow from "./AutoSlideshow"
 import { StyledContainer } from "./StyledContainer";
 
 export {
@@ -20,4 +21,5 @@ export {
 	BoardSummary,
 	StyledContainer,
 	SearchBar,
+	AutoSlideshow,
 };
