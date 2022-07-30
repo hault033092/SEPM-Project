@@ -7,7 +7,8 @@ const StyledImage = styled.img`
 	height: ${props => props.style.height};
 	border-radius: ${props => props.style.borderRadius};
 	padding: ${props => props.style.padding};
-	filter: ${props => props.style.filter};;
+	object-fit: fill;
+	filter: ${props => props.style.filter};
 `;
 
 const Image = ({ src, alt, style }) => {

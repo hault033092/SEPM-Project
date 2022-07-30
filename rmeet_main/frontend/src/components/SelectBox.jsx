@@ -13,9 +13,9 @@ const LabelContainer = styled(Container)`
 `;
 
 const StyledLabel = styled.label`
-	font-size: 2vw;
+	width: 100%;
+	font-size: 1.2vw;
 	font-weight: 600;
-	margin: 5px 10px;
 	color: #ffffff;
 `;
 
@@ -24,7 +24,7 @@ const StyledSelect = styled.select`
 	color: #000054;
 	width: 100%;
 	padding: 0.5vw 0.5vh;
-	font-size: 2vw;
+	font-size: 1vw;
 	border-radius: 10px;
 	cursor: pointer;
 	box-shadow: 0 2px 0 white;

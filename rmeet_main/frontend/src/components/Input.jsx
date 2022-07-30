@@ -16,7 +16,7 @@ const LabelContainer = styled(Container)`
 
 const StyledLabel = styled.label`
 	width: 100%;
-	font-size: 1.5vw;
+	font-size: 1.2vw;
 	font-weight: 600;
 	color: #ffffff;
 `;
@@ -120,7 +120,7 @@ Input.propTypes = {
 Input.defaultProps = {
 	onKeyPress: () => {},
 	onChange: () => {},
-	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1vW" },
+	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1vw" },
 };
 
 export default Input;

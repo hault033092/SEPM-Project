@@ -1,12 +1,20 @@
 export const theme = {
+	/* Main Colors */
 	mainRed: "#E60028",
 	mainBlue: "#000054",
+
+	/* Basic Colors */
 	fontColor: "#000000",
-  tagBlue: "#3F3FEF",
-	iconBlue: "#2626CC",
+	fontColorWhite: "#ffffff",
 	lightGrey: "#D9D9D9",
 	darkGrey: "#D2D2D2",
 	screenBg: "#ffffff",
-  forumBg: "beige",
+
+	/* Account Colors */
 	slideMsg: "#fcda60",
+
+	/* Board colors */
+	tagBlue: "#3F3FEF",
+	iconBlue: "#2626CC",
+	forumBg: "beige",
 };

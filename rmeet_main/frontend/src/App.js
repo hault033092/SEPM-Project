@@ -1,13 +1,11 @@
-import { Signin, Signup, Verification, BoardMain, BoardDetail } from "./pages/";
+import { Signin, Signup, BoardMain, BoardDetail } from "./pages";
 import { ThemeProvider } from "styled-components";
-import {theme} from "./lib/style/theme";
-
-import Test from "./pages/Test"
+import { theme } from "./lib/style/theme";
 
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<Signin />
+			<Signup />
 		</ThemeProvider>
 	);
 }

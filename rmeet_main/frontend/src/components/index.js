@@ -1,16 +1,20 @@
+import { StyledContainer } from "./StyledContainer";
+import { FlexContainer } from "./FlexContainer";
 import Input from "./Input";
 import Button from "./Button";
-import ValidationMessage from "./ValidationMessage";
 import Image from "./Image";
 import Logo from "./Logo";
 import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
 import BoardSummary from "./BoardSummary";
-import SearchBar from "./SearchBar"
-import AutoSlideshow from "./AutoSlideshow"
-import { StyledContainer } from "./StyledContainer";
+import SearchBar from "./SearchBar";
+import AutoSlideshow from "./AutoSlideshow";
+import AccPageTemplate from "./TemplateCmp/AccPageTemplate";
+import ValidationMessage from "./ValidationMessage";
 
 export {
+	StyledContainer,
+	FlexContainer,
 	Input,
 	Button,
 	ValidationMessage,
@@ -19,7 +23,7 @@ export {
 	SelectBox,
 	ProfileImg,
 	BoardSummary,
-	StyledContainer,
 	SearchBar,
 	AutoSlideshow,
+	AccPageTemplate,
 };

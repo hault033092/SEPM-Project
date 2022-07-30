@@ -11,12 +11,13 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 	font-size: ${props => props.style.fontSize};
 	font-weight: ${props => props.style.fontWeight};
 	text-align: ${props => props.style.textAlign};
-	background-color: ${props => props.style.btnColor};
+	background-color: #E60028;
 	border-radius: ${props => props.style.borderRadius};
 	border: none;
 	margin: ${props => props.style.margin};
 	opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
 	color: #ffffff;
+	cursor: pointer;
 `;
 
 const Button = ({ title, onClick, style, disabled }) => {
@@ -46,7 +47,7 @@ Button.defaultProps = {
 		btnColor: "#E60028",
 		width: "100%",
 		height: "auto",
-		fontSize: "1.5vw",
+		fontSize: "1vw",
 		fontWeight: "500",
 		textAlign: "center",
 		borderRadius: "10px",

@@ -1,3 +1,4 @@
-import user from "./user.svg"
+import user from "./user.svg";
+import camera from "./camera.svg";
 
-export {user}
+export { user, camera };

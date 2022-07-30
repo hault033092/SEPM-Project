@@ -1,39 +1,39 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import {user} from "../lib/img/icon";
+
+import { user, camera } from "../lib/img/icon";
 import Image from "./Image";
 
 const Container = styled.div`
-	width: ${props => (props.width ? props.width : "5vw")};
-	height: ${props => (props.height ? props.height : "5vw")};
+	width: ${props => props.width};
+	height: ${props => props.height};
 	border-radius: 50%;
 	position: relative;
-	background-color: #ccc;
+	background-color: ${props => props.theme.lightGrey};
 `;
 
 const BtnContainer = styled(Container)`
-	width: ${props => (props.width ? props.width : "5vw")};
-	height: ${props => (props.height ? props.height : "5vw")};
+	width: 2vw;
+	height: 2vw;
+	padding: 5%;
 	position: absolute;
 	right: 0;
 	bottom: 0;
-	background-color: #ccc;
+	background-color: ${props => props.theme.slideMsg};
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `;
 
 const StyledLabel = styled.label`
-	width: 5vw;
-	height: 3vh;
+	width: 2vw;
+	height: 2vw;
 	border-radius: 50px;
 	cursor: pointer;
 `;
 
-const StyledInput = styled.input.attrs(({}) => ({
+const StyledInput = styled.input.attrs(() => ({
 	type: "file",
 	id: "uploadInput",
 	name: "uploadInput",
@@ -42,12 +42,15 @@ const StyledInput = styled.input.attrs(({}) => ({
 	display: none;
 `;
 
-const PhotoButton = ({ onChange, iconSize, width, height }) => {
+const PhotoButton = ({ onChange, width, height }) => {
 	return (
 		<>
 			<StyledLabel htmlFor='uploadInput'>
 				<BtnContainer width={width} height={height}>
-					<FontAwesomeIcon icon={solid("camera")} size={iconSize} />
+					<Image
+						src={camera}
+						alt={"Camera Icon. Click here to change your profile image."}
+					/>
 				</BtnContainer>
 			</StyledLabel>
 			<StyledInput onChange={onChange} />
@@ -55,34 +58,7 @@ const PhotoButton = ({ onChange, iconSize, width, height }) => {
 	);
 };
 
-const ProfileImg = ({
-	screenWidth,
-	src,
-	width,
-	height,
-	onChangePhoto,
-	isShowButton,
-}) => {
-	const iconSize = useRef(null);
-
-	useEffect(() => {
-		if (screenWidth === 0) {
-			return;
-		}
-
-		if (screenWidth <= 500) {
-			iconSize.current = "2xs";
-		} else if (screenWidth <= 950) {
-			iconSize.current = "1x";
-		} else if (screenWidth <= 1300) {
-			iconSize.current = "2x";
-		} else if (screenWidth <= 2000) {
-			iconSize.current = "3x";
-		} else {
-			iconSize.current = "4x";
-		}
-	}, [screenWidth]);
-
+const ProfileImg = ({ src, width, height, onChangePhoto, isShowButton }) => {
 	return (
 		<Container width={width} height={height}>
 			<Image
@@ -96,19 +72,13 @@ const ProfileImg = ({
 				}}
 			/>
 			{isShowButton && (
-				<PhotoButton
-					onChange={onChangePhoto}
-					iconSize={iconSize.current}
-					width={width}
-					height={height}
-				/>
+				<PhotoButton onChange={onChangePhoto} width={width} height={height} />
 			)}
 		</Container>
 	);
 };
 
 ProfileImg.propTypes = {
-	screenWidth: PropTypes.number,
 	src: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
@@ -117,12 +87,11 @@ ProfileImg.propTypes = {
 };
 
 ProfileImg.defaultProps = {
-	screenWidth: 0,
 	src: user,
 	isShowButton: false,
 	onChangePhoto: () => {},
-	width: "10vw",
-	height: "10vw",
+	width: "6vw",
+	height: "6vw",
 };
 
 export default ProfileImg;

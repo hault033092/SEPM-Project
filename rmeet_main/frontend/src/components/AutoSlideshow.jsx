@@ -3,15 +3,14 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Image from "./Image";
 
-/*
-https://codepen.io/bnsddk/pen/dyXaNod
-*/
-
 const SlideShow = styled.div`
 	margin: 0 auto;
 	overflow: hidden;
 	width: 35vw;
 	max-width: 600px;
+	@media (max-width: 820px) {
+		display: none;
+	}
 `;
 const SlideShowSlider = styled.div`
 	white-space: nowrap;
@@ -22,8 +21,6 @@ const Slide = styled.div`
 	position: relative;
 	height: 40vh;
 	width: 100%;
-	border-radius: 40px;
-	background-color: #0404045c;
 `;
 const SlideShowDots = styled.div`
 	text-align: center;
@@ -59,7 +56,7 @@ const AutoSlideshow = ({ images, delayTime }) => {
 	const [currentIdx, setCurrentIdx] = React.useState(0);
 	const timeoutRef = React.useRef(null);
 
-	const ImgStyle = { width: "100%", height: "100%", filter: "brightness(50%)" };
+	const ImgStyle = { width: "100%", height: "100%", filter: "brightness(20%)" };
 
 	const resetTimeout = () => {
 		if (timeoutRef.current) {
@@ -112,7 +109,7 @@ const AutoSlideshow = ({ images, delayTime }) => {
 	);
 };
 AutoSlideshow.propTypes = {
-	images: PropTypes.object.isRequired,
+	images: PropTypes.array.isRequired,
 	delayTime: PropTypes.number.isRequired,
 };
 export default AutoSlideshow;
