@@ -9,12 +9,16 @@ require('dotenv/config')
 //Import route
 const authRoute = require('./routes/register')
 const getUsers = require('./routes/getUser')
+const deleteUser = require('./routes/deleteUser')
+const updateUser = require('./routes/updateUser')
 
 //Middlewares
 // app.use(cors())
 app.use(express.json())
 app.use('/api/user', authRoute)
 app.use('/api/user', getUsers)
+app.use('/api/user', deleteUser)
+app.use('/api/user', updateUser)
 //
 
 //
