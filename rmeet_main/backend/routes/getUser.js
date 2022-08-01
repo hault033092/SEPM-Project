@@ -10,15 +10,4 @@ router.get('/getUser', async (req, res) => {
   }
 })
 
-//Specific user by ID
-router.get('/:userID', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userID)
-    res.json(user);
-  } catch (error) {
-    res.json({message: error})
-  }
-  
-});
-
 module.exports = router
