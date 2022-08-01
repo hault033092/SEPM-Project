@@ -15,7 +15,6 @@ const updateUser = require('./routes/updateUser')
 
 const postRoute = require('./routes/posts')
 
-
 //Middlewares
 app.use(cors())
 app.use(express.json())
@@ -32,7 +31,7 @@ app.use('/api/posts', postRoute)
 //
 
 //Connect to db
-mongoose.connect(process.env.DB_CONNECTION)
+mongoose.connect(process.env.DB_CONNECTION, () => console.log('DB connected!'))
 
 //Listen to port
 app.listen(`${PORT}`, () => console.log('It is working!'))
