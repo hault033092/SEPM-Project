@@ -1,11 +1,23 @@
-import { Routes, Route } from 'react-router-dom'
+import React from "react"
+import styled from "styled-components"
+import NavBar from "./components/NavBar"
+import Pages from "./pages/Pages"
 
-function App() {
+
+const App = () => {
   return (
     <div className='App'>
-      <h1>Hello world!</h1>
+      <AppContainer>
+      <NavBar />
+      <Pages />
+      </AppContainer>
     </div>
   )
 }
+
+const AppContainer = styled.div`
+  height: 100%;
+  display: flex;
+`
 
 export default App
