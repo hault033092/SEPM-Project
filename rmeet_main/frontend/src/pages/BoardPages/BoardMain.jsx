@@ -5,6 +5,7 @@ import {
 	BoardSummary,
 	StyledContainer,
 	SearchBar,
+	SelectBox,
 	Button,
 } from "../../components";
 
@@ -43,6 +44,7 @@ const BoardCont = styled.div`
 const BoardMain = () => {
 	const [searchTag, setSearchTag] = useState("");
 	const [postList, setPostList] = useState(samplePostList);
+	const [topic, setTopic] = useState("");
 
 	const _onSearchValChange = e => {
 		setSearchTag(e.target.value);
@@ -70,6 +72,10 @@ const BoardMain = () => {
 		setSearchTag(value);
 	};
 
+	const _handleTopicChange = e => {
+		setTopic(e.target.value);
+	};
+
 	return (
 		<StyledContainer height='100%'>
 			<Nav></Nav>
@@ -85,6 +91,12 @@ const BoardMain = () => {
 						width='75%'
 						valuesList={sampleTagList}
 					/>
+					{/* {					<SelectBox
+						label={"Topic"}
+						value={topic}
+						groups={majors}
+						onChange={_handleTopicChange}
+					/>} */}
 					<Button title='Post' onClick={_handlePost} style={{ width: "20%" }} />
 				</SearchBarCont>
 				<BoardCont>

@@ -3,13 +3,11 @@ import { AccPageTemplate } from "../../components";
 import { Verification, CreateAccount } from "../../pages";
 
 const Signup = () => {
-	const [confirmedEmail, setConfirmedEmail] = useState("s3878170@rmit.edu.vn");
+	const [confirmedEmail, setConfirmedEmail] = useState("");
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);
 	};
-
-	console.log("glitch", confirmedEmail);
 
 	return (
 		<AccPageTemplate
