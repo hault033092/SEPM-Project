@@ -130,7 +130,7 @@ const SearchBar = ({
 				/>
 				<IconCont onClick={_onSubmit}>
 					{value.length > 0 && (
-						<IconWrapper onClick={onDelete}>
+						<IconWrapper onClick={onDelete} >
 							<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
 						</IconWrapper>
 					)}

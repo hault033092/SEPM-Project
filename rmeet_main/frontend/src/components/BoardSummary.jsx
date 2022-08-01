@@ -92,7 +92,7 @@ const BoardSummary = ({ user, post, onClick }) => {
 					margin='0 5% 0 0'
 					content='flex-start'>
 					{post.tags.map((tag, index) => (
-						<Tag key={index} title={"# " + tag} />
+						<Tag key={index} title={"#" + tag} />
 					))}
 				</StyledContainer>
 				<StyledContainer
