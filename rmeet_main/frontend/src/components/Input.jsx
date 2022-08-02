@@ -115,8 +115,6 @@ Input.propTypes = {
 	disabled: PropTypes.bool,
 };
 
-
-
 Input.defaultProps = {
 	onKeyPress: () => {},
 	onChange: () => {},
