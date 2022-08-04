@@ -1,7 +1,7 @@
 import { React, useState } from "react"
 import styled from "styled-components"
 import { user } from "../images/icon";
-import ProfileImg from "../components/ProfileImg"
+import ProfileImage from "../components/ProfileImage"
 
 const Account = () => {
     const [profileImg, setProfileImg] = useState(user);
@@ -28,7 +28,7 @@ const Account = () => {
             <AccountContent>
                 <PersonalInfo>
                     <Title>Personal Info</Title>
-                    <ProfileImg
+                    <ProfileImage
 					src={profileImg}
                     width= "8rem"
                     height= "8rem"

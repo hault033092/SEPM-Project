@@ -6,9 +6,10 @@ const StyledImage = styled.img`
 	width: ${props => props.style.width};
 	height: ${props => props.style.height};
 	border-radius: ${props => props.style.borderRadius};
+	border: ${props => props.style.border};
 	padding: ${props => props.style.padding};
-	object-fit: fill;
-	filter: ${props => props.style.filter};
+	outline: ${props => props.style.outline};
+	
 `;
 
 const Image = ({ src, alt, style }) => {
@@ -16,7 +17,7 @@ const Image = ({ src, alt, style }) => {
 };
 
 Image.defaultProps = {
-	style: { width: "auto", height: "auto", borderRadius: "0", padding: "auto", filter: "none"},
+	style: { width: "auto", height: "auto", borderRadius: "0", border: "none", padding: "auto", outline: "none" },
 };
 
 Image.propTypes = {

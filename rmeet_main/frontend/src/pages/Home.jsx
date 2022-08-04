@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import Logo from "../components/Logo"
+import MainLogo from "../components/MainLogo"
 import Clock from "../components/Clock"
 import LiveDate from "../components/LiveDate"
 import Image from "../components/Image"
@@ -14,7 +14,7 @@ const Home = () => {
     return (
         <HomeContainer>
             <HomeContent>
-                <Logo width="8rem" height="8rem"/>
+                <MainLogo width="8rem" height="8rem"/>
                 <Heading>Greetings RMIT student, today is:</Heading>
                 <DateTimeContainer>
                     <LiveDate />
