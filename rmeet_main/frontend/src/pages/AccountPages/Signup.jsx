@@ -3,7 +3,7 @@ import { AccPageTemplate } from "../../components";
 import { Verification, CreateAccount } from "../../pages";
 
 const Signup = () => {
-	const [confirmedEmail, setConfirmedEmail] = useState("");
+	const [confirmedEmail, setConfirmedEmail] = useState("asd");
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);

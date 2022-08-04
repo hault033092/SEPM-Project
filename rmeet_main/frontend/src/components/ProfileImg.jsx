@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
 import { user, camera } from "../lib/img/icon";
 import Image from "./Image";
+import DropBox from "./DropBox";
+import {dropBoxInfo} from "../lib/data"
 
 const Container = styled.div`
 	width: ${props => props.width};
@@ -42,6 +43,8 @@ const StyledInput = styled.input.attrs(() => ({
 	display: none;
 `;
 
+const options = dropBoxInfo[0];
+
 const PhotoButton = ({ onChange, width, height }) => {
 	return (
 		<>
@@ -58,11 +61,38 @@ const PhotoButton = ({ onChange, width, height }) => {
 	);
 };
 
-const ProfileImg = ({ src, width, height, onChangePhoto, isShowButton }) => {
+const ProfileImg = ({
+	src,
+	width,
+	height,
+	onChangePhoto,
+	isShowButton,
+	isDropBox,
+}) => {
+	const [isShow, setIsShow] = useState(false);
+
+	const _handleOnClick = () => {
+		if (!isDropBox) {
+			return;
+		}
+		setIsShow(true);
+	};
+
+	const _handleMouseLeave = () => {
+		if (!isShow) {
+			return;
+		}
+		setIsShow(false);
+	};
+
 	return (
-		<Container width={width} height={height}>
+		<Container
+			width={width}
+			height={height}
+			onClick={_handleOnClick}
+			onMouseLeave={_handleMouseLeave}>
 			<Image
-				src={src}
+				src={src === "" ? user : src}
 				alt={"Profile Image"}
 				style={{
 					width,
@@ -71,6 +101,7 @@ const ProfileImg = ({ src, width, height, onChangePhoto, isShowButton }) => {
 					padding: "5%",
 				}}
 			/>
+			{isShow && <DropBox options={options} />}
 			{isShowButton && (
 				<PhotoButton onChange={onChangePhoto} width={width} height={height} />
 			)}
@@ -92,6 +123,7 @@ ProfileImg.defaultProps = {
 	onChangePhoto: () => {},
 	width: "6vw",
 	height: "6vw",
+	isDropBox: false,
 };
 
 export default ProfileImg;

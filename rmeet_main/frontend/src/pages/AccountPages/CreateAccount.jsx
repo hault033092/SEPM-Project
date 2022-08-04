@@ -150,6 +150,7 @@ const CreateAccount = ({ studentEmail }) => {
 						value={major}
 						groups={majors}
 						onChange={_handleMajorChange}
+						isGrouped
 					/>
 					<Input
 						label={"Bio"}
