@@ -30,7 +30,7 @@ const StyledSelect = styled.select`
 	box-shadow: 0 2px 0 white;
 `;
 
-const SelectBox = ({ label, groups, value, onChange }) => {
+const SelectBox = ({ label, groups, value, onChange, isGrouped, style }) => {
 	const renderOptions = options => {
 		return options.map(option => {
 			return (
@@ -40,19 +40,24 @@ const SelectBox = ({ label, groups, value, onChange }) => {
 			);
 		});
 	};
+
+	const renderOtpGroups = groups => {
+		return Object.keys(groups).map((options, index) => {
+			return (
+				<optgroup key={index} label={options}>
+					{renderOptions(groups[options])}
+				</optgroup>
+			);
+		});
+	};
+
 	return (
-		<Container>
+		<Container style={style}>
 			<LabelContainer>
 				<StyledLabel htmlFor={label}>*{label} : </StyledLabel>
 			</LabelContainer>
 			<StyledSelect name={label} id={label} value={value} onChange={onChange}>
-				{Object.keys(groups).map((options, index) => {
-					return (
-						<optgroup key={index} label={options}>
-							{renderOptions(groups[options])}
-						</optgroup>
-					);
-				})}
+				{isGrouped ? renderOtpGroups(groups) : renderOptions(groups)}
 			</StyledSelect>
 		</Container>
 	);
@@ -60,9 +65,10 @@ const SelectBox = ({ label, groups, value, onChange }) => {
 
 SelectBox.propTypes = {
 	label: PropTypes.string.isRequired,
-	groups: PropTypes.object.isRequired,
+	groups: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
+	style: PropTypes.object,
 };
 
 export default SelectBox;

@@ -99,8 +99,8 @@ const SearchBar = ({
 
 		let res = [];
 		for (let idx = 0; idx < valuesList.length; idx++) {
-			if (valuesList[idx].toLowerCase().includes(value.toLowerCase())) {
-				res.push(valuesList[idx]);
+			if (valuesList[idx].value.toLowerCase().includes(value.toLowerCase())) {
+				res.push(valuesList[idx].value);
 			}
 		}
 		setMatchedList(res);
@@ -130,7 +130,7 @@ const SearchBar = ({
 				/>
 				<IconCont onClick={_onSubmit}>
 					{value.length > 0 && (
-						<IconWrapper onClick={onDelete} >
+						<IconWrapper onClick={onDelete}>
 							<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
 						</IconWrapper>
 					)}
@@ -157,14 +157,12 @@ const SearchBar = ({
 
 SearchBar.propTypes = {
 	value: PropTypes.string,
-	onChange:PropTypes.func,
+	onChange: PropTypes.func,
 	valuesList: PropTypes.array,
-	onSubmit:PropTypes.func,
-	onDelete:PropTypes.func,
-	setValue:PropTypes.func,
-	width:PropTypes.string,
+	onSubmit: PropTypes.func,
+	onDelete: PropTypes.func,
+	setValue: PropTypes.func,
+	width: PropTypes.string,
 };
-
-
 
 export default SearchBar;

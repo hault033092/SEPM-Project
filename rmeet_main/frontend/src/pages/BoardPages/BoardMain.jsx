@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import SingleBoard from "../../components/SingleBoard";
+import { StyledContainer } from "../../components/StyledContainer";
+import SearchBar from "../../components/SearchBar";
+import SelectBox from "../../components/SelectBox";
+import Button from "../../components/Button";
+import ValidationMessage from "../../components/ValidationMessage";
 import {
-	BoardSummary,
-	StyledContainer,
-	SearchBar,
-	SelectBox,
-	Button,
-} from "../../components";
-
-import {
-	sampleTagList,
 	sampleCurrentUser,
 	samplePostList,
-} from "../../lib/data";
+	semesterInfo,
+	yearInfo,
+	sampleCourseList,
+} from "../../lib/data/data";
+import { FlexContainer } from "../../components";
 
 const Nav = styled(StyledContainer)`
 	width: 20%;
@@ -41,13 +41,37 @@ const BoardCont = styled.div`
 	overflow-y: scroll;
 `;
 
+const errMsg = "Please enter the course name.";
+
+
+
+const SelectBoxStyle = {
+	border: "3px solid #000054",
+	borderRadius: "50px",
+	width: "auto",
+	padding: "3%",
+};
+
 const BoardMain = () => {
-	const [searchTag, setSearchTag] = useState("");
 	const [postList, setPostList] = useState(samplePostList);
-	const [topic, setTopic] = useState("");
+	const [semester, setSemester] = useState("semester1");
+	const [year, setYear] = useState("2020");
+	const [course, setCourse] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
+
+	useEffect(() => {
+		// get post from api
+		// set post list // setPostList
+	}, []);
+
+	useEffect(() => {
+		if (errorMessage === errMsg) {
+			setErrorMessage("");
+		}
+	}, [course]);
 
 	const _onSearchValChange = e => {
-		setSearchTag(e.target.value);
+		setCourse(e.target.value);
 	};
 
 	const _handlePost = () => {
@@ -59,21 +83,29 @@ const BoardMain = () => {
 	};
 
 	const _handleSearch = () => {
+		if (course === "") {
+			setErrorMessage(errMsg);
+			return;
+		}
+
 		console.log("search processing runs!!");
-		console.log("search for", searchTag);
-		// setPostList(newPostList)
+		console.log("search for ", semester, year, course);
 	};
 
 	const _handleDelete = () => {
-		setSearchTag("");
+		setCourse("");
 	};
 
-	const _handleTagEvent = value => {
-		setSearchTag(value);
+	const _handleCourseEvent = value => {
+		setCourse(value);
 	};
 
-	const _handleTopicChange = e => {
-		setTopic(e.target.value);
+	const _handleSemesterChange = e => {
+		setSemester(e.value.target);
+	};
+
+	const _handleYearChange = e => {
+		setYear(e.value.target);
 	};
 
 	return (
@@ -82,28 +114,37 @@ const BoardMain = () => {
 			<Screen>
 				<h1>Board</h1>
 				<SearchBarCont>
+					<SelectBox
+						label='Semester'
+						groups={semesterInfo}
+						value={semester}
+						onChange={_handleSemesterChange}
+						style={SelectBoxStyle}
+					/>
+					<SelectBox
+						label='Year'
+						groups={yearInfo}
+						value={year}
+						onChange={_handleYearChange}
+						style={SelectBoxStyle}
+					/>
 					<SearchBar
-						value={searchTag}
+						value={course}
 						onChange={_onSearchValChange}
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
-						setValue={_handleTagEvent}
+						setValue={_handleCourseEvent}
 						width='75%'
-						valuesList={sampleTagList}
+						valuesList={sampleCourseList}
 					/>
-					{/* {					<SelectBox
-						label={"Topic"}
-						value={topic}
-						groups={majors}
-						onChange={_handleTopicChange}
-					/>} */}
 					<Button title='Post' onClick={_handlePost} style={{ width: "20%" }} />
 				</SearchBarCont>
+				{errorMessage && <ValidationMessage message={errorMessage} />}
 				<BoardCont>
 					{Object.values(postList).map((post, index) => (
-						<BoardSummary
+						<SingleBoard
 							key={index}
-							user={sampleCurrentUser}
+							userID={sampleCurrentUser.userID}
 							post={post}
 							onClick={_handleBoardOnClick}
 						/>

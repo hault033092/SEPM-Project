@@ -1,9 +1,21 @@
 import {
-	sampleTagList,
 	sampleCurrentUser,
 	samplePostList,
 	majors,
 	imagesData,
+	sampleCourseList,
+	semesterInfo,
+	yearInfo,
+	dropBoxInfo,
 } from "./data";
 
-export { sampleTagList, sampleCurrentUser, samplePostList, majors, imagesData };
+export {
+	sampleCurrentUser,
+	samplePostList,
+	majors,
+	imagesData,
+	sampleCourseList,
+	semesterInfo,
+	yearInfo,
+	dropBoxInfo,
+};

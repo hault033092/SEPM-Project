@@ -6,7 +6,6 @@ import Image from "./Image";
 import Logo from "./Logo";
 import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
-import BoardSummary from "./BoardSummary";
 import SearchBar from "./SearchBar";
 import AutoSlideshow from "./AutoSlideshow";
 import AccPageTemplate from "./TemplateCmp/AccPageTemplate";
@@ -22,7 +21,6 @@ export {
 	Logo,
 	SelectBox,
 	ProfileImg,
-	BoardSummary,
 	SearchBar,
 	AutoSlideshow,
 	AccPageTemplate,

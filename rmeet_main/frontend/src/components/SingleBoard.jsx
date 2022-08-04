@@ -1,9 +1,12 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { ProfileImg, Button } from "../components";
+import { ProfileImg } from "../components";
+import DropBox from "./DropBox";
+import user from "../lib/img/icon/user.svg";
+import { dropBoxInfo } from "../lib/data";
 
 const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
@@ -15,6 +18,11 @@ const StyledContainer = styled.div`
 	justify-content: ${props => (props.content ? props.content : "center")};
 	align-items: ${props => (props.items ? props.items : "center")};
 	align-self: ${props => (props.self ? props.self : "center")};
+`;
+
+const IconSubCont = styled(StyledContainer)`
+
+
 `;
 
 const MainCont = styled(StyledContainer)`
@@ -29,24 +37,39 @@ const StyledText = styled.p`
 	margin: ${props => (props.margin ? props.margin : "0")};
 `;
 
-const Tag = styled(Button).attrs(({ title, isLastTag, theme }) => ({
-	title,
-	style: {
-		btnColor: isLastTag ? "#696969" : theme.tagBlue,
-		width: "auto",
-		height: "2vw",
-		padding: "0 20px",
-		margin: "0 20px 0 0",
-		fontSize: "80%",
-		fontWeight: "500",
-		textAlign: "left",
-		borderRadius: "50px",
-	},
-}))``;
-
-const BoardSummary = ({ user, post, onClick }) => {
-	const isMyPost = useRef(post.writerID === user.userID);
+const SingleBoard = ({ userID, post, onClick, isDetail }) => {
+	const isMyPost = useRef(post.writerID === userID);
+	const userInfo = useRef(user);
 	const theme = useContext(ThemeContext);
+	const [isShowDropBox, setIsShowDropBox] = useState(false);
+	const [isLikePost, setIsLikePost] = useState(false);
+
+	const _getUserInfo = () => {
+		// get user profile from API by userID
+		return { profileImg: "", likedPostsIDs: ["111", "222", "333"] };
+	};
+
+	const _updateNumOfSmile = () => {
+		console.log("update!");
+		setIsLikePost(prev => !prev);
+	};
+
+	const _handleOnClick = () => {
+		setIsShowDropBox(true);
+	};
+
+	const _handleOnMouseLeave = () => {
+		setIsShowDropBox(false);
+	};
+
+	useEffect(() => {
+		userInfo.current = _getUserInfo();
+
+		if (userInfo.current.likedPostsIDs.includes(post.postID)) {
+			setIsLikePost(true);
+		}
+	}, []);
+
 	return (
 		<MainCont
 			className='mainCont'
@@ -54,16 +77,21 @@ const BoardSummary = ({ user, post, onClick }) => {
 			content='space-around'
 			padding='10px 20px'
 			margin='10px 0 0 0'
-			theme={theme}
-			onClick={onClick}>
+			theme={theme}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
-				<ProfileImg src={user.userProfileImg} width='5vw' height='5vw' />
+				<ProfileImg
+					src={userInfo.current.profileImg}
+					width='5vw'
+					height='5vw'
+					isDropBox
+				/>
 				<StyledContainer
 					className='titleCont'
 					direction='column'
 					items='flex-start'
 					width='100%'
-					margin='0 0 0 20px'>
+					margin='0 0 0 20px'
+					onClick={onClick}>
 					<StyledText weight='600' size='1.3vw' margin='20px 0 0 0'>
 						{post.title}
 					</StyledText>
@@ -75,34 +103,28 @@ const BoardSummary = ({ user, post, onClick }) => {
 					width='auto'
 					content='flex-start'
 					self='flex-start'
-					display={isMyPost.current ? "flex" : "none"}>
+					display={isMyPost.current ? "flex" : "none"}
+					onClick={_handleOnClick}
+					onMouseLeave={_handleOnMouseLeave}>
 					<FontAwesomeIcon icon={solid("ellipsis-vertical")} fontSize='1.5vw' />
+					{isShowDropBox && <DropBox options={dropBoxInfo[1]} />}
 				</StyledContainer>
 			</StyledContainer>
-
 			<StyledContainer className='subCont' padding='1%'>
 				<StyledText weight='300' size='1vw'>
-					{post.content.slice(0, 247)}...
+					{isDetail ? post.content : post.content.slice(0, 247) + "..."}
 				</StyledText>
 			</StyledContainer>
-			<StyledContainer className='subCont' content='space-between' width='100%'>
-				<StyledContainer
-					className='TagCont'
-					width='65%'
-					margin='0 5% 0 0'
-					content='flex-start'>
-					{post.tags.map((tag, index) => (
-						<Tag key={index} title={"#" + tag} />
-					))}
-				</StyledContainer>
+			<StyledContainer className='subCont' content='flex-end' width='100%'>
 				<StyledContainer
 					className='IconMainCont'
 					width='20%'
 					content='flex-end'>
-					<StyledContainer
+					<IconSubCont
 						className='IconSubCont'
 						width='auto'
-						margin='0 25px 0 0'>
+						margin='0 25px 0 0'
+						onClick={onClick}>
 						<StyledContainer width='auto' margin='0 10px 0 0'>
 							<FontAwesomeIcon
 								icon={regular("comment")}
@@ -113,28 +135,45 @@ const BoardSummary = ({ user, post, onClick }) => {
 						<StyledText weight={500} size='1vw' color={theme.tagBlue}>
 							{post.numOfComment}
 						</StyledText>
-					</StyledContainer>
-					<StyledContainer className='IconSubCont' width='auto'>
+					</IconSubCont>
+					<IconSubCont
+						className='IconSubCont'
+						width='auto'
+						onClick={_updateNumOfSmile}>
 						<StyledContainer width='auto' margin='0 10px 0 0'>
-							<FontAwesomeIcon
-								icon={regular("face-smile")}
-								fontSize='2vw'
-								color={theme.mainRed}
-							/>
+							{isLikePost ? (
+								<FontAwesomeIcon
+									icon={solid("face-smile")}
+									fontSize='2vw'
+									color={theme.mainRed}
+								/>
+							) : (
+								<FontAwesomeIcon
+									icon={regular("face-smile")}
+									fontSize='2vw'
+									color={theme.mainRed}
+								/>
+							)}
 						</StyledContainer>
 						<StyledText weight={500} size='1vw' color={theme.mainRed}>
 							{post.numOfLike}
 						</StyledText>
-					</StyledContainer>
+					</IconSubCont>
 				</StyledContainer>
 			</StyledContainer>
 		</MainCont>
 	);
 };
 
-ProfileImg.propTypes = {
-	user: PropTypes.object.isRequired,
+SingleBoard.propTypes = {
+	userID: PropTypes.string.isRequired,
 	post: PropTypes.object.isRequired,
+	onClick: PropTypes.func,
+	isDetail: PropTypes.bool,
 };
 
-export default BoardSummary;
+SingleBoard.defaultProps = {
+	onClick: () => {},
+};
+
+export default SingleBoard;
