@@ -28,8 +28,13 @@ const StyledInput = styled.input.attrs(({ isPassword, disabled }) => ({
 	width: ${props => props.style.width};
 	padding: ${props => props.style.padding};
 	font-size: ${props => props.style.fontSize};
+<<<<<<< Updated upstream
 	border-radius:${props => props.style.borderRadius ? props.style.borderRadius: "10px"}; 
 	border-width: ${props => props.style.borderWidth ? props.style.borderWidth: "2px"}; 
+=======
+	border-radius: 10px;
+	border-width: 2px;
+>>>>>>> Stashed changes
 	background-color: ${props => (props.disabled ? "#d7d7d7" : "#fff")};
 `;
 
@@ -43,6 +48,7 @@ const StyledTextarea = styled.textarea`
 	resize: none;
 	background-color: #fff;
 `;
+<<<<<<< Updated upstream
 
 const Input = ({
 	label,
@@ -128,3 +134,84 @@ Input.defaultProps = {
 
 export default Input;
 
+=======
+
+const Input = ({
+	label,
+	value,
+	placeholder,
+	maxLength,
+	onChange,
+	onKeyPress,
+	isPassword,
+	isLabelHidden,
+	isRequired,
+	disabled,
+	style,
+	isMultipleLine,
+}) => {
+	const _onKeyPress = e => {
+		if (e.key === "Enter") {
+			onKeyPress();
+		}
+	};
+
+	return (
+		<Container>
+			{isLabelHidden || (
+				<LabelContainer>
+					<StyledLabel htmlFor={label}>
+						{isRequired ? "*" : ""}
+						{label} :{" "}
+					</StyledLabel>
+				</LabelContainer>
+			)}
+			{isMultipleLine ? (
+				<StyledTextarea
+					id={label}
+					value={value}
+					placeholder={placeholder}
+					onChange={onChange}
+					onKeyPress={_onKeyPress}
+					maxLength={maxLength}
+					style={style}
+				/>
+			) : (
+				<StyledInput
+					id={label}
+					value={value}
+					placeholder={placeholder}
+					onChange={onChange}
+					onKeyPress={_onKeyPress}
+					maxLength={maxLength}
+					style={style}
+					isPassword={isPassword}
+					disabled={disabled}
+				/>
+			)}
+		</Container>
+	);
+};
+
+Input.propTypes = {
+	label: PropTypes.string,
+	value: PropTypes.string.isRequired,
+	placeholder: PropTypes.string,
+	maxLength: PropTypes.number,
+	onChange: PropTypes.func.isRequired,
+	onKeyPress: PropTypes.func,
+	style: PropTypes.object,
+	isPassword: PropTypes.bool,
+	isLabelHidden: PropTypes.bool,
+	isRequired: PropTypes.bool,
+	disabled: PropTypes.bool,
+};
+
+Input.defaultProps = {
+	onKeyPress: () => {},
+	onChange: () => {},
+	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1vw" },
+};
+
+export default Input;
+>>>>>>> Stashed changes
