@@ -24,7 +24,8 @@ app.use('/api/user', updateUser)
 //
 
 //Connect to db
-mongoose.connect(process.env.DB_CONNECTION)
+mongoose.connect(process.env.DB_CONNECTION, () => console.log('Connected to database'))
+
 
 //Listen to port
 app.listen(`${PORT}`, () => console.log('It is working!'))
