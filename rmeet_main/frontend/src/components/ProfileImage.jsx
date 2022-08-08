@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { user, camera } from "../images/icon/";
+import { user, camera } from "../lib/img/icon/";
 import Image from "./Image";
 
 const Container = styled.div`

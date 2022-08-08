@@ -1,12 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
+/*Components */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { ProfileImg } from "../components";
+import { FlexContainer } from "../components";
+import ProfileImg from "../components/ProfileImg";
 import DropBox from "./DropBox";
+
+/*Context */
+import { CurrentPostContext } from "../contexts/CurrentPost";
+
+/*sample data */
 import user from "../lib/img/icon/user.svg";
 import { dropBoxInfo } from "../lib/data";
+
+const CursorCont = styled(FlexContainer)`
+	pointer: cursor;
+`;
 
 const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
@@ -20,14 +33,36 @@ const StyledContainer = styled.div`
 	align-self: ${props => (props.self ? props.self : "center")};
 `;
 
-const IconSubCont = styled(StyledContainer)`
-
-
+const TitleCont = styled(CursorCont)`
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	margin: 1%;
+	cursor: pointer;
 `;
 
-const MainCont = styled(StyledContainer)`
-	background-color: ${props => props.theme.forumBg};
-	border: 3px solid ${props => props.theme.mainBlue};
+const ContentCont = styled(CursorCont)`
+	padding: 1%;
+	cursor: pointer;
+`;
+
+const IconSubCont = styled(FlexContainer)`
+	width: 30%;
+	justify-content: space-around;
+`;
+
+const IconWrapper = styled(CursorCont)`
+	margin-right: 5%;
+`;
+
+const MainCont = styled(FlexContainer)`
+	background-color: ${props => props.theme.screenBg};
+	border: 10px solid ${props => props.theme.mainBlue};
+	border-radius: 50px;
+	flex-direction: column;
+	justify-content: space-around;
+	padding: 3%;
+	margin-top: 2%;
 `;
 
 const StyledText = styled.p`
@@ -37,19 +72,22 @@ const StyledText = styled.p`
 	margin: ${props => (props.margin ? props.margin : "0")};
 `;
 
-const SingleBoard = ({ userID, post, onClick, isDetail }) => {
+const SingleBoard = ({ userID, post, isDetail }) => {
 	const isMyPost = useRef(post.writerID === userID);
 	const userInfo = useRef(user);
 	const theme = useContext(ThemeContext);
+	const { setCurrentPost } = useContext(CurrentPostContext);
 	const [isShowDropBox, setIsShowDropBox] = useState(false);
 	const [isLikePost, setIsLikePost] = useState(false);
+
+	const navigation = useNavigate();
 
 	const _getUserInfo = () => {
 		// get user profile from API by userID
 		return { profileImg: "", likedPostsIDs: ["111", "222", "333"] };
 	};
 
-	const _updateNumOfSmile = () => {
+	const _updateNumOfLike = () => {
 		console.log("update!");
 		setIsLikePost(prev => !prev);
 	};
@@ -62,22 +100,20 @@ const SingleBoard = ({ userID, post, onClick, isDetail }) => {
 		setIsShowDropBox(false);
 	};
 
+	const handleNav = () => {
+		setCurrentPost(post);
+		navigation("/board/detail");
+	};
+
 	useEffect(() => {
 		userInfo.current = _getUserInfo();
-
 		if (userInfo.current.likedPostsIDs.includes(post.postID)) {
 			setIsLikePost(true);
 		}
 	}, []);
 
 	return (
-		<MainCont
-			className='mainCont'
-			direction='column'
-			content='space-around'
-			padding='10px 20px'
-			margin='10px 0 0 0'
-			theme={theme}>
+		<MainCont className='mainCont' theme={theme}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
 				<ProfileImg
 					src={userInfo.current.profileImg}
@@ -85,20 +121,14 @@ const SingleBoard = ({ userID, post, onClick, isDetail }) => {
 					height='5vw'
 					isDropBox
 				/>
-				<StyledContainer
-					className='titleCont'
-					direction='column'
-					items='flex-start'
-					width='100%'
-					margin='0 0 0 20px'
-					onClick={onClick}>
-					<StyledText weight='600' size='1.3vw' margin='20px 0 0 0'>
+				<TitleCont onClick={handleNav}>
+					<StyledText weight='600' size='1.3vw'>
 						{post.title}
 					</StyledText>
 					<StyledText weight='100' size='0.8vw'>
 						Created at: {post.createdAt}
 					</StyledText>
-				</StyledContainer>
+				</TitleCont>
 				<StyledContainer
 					width='auto'
 					content='flex-start'
@@ -110,52 +140,46 @@ const SingleBoard = ({ userID, post, onClick, isDetail }) => {
 					{isShowDropBox && <DropBox options={dropBoxInfo[1]} />}
 				</StyledContainer>
 			</StyledContainer>
-			<StyledContainer className='subCont' padding='1%'>
+			<ContentCont onClick={handleNav}>
 				<StyledText weight='300' size='1vw'>
 					{isDetail ? post.content : post.content.slice(0, 247) + "..."}
 				</StyledText>
-			</StyledContainer>
+			</ContentCont>
+
 			<StyledContainer className='subCont' content='flex-end' width='100%'>
 				<StyledContainer
 					className='IconMainCont'
 					width='20%'
 					content='flex-end'>
-					<IconSubCont
-						className='IconSubCont'
-						width='auto'
-						margin='0 25px 0 0'
-						onClick={onClick}>
-						<StyledContainer width='auto' margin='0 10px 0 0'>
+					<IconSubCont>
+						<IconWrapper onClick={handleNav}>
 							<FontAwesomeIcon
 								icon={regular("comment")}
 								fontSize='2vw'
-								color={theme.tagBlue}
+								color={theme.commentGreen}
 							/>
-						</StyledContainer>
-						<StyledText weight={500} size='1vw' color={theme.tagBlue}>
+						</IconWrapper>
+						<StyledText weight={700} size='1vw' color={theme.commentGreen}>
 							{post.numOfComment}
 						</StyledText>
 					</IconSubCont>
-					<IconSubCont
-						className='IconSubCont'
-						width='auto'
-						onClick={_updateNumOfSmile}>
-						<StyledContainer width='auto' margin='0 10px 0 0'>
+					<IconSubCont onClick={_updateNumOfLike}>
+						<IconWrapper>
 							{isLikePost ? (
 								<FontAwesomeIcon
-									icon={solid("face-smile")}
+									icon={solid("heart")}
 									fontSize='2vw'
-									color={theme.mainRed}
+									color={theme.heartPink}
 								/>
 							) : (
 								<FontAwesomeIcon
-									icon={regular("face-smile")}
+									icon={regular("heart")}
 									fontSize='2vw'
-									color={theme.mainRed}
+									color={theme.heartPink}
 								/>
 							)}
-						</StyledContainer>
-						<StyledText weight={500} size='1vw' color={theme.mainRed}>
+						</IconWrapper>
+						<StyledText weight={700} size='1vw' color={theme.heartPink}>
 							{post.numOfLike}
 						</StyledText>
 					</IconSubCont>

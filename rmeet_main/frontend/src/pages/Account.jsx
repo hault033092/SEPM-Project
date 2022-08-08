@@ -1,6 +1,6 @@
 import { React, useState } from "react"
 import styled from "styled-components"
-import { user } from "../images/icon";
+import { user } from "../lib/img/icon";
 import ProfileImage from "../components/ProfileImage"
 
 const Account = () => {

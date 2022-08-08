@@ -14,7 +14,9 @@ export const theme = {
 	slideMsg: "#fcda60",
 
 	/* Board colors */
-	tagBlue: "#3F3FEF",
+	hoverBlue: "#B5B5FC",
 	iconBlue: "#2626CC",
-	forumBg: "beige",
+	commentGreen: "#147613",
+	heartPink: "#E22652",
+	commentGrey: "#D9D9D9",
 };

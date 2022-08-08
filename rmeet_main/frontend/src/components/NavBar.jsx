@@ -3,6 +3,7 @@ import styled from "styled-components"
 import SideLogo from "../components/SideLogo"
 import { NavLink } from "react-router-dom"
 
+
 const NavBar = () => {
   return (
     <Navbar>

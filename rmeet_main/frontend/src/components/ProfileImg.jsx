@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { user, camera } from "../lib/img/icon";
 import Image from "./Image";
 import DropBox from "./DropBox";
-import {dropBoxInfo} from "../lib/data"
+import { dropBoxInfo } from "../lib/data";
 
 const Container = styled.div`
 	width: ${props => props.width};
@@ -19,8 +19,8 @@ const BtnContainer = styled(Container)`
 	height: 2vw;
 	padding: 5%;
 	position: absolute;
-	right: 0;
-	bottom: 0;
+	right: 80%;
+	top: 100%;
 	background-color: ${props => props.theme.slideMsg};
 	display: flex;
 	justify-content: center;

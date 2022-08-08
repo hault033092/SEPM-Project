@@ -3,7 +3,6 @@ import { FlexContainer } from "./FlexContainer";
 import Input from "./Input";
 import Button from "./Button";
 import Image from "./Image";
-import Logo from "./Logo";
 import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
 import SearchBar from "./SearchBar";
@@ -18,7 +17,6 @@ export {
 	Button,
 	ValidationMessage,
 	Image,
-	Logo,
 	SelectBox,
 	ProfileImg,
 	SearchBar,

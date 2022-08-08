@@ -30,13 +30,13 @@ export const samplePostList = {
 		content:
 			"Hi guys, my name is Giang Nhat Khanh (s3878182) and on behalf of my ISYS2101 group, I would like to post this discussion to find the last member to complete our roster. As of right now, we have 3 team members including myself who are all familiar with the primary concepts of frontend/backend development, writing technical report documents as well as being keen communicators. Therefore, we would expect our potential teammate to fulfill these requirements in order to collaborate smoothly throughout the project. We would be grateful that someone could reply to this post and hopefully we can work together to ace this course! ",
 		comments: [
+			{ writerID: "000000", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut eros bibendum dolor ultrices facilisis quis sed lacus. Sed eu eros vitae nulla auctor pellentesque. Pellentesque mi nisi, fermentum et cursus sed, suscipit ut enim. Ut pretium, tellus egestas fringilla rhoncus, metus purus imperdiet nisi, sit amet tincidunt dolor sem ac turpis. Suspendisse potenti. ", createdAt: "2020-01-01" },
+			{ writerID: "000000", content: "hello", createdAt: "2020-01-01"  },
+			{ writerID: "111111", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut eros bibendum dolor ultrices facilisis quis sed lacus. Sed eu eros vitae nulla auctor pellentesque. Pellentesque mi nisi, fermentum et cursus sed, suscipit ut enim. Ut pretium, tellus egestas fringilla rhoncus, metus purus imperdiet nisi, sit amet tincidunt dolor sem ac turpis. Suspendisse potenti. ", createdAt: "2020-01-01"  },
 			{ writerID: "000000", content: "it's me", createdAt: "2020-01-01" },
 			{ writerID: "000000", content: "hello", createdAt: "2020-01-01"  },
 			{ writerID: "111111", content: "hello", createdAt: "2020-01-01"  },
-			{ writerID: "000000", content: "it's me", createdAt: "2020-01-01" },
-			{ writerID: "000000", content: "hello", createdAt: "2020-01-01"  },
-			{ writerID: "111111", content: "hello", createdAt: "2020-01-01"  },
-			{ writerID: "000000", content: "it's me", createdAt: "2020-01-01" },
+			{ writerID: "222222", content: "it's me", createdAt: "2020-01-01" },
 			{ writerID: "000000", content: "hello", createdAt: "2020-01-01"  },
 			{ writerID: "111111", content: "hello", createdAt: "2020-01-01"  },
 		],

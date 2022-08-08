@@ -1,13 +1,15 @@
 import { Signin, Signup } from "./pages";
-import BoardMain from "./pages/BoardPages/BoardMain";
-import BoardDetail from "./pages/BoardPages/BoardDetail";
+import MainPages from "./pages/MainPages";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./lib/style/theme";
+import { CurrentPostProvider } from "./contexts/CurrentPost";
 
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<BoardMain />
+			<CurrentPostProvider>
+				<MainPages />
+			</CurrentPostProvider>
 		</ThemeProvider>
 	);
 }

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Logo, AutoSlideshow, FlexContainer } from "../../components";
+import MainLogo from "../../components/MainLogo"
 import { imagesData } from "../../lib/data";
 
 const MainCont = styled(FlexContainer)`
@@ -42,7 +43,7 @@ const AccPageTemplate = ({ children, pageTitle, isCreateAccount }) => {
 	return (
 		<MainCont>
 			<SideCont>
-				<Logo width='30vw' height='30vh' />
+				<MainLogo width='30vw' height='30vh' />
 				<AutoSlideshow images={imagesData} delayTime={4000} />
 			</SideCont>
 			<InputCont isCreateAccount={isCreateAccount}>

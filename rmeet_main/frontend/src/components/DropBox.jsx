@@ -7,9 +7,9 @@ const OptionsWrapper = styled(FlexContainer)`
 	width: 10vw;
 	flex-direction: column;
 	justify-content: space-between;
-	padding: 5%;
+	padding: 2%;
 	cursor: pointer;
-	background-color: ${props => props.theme.fontColorWhite};
+	background-color: ${props => props.theme.lightGrey};
 `;
 
 const OptionCont = styled(OptionsWrapper)`
@@ -17,8 +17,11 @@ const OptionCont = styled(OptionsWrapper)`
 	justify-content: space-between;
 	width: 100%;
 	height: 100%;
-	margin: 3%;
-	hover: {
+	margin: 0 3%;
+	padding: 5%;
+	background-color: ${props => props.theme.screenBg};
+	border-radius: 5px;
+	:hover {
 		background-color: ${props => props.theme.tagColor};
 	}
 `;
