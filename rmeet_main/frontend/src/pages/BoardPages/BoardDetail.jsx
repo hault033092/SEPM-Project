@@ -53,7 +53,6 @@ const EditComment = ({ oldComment, handleOnCancel }) => {
 					fontSize: "1.2vw",
 					width: "100%",
 					height: "100%",
-					borderWidth: "0",
 					borderRadius: "0",
 				}}
 			/>
@@ -98,27 +97,13 @@ const CommentWrapper = styled(FlexContainer)`
 `;
 
 const HeaderWrapper = styled(FlexContainer)`
-	justify-content: space-between;
 	width: 100%;
 	height: 100%;
 `;
 
-const IconWrapper = styled.div`
-	width: auto;
-`;
-
 const DropBoxWrapper = styled(FlexContainer)`
-	position: absolute;
-	right: -80%;
-	top: 100%;
-`;
-
-const DropBoxCont = styled(FlexContainer)`
-	align-items: flex-end;
-	flex-direction: column;
-	cursor: pointer;
-	width: auto;
-	position: relative;
+	width: 4vw;
+	height: 2vw;
 `;
 
 const TextWrapper = styled(FlexContainer)`
@@ -138,44 +123,18 @@ const StyledText = styled.p`
 `;
 
 const Comment = ({ commentInfo, isCurrentUserComment }) => {
-	const writerInfo = useRef("");
-	const [isShow, setIsShow] = useState(false);
+	const writerInfo = useRef({ username: "cornsoup", profileImg: "" });
 	const [isEdit, setEdit] = useState(false);
-
-	const _onShowDropBox = () => {
-		if (isEdit) {
-			return;
-		}
-
-		setIsShow(true);
-	};
-
-	const _onUnshowDropBox = () => {
-		setIsShow(false);
-	};
 
 	const _handleEdit = () => {
 		setEdit(true);
-		setIsShow(false);
 	};
 
 	const _handleOnCancel = () => {
 		setEdit(false);
-		setIsShow(false);
 	};
 
 	const _onEditSubmit = () => {};
-
-	const options = {
-		0: {
-			title: "Edit comment",
-			onClick: _handleEdit,
-		},
-		1: {
-			title: "Delete comment",
-			onClick: _handleEdit,
-		},
-	};
 
 	const getCommentWriterInfo = () => {
 		// get comment writer's profile image from API
@@ -184,9 +143,6 @@ const Comment = ({ commentInfo, isCurrentUserComment }) => {
 		// const userInfo = {username, profileImg}
 		return { username: "cornsoup", profileImg: "" };
 	};
-	useEffect(() => {
-		writerInfo.current = getCommentWriterInfo();
-	}, []);
 
 	return (
 		<CommentCont>
@@ -208,23 +164,11 @@ const Comment = ({ commentInfo, isCurrentUserComment }) => {
 							<StyledText fontSize='1.5vw' fontWeight='600'>
 								{writerInfo.current.username}
 							</StyledText>
-							{isCurrentUserComment && !isEdit && (
-								<DropBoxCont
-									onClick={_onShowDropBox}
-									onMouseLeave={_onUnshowDropBox}>
-									<IconWrapper>
-										<FontAwesomeIcon
-											icon={solid("ellipsis-vertical")}
-											fontSize='1.5vw'
-										/>
-									</IconWrapper>
-									{isShow && (
-										<DropBoxWrapper>
-											<DropBox options={options} />
-										</DropBoxWrapper>
-									)}
-								</DropBoxCont>
-							)}
+							<DropBoxWrapper>
+								{isCurrentUserComment && !isEdit && (
+									<DropBox onEdit={_handleEdit} onDelete={_handleEdit} />
+								)}
+							</DropBoxWrapper>
 						</HeaderWrapper>
 						<StyledText fontSize='1vw'>{commentInfo.content}</StyledText>
 						<StyledText fontSize='0.5vw' alignSelf='flex-end'>
@@ -241,6 +185,7 @@ const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
+	margin: 1%;
 `;
 
 const CommentsWrapper = styled.div`
@@ -254,7 +199,9 @@ const CommentsWrapper = styled.div`
 
 const InputWrapper = styled(FlexContainer)`
 	width: 100%;
+	border: 10px solid ${props => props.theme.mainRed};
 `;
+
 const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 	const [newComment, setNewComment] = useState("");
 	const { currentPost } = useContext(CurrentPostContext);
@@ -302,7 +249,7 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 								padding: "1.5%",
 								fontSize: "1.2vw",
 								width: "100%",
-								height: "100%",
+								height: "4vw",
 								borderWidth: "0",
 								borderRadius: "0",
 							}}
@@ -312,9 +259,11 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 							onClick={_handleCreateCmt}
 							style={{
 								width: "auto",
-								height: "auto",
+								height: "4vw",
 								padding: "1% 5%",
 								margin: "0 0 auto 0",
+								borderRadius: "0",
+								fontSize: "1.5vw",
 							}}
 						/>
 					</InputWrapper>

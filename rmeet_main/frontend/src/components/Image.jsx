@@ -9,7 +9,6 @@ const StyledImage = styled.img`
 	border: ${props => props.style.border};
 	padding: ${props => props.style.padding};
 	outline: ${props => props.style.outline};
-	
 `;
 
 const Image = ({ src, alt, style }) => {
@@ -17,7 +16,14 @@ const Image = ({ src, alt, style }) => {
 };
 
 Image.defaultProps = {
-	style: { width: "auto", height: "auto", borderRadius: "0", border: "none", padding: "auto", outline: "none" },
+	style: {
+		width: "auto",
+		height: "auto",
+		borderRadius: "0",
+		border: "none",
+		padding: "auto",
+		outline: "none",
+	},
 };
 
 Image.propTypes = {

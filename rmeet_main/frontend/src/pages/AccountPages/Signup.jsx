@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AccPageTemplate } from "../../components";
+import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
 import { Verification, CreateAccount } from "../../pages";
 
 const Signup = () => {

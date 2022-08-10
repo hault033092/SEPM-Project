@@ -31,6 +31,7 @@ const StyledInput = styled.input.attrs(({ isPassword, disabled }) => ({
 	border-radius:${props => props.style.borderRadius ? props.style.borderRadius: "10px"}; 
 	border-width: ${props => props.style.borderWidth ? props.style.borderWidth: "2px"}; 
 	background-color: ${props => (props.disabled ? "#d7d7d7" : "#fff")};
+
 `;
 
 const StyledTextarea = styled.textarea`

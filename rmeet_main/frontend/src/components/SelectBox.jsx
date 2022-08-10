@@ -6,10 +6,12 @@ const Container = styled.div`
 	flex-direction: column;
 	width: 100%;
 	margin-bottom: ${props => (props.style.margin ? props.style.margin : "5%")};
+	border: ${props => (props.style.border ? props.style.border : "none")};
 `;
 
 const LabelContainer = styled(Container)`
-	margin: ${props => (props.style.margin ? props.style.margin : "2vh 0")};
+	margin: ${props =>
+		props.style.labelContMargin ? props.style.labelContMargin : "2vh 0"};
 `;
 
 const StyledLabel = styled.label`
@@ -17,14 +19,15 @@ const StyledLabel = styled.label`
 	font-size: 1.2vw;
 	font-weight: 600;
 	color: ${props =>
-		props.style ? props.style.labelColor : props.theme.mainBlue};
+		props.style.labelColor ? props.style.labelColor : props.theme.mainBlue};
 `;
 
 const StyledSelect = styled.select`
-	border: none;
+	border: ${props =>
+		props.style.selectContBorder ? props.style.selectContBorder : "none"};
 	color: ${props => props.theme.mainBlue};
 	width: 100%;
-	padding: 0.5vw 0.5vh;
+	padding: 0.5vw;
 	font-size: 1vw;
 	border-radius: 10px;
 	cursor: pointer;
@@ -54,12 +57,17 @@ const SelectBox = ({ label, groups, value, onChange, isGrouped, style }) => {
 
 	return (
 		<Container style={style}>
-			<LabelContainer style={style.styleLabelCont}>
-				<StyledLabel htmlFor={label} style={style.styleLabel}>
-					*{label}
+			<LabelContainer style={style}>
+				<StyledLabel htmlFor={label} style={style}>
+					{label}
 				</StyledLabel>
 			</LabelContainer>
-			<StyledSelect name={label} id={label} value={value} onChange={onChange}>
+			<StyledSelect
+				name={label}
+				id={label}
+				value={value}
+				onChange={onChange}
+				style={style}>
 				{isGrouped ? renderOtpGroups(groups) : renderOptions(groups)}
 			</StyledSelect>
 		</Container>
@@ -72,6 +80,10 @@ SelectBox.propTypes = {
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	style: PropTypes.object,
+};
+
+SelectBox.defaultProps = {
+	style: {},
 };
 
 export default SelectBox;

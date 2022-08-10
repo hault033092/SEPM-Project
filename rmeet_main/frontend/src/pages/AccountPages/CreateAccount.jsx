@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
-	Input,
 	ValidationMessage,
 	Button,
 	SelectBox,
 	ProfileImg,
 	FlexContainer,
 } from "../../components";
+import Input from "../../components/Input";
 import { majors } from "../../lib/data/data";
 import { user } from "../../lib/img/icon";
 import { removeWhitespace } from "../../util/accountValidation";
@@ -151,6 +151,9 @@ const CreateAccount = ({ studentEmail }) => {
 						groups={majors}
 						onChange={_handleMajorChange}
 						isGrouped
+						style={{
+							labelColor: "#ffffff",
+						}}
 					/>
 					<Input
 						label={"Bio"}

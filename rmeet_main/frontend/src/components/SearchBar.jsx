@@ -13,19 +13,20 @@ const MainCont = styled.div`
 	border-radius: 5px;
 	position: relative;
 	margin: auto;
+	position: relative;
 `;
 
 const SearchCont = styled.div`
 	display: flex;
 	height: 100%;
-	border: 3px solid ${props => props.theme.mainBlue};
+	border: 0.5vw solid ${props => props.theme.mainBlue};
+	border-bottom: ${props => (props.isShow ? "none" : "0.5vw solid #000056")};
 `;
 
 const IconCont = styled.div`
 	width: 15%;
 	display: flex;
 	justify-content: flex-end;
-	background-color: ${props => props.theme.mainBlue};
 `;
 
 const IconWrapper = styled.div`
@@ -37,19 +38,22 @@ const IconWrapper = styled.div`
 
 const ResCont = styled.div`
 	display: ${props => (props.isShow ? "block" : "hidden")};
-	border: 2px solid tomato;
-	z-index: 999;
 `;
 
 const StyledUl = styled.ul`
 	width: ${props => props.width};
+	position: absolute;
+	z-index: 1;
+	border: ${props => (props.isShow ? "0.5vw solid #000056" : "none")};
+	border-top: none;
 `;
 
 const StyledList = styled.li`
 	padding: 2%;
 	list-style: none;
+	font-size: 1.2vw;
 	opacity: 1;
-	background-color: ${props => props.theme.screenBg};
+	background-color: ${props => props.theme.lightGrey};
 	cursor: pointer;
 	:hover {
 		background-color: ${props => props.theme.hoverBlue};
@@ -120,7 +124,7 @@ const SearchBar = ({
 
 	return (
 		<MainCont width={width}>
-			<SearchCont>
+			<SearchCont isShow={isShow}>
 				<Input
 					value={value}
 					placeholder={placeholder}
@@ -138,23 +142,15 @@ const SearchBar = ({
 				/>
 				<IconCont onClick={_onSubmit}>
 					<IconWrapper onClick={_onDelete}>
-						<FontAwesomeIcon
-							icon={solid("x")}
-							fontSize='1.5vw'
-							color={"#fff"}
-						/>
+						<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
 					</IconWrapper>
 					<IconWrapper>
-						<FontAwesomeIcon
-							icon={solid("search")}
-							fontSize='1.5vw'
-							color={"#fff"}
-						/>
+						<FontAwesomeIcon icon={solid("search")} fontSize='1.5vw' />
 					</IconWrapper>
 				</IconCont>
 			</SearchCont>
 			<ResCont isShow={isShow}>
-				<StyledUl width={width}>
+				<StyledUl width={width} isShow={isShow}>
 					{matchedList.map((item, index) => (
 						<List
 							key={index}

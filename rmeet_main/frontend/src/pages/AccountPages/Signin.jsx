@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
-	AccPageTemplate,
 	Input,
 	ValidationMessage,
 	Button,
 } from "../../components";
+import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
 import {
 	validateStudentEmail,
 	removeWhitespace,

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Logo, AutoSlideshow, FlexContainer } from "../../components";
+import {AutoSlideshow, FlexContainer } from "../../components";
 import MainLogo from "../../components/MainLogo"
 import { imagesData } from "../../lib/data";
 

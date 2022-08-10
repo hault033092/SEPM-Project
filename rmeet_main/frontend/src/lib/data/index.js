@@ -6,7 +6,6 @@ import {
 	sampleCourseList,
 	semesterInfo,
 	yearInfo,
-	dropBoxInfo,
 } from "./data";
 
 export {
@@ -17,5 +16,4 @@ export {
 	sampleCourseList,
 	semesterInfo,
 	yearInfo,
-	dropBoxInfo,
 };

@@ -219,33 +219,3 @@ export const yearInfo = [
 	{ key: "2022", value: "2022" },
 ];
 
-export const dropBoxInfo = [
-	{
-		0: {
-			title: "View Profile",
-			onClick: () => {
-				console.log("navigate to a view profile page");
-			},
-		},
-		1: {
-			title: "Send Message",
-			onClick: () => {
-				console.log("navigate to a send message page");
-			},
-		},
-	},
-	{
-		0: {
-			title: "Edit Post",
-			onClick: () => {
-				console.log("navigate to a edit post page");
-			},
-		},
-		1: {
-			title: "Delete Post",
-			onClick: () => {
-				console.log("navigate to a delete post page");
-			},
-		},
-	},
-];

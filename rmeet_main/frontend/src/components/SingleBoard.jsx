@@ -15,10 +15,9 @@ import { CurrentPostContext } from "../contexts/CurrentPost";
 
 /*sample data */
 import user from "../lib/img/icon/user.svg";
-import { dropBoxInfo } from "../lib/data";
 
 const CursorCont = styled(FlexContainer)`
-	pointer: cursor;
+	cursor: pointer;
 `;
 
 const StyledContainer = styled.div`
@@ -61,8 +60,9 @@ const MainCont = styled(FlexContainer)`
 	border-radius: 50px;
 	flex-direction: column;
 	justify-content: space-around;
-	padding: 3%;
+	padding: 1.5%;
 	margin-top: 2%;
+	z-index: -1;
 `;
 
 const StyledText = styled.p`
@@ -72,12 +72,21 @@ const StyledText = styled.p`
 	margin: ${props => (props.margin ? props.margin : "0")};
 `;
 
+const DropBoxContentWrapper = styled(FlexContainer)`
+	justify-content: space-between;
+	width: 100%;
+`;
+
+const DropBoxWrapper = styled(FlexContainer)`
+	width: 4vw;
+	height: 2vw;
+`;
+
 const SingleBoard = ({ userID, post, isDetail }) => {
 	const isMyPost = useRef(post.writerID === userID);
 	const userInfo = useRef(user);
 	const theme = useContext(ThemeContext);
 	const { setCurrentPost } = useContext(CurrentPostContext);
-	const [isShowDropBox, setIsShowDropBox] = useState(false);
 	const [isLikePost, setIsLikePost] = useState(false);
 
 	const navigation = useNavigate();
@@ -92,18 +101,18 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 		setIsLikePost(prev => !prev);
 	};
 
-	const _handleOnClick = () => {
-		setIsShowDropBox(true);
-	};
-
-	const _handleOnMouseLeave = () => {
-		setIsShowDropBox(false);
-	};
-
-	const handleNav = () => {
+	const navigateToDetail = () => {
 		setCurrentPost(post);
 		navigation("/board/detail");
 	};
+
+	const navigateToEditPost = () => {
+		navigation("/board/boardWrite");
+	};
+
+	const navigateToProfileDetail = (userID) => {
+		navigation("/board/boardWrite" + userID);
+	}
 
 	useEffect(() => {
 		userInfo.current = _getUserInfo();
@@ -119,40 +128,40 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 					src={userInfo.current.profileImg}
 					width='5vw'
 					height='5vw'
-					isDropBox
+					isShowProfile={true}
+					onShowProfile={navigateToProfileDetail}
 				/>
-				<TitleCont onClick={handleNav}>
-					<StyledText weight='600' size='1.3vw'>
-						{post.title}
-					</StyledText>
+				<TitleCont>
+					<DropBoxContentWrapper>
+						<StyledText weight='600' size='1.3vw' onClick={navigateToDetail}>
+							{post.title}
+						</StyledText>
+						<DropBoxWrapper>
+							{isMyPost.current && (
+								<DropBox
+									onDelete={navigateToEditPost}
+									onEdit={navigateToEditPost}
+								/>
+							)}
+						</DropBoxWrapper>
+					</DropBoxContentWrapper>
 					<StyledText weight='100' size='0.8vw'>
 						Created at: {post.createdAt}
 					</StyledText>
 				</TitleCont>
-				<StyledContainer
-					width='auto'
-					content='flex-start'
-					self='flex-start'
-					display={isMyPost.current ? "flex" : "none"}
-					onClick={_handleOnClick}
-					onMouseLeave={_handleOnMouseLeave}>
-					<FontAwesomeIcon icon={solid("ellipsis-vertical")} fontSize='1.5vw' />
-					{isShowDropBox && <DropBox options={dropBoxInfo[1]} />}
-				</StyledContainer>
 			</StyledContainer>
-			<ContentCont onClick={handleNav}>
+			<ContentCont onClick={navigateToDetail}>
 				<StyledText weight='300' size='1vw'>
 					{isDetail ? post.content : post.content.slice(0, 247) + "..."}
 				</StyledText>
 			</ContentCont>
-
 			<StyledContainer className='subCont' content='flex-end' width='100%'>
 				<StyledContainer
 					className='IconMainCont'
 					width='20%'
 					content='flex-end'>
 					<IconSubCont>
-						<IconWrapper onClick={handleNav}>
+						<IconWrapper onClick={navigateToDetail}>
 							<FontAwesomeIcon
 								icon={regular("comment")}
 								fontSize='2vw'

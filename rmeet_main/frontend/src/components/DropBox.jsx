@@ -2,48 +2,44 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FlexContainer } from "./FlexContainer";
+import Image from "./Image";
+import editIcon from "../lib/img/icon/editIcon.svg";
+import deleteIcon from "../lib/img/icon/deleteIcon.svg";
 
 const OptionsWrapper = styled(FlexContainer)`
-	width: 10vw;
-	flex-direction: column;
-	justify-content: space-between;
-	padding: 2%;
-	cursor: pointer;
-	background-color: ${props => props.theme.lightGrey};
-`;
-
-const OptionCont = styled(OptionsWrapper)`
-	z-index: 999;
-	justify-content: space-between;
+	justify-content: flex-end;
 	width: 100%;
 	height: 100%;
-	margin: 0 3%;
-	padding: 5%;
-	background-color: ${props => props.theme.screenBg};
-	border-radius: 5px;
-	:hover {
-		background-color: ${props => props.theme.tagColor};
-	}
 `;
-const StyledText = styled.p`
-	font-weight: 600;
-	font-size: 1vw;
-	color: ${props => props.theme.fontColor};
+
+const IconCont = styled(OptionsWrapper)`
+	cursor: pointer;
 `;
-const DropBox = ({ options }) => {
+
+const DropBox = ({onEdit, onDelete}) => {
 	return (
 		<OptionsWrapper>
-			{Object.values(options).map((option, index) => (
-				<OptionCont key={index} onClick={option.onClick}>
-					<StyledText>{option.title}</StyledText>
-				</OptionCont>
-			))}
+			<IconCont onClick={onEdit}>
+				<Image
+					src={editIcon}
+					alt={"edit icon"}
+					style={{ width: "1.5vw", height: "1.5vw" }}
+				/>
+			</IconCont>
+			<IconCont onClick={onDelete}>
+				<Image
+					src={deleteIcon}
+					alt={"delete icon"}
+					style={{ width: "1.5vw", height: "1.5vw" }}
+				/>
+			</IconCont>
 		</OptionsWrapper>
 	);
 };
 
 DropBox.propTypes = {
-	options: PropTypes.object.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
 };
 
 export default DropBox;

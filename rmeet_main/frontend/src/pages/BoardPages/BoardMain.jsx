@@ -22,18 +22,27 @@ const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
+	position: relative;
+	margin: 1%;
 `;
 
 const SearchBarCont = styled(FlexContainer)`
 	width: 100%;
-	height: 10vh;
+	height: auto;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	padding: 3% 0;
 	margin-bottom: 10px;
 `;
 
-const SearchBarWrapper = styled(FlexContainer)``;
+const StyleTitle = styled.h1`
+	font-size: 3vw;
+`;
+
+const SearchBarWrapper = styled(FlexContainer)`
+	flex-direction: column;
+	align-items: flex-end;
+`;
 
 const BoardCont = styled.div`
 	height: 70vh;
@@ -46,12 +55,8 @@ const SelectBoxStyle = {
 	borderRadius: "50px",
 	width: "10vw",
 	margin: "0 0 auto 0",
-	styleLabel: {
-		labelColor: "#000054",
-	},
-	styleLabelCont: {
-		margin: "0",
-	},
+	labelContMargin: "0",
+	selectContBorder: "3px solid #000056",
 };
 
 const BoardMain = () => {
@@ -60,7 +65,7 @@ const BoardMain = () => {
 	const [year, setYear] = useState("2020");
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-	
+
 	const theme = useContext(ThemeContext);
 
 	useEffect(() => {
@@ -105,27 +110,24 @@ const BoardMain = () => {
 	};
 
 	const _handleSemesterChange = e => {
-		setSemester(e.value.target);
+		setSemester(e.target.value);
 	};
 
 	const _handleYearChange = e => {
-		setYear(e.value.target);
+		setYear(e.target.value);
 	};
-
 
 	return (
 		<Screen>
-			<h1>Board</h1>
+			<StyleTitle>Board</StyleTitle>
 			<SearchBarCont>
 				<SelectBox
-					label='Semester'
 					groups={semesterInfo}
 					value={semester}
 					onChange={_handleSemesterChange}
 					style={SelectBoxStyle}
 				/>
 				<SelectBox
-					label='Year'
 					groups={yearInfo}
 					value={year}
 					onChange={_handleYearChange}
@@ -142,7 +144,7 @@ const BoardMain = () => {
 						width='40vw'
 						valuesList={sampleCourseList}
 					/>
-					{errorMessage && <ValidationMessage message={errorMessage} />}
+					<ValidationMessage message={errorMessage} />{" "}
 				</SearchBarWrapper>
 				<Button
 					title='Post'
@@ -152,7 +154,7 @@ const BoardMain = () => {
 						height: "auto",
 						padding: "1% 5%",
 						btnColor: theme.mainBlue,
-						margin: "0 0 auto 0",
+						margin: "0",
 					}}
 				/>
 			</SearchBarCont>
