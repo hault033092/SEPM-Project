@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import camera from "../lib/img/icon/camera.svg";
 import user from "../lib/img/icon/user.svg";
 import Image from "./Image";
-import DropBox from "./DropBox";
 
 const Container = styled.div`
 	width: ${props => props.width};
@@ -25,6 +24,8 @@ const BtnContainer = styled(Container)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	bottom: 0;
+	right: 0;
 `;
 
 const StyledLabel = styled.label`
