@@ -1,14 +1,15 @@
 import React from "react"
 import styled from "styled-components"
+import { NavLink } from "react-router-dom"
 import MainLogo from "../components/MainLogo"
 import Clock from "../components/Clock"
 import LiveDate from "../components/LiveDate"
 import Image from "../components/Image"
 
-import Dashboard from "../images/study.png"
-import OES from "../images/online-course.png"
-import Allocate from "../images/allocate.png"
-import Board from "../images/conversation.png"
+import Dashboard from "../lib/img/study.png"
+import OES from "../lib/img/online-course.png"
+import Allocate from "../lib/img/allocate.png"
+import Board from "../lib/img/conversation.png"
 
 const Home = () => {
     return (
@@ -53,13 +54,15 @@ const Home = () => {
                     <Label>Allocate+</Label>
                 </CircleImage>
                 <CircleImage href="">
-                    <Image src={Board} ALT="Board" style={{
-                        width: "5rem",
-                        height: "5rem",
-                        borderRadius: "50%",
-                        padding: "0",
-                        outline: "0.2rem solid black",
-                    }}/>
+                    <NavLink to="/">
+                        <Image src={Board} ALT="Board" style={{
+                            width: "5rem",
+                            height: "5rem",
+                            borderRadius: "50%",
+                            padding: "0",
+                            outline: "0.2rem solid black",
+                        }}/>
+                    </NavLink>
                     <Label>Board</Label>
                 </CircleImage>
             </RedirectContent>
