@@ -28,10 +28,15 @@ const StyledInput = styled.input.attrs(({ isPassword, disabled }) => ({
 	width: ${props => props.style.width};
 	padding: ${props => props.style.padding};
 	font-size: ${props => props.style.fontSize};
-	border-radius:${props => props.style.borderRadius ? props.style.borderRadius: "10px"}; 
-	border-width: ${props => props.style.borderWidth ? props.style.borderWidth: "2px"}; 
+	border-radius: ${props =>
+		props.style.borderRadius ? props.style.borderRadius : "10px"};
+	border-width: ${props =>
+		props.style.borderWidth ? props.style.borderWidth : "2px"};
 	background-color: ${props => (props.disabled ? "#d7d7d7" : "#fff")};
 
+	&:focus {
+		outline: none;
+	}
 `;
 
 const StyledTextarea = styled.textarea`
@@ -43,8 +48,10 @@ const StyledTextarea = styled.textarea`
 	border-width: 2px;
 	resize: none;
 	background-color: #fff;
+	&:focus {
+		outline: none;
+	}
 `;
-
 
 const Input = ({
 	label,
@@ -83,7 +90,6 @@ const Input = ({
 					value={value}
 					placeholder={placeholder}
 					onChange={onChange}
-					
 					onKeyPress={_onKeyPress}
 					maxLength={maxLength}
 					style={style}
@@ -129,4 +135,3 @@ Input.defaultProps = {
 };
 
 export default Input;
-

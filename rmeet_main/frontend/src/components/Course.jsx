@@ -11,12 +11,21 @@ import Rating from "@mui/material/Rating";
 
 const MainCont = styled(FlexContainer)`
 	width: 100%;
-	border: 0.5vw solid ${props => props.theme.mainBlue};
+	border: 0.35vw solid ${props => props.theme.mainBlue};
 	border-radius: 40px;
 	margin-bottom: 3%;
 	padding: 1%;
 	padding-left: 3%;
-	cursor: pointer;
+	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
+	transition: all 0.3s ease;
+
+	&:hover {
+		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		background-color: ${props =>
+			props.isNavHidden ? props.theme.screenBg : "rgba(0, 0, 82, 0.037)"};
+	}
 `;
 
 const SubCont = styled(FlexContainer)``;
@@ -32,19 +41,20 @@ const ContentCont = styled(FlexContainer)`
 `;
 
 const RateCont = styled(FlexContainer)`
-	width: auto;
+	width: 12vw;
 	align-self: flex-start;
 	justify-content: space-between;
 `;
 
 const StyledTitle = styled.p`
 	font-size: 1.5vw;
-	font-weight: 800;
+	font-weight: 700;
 	margin-bottom: 3%;
 `;
 
 const StyledContent = styled.p`
 	font-size: 1vw;
+	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
 `;
 
 const Course = ({
@@ -65,14 +75,14 @@ const Course = ({
 	};
 
 	return (
-		<MainCont onClick={_handleOnClick}>
+		<MainCont onClick={_handleOnClick} isNavHidden={isNavHidden}>
 			<ContentCont>
 				<StyledTitle>{courseName}</StyledTitle>
 				<StyledContent>{LecturerName}</StyledContent>
 			</ContentCont>
 			<RateCont>
 				<Rating name='read-only' value={rateValue} precision={0.5} readOnly />
-				<StyledContent>{rateValue}</StyledContent>
+				<StyledContent fontWeight={800}>{rateValue}</StyledContent>
 			</RateCont>
 			{isNavHidden || (
 				<DetailIconWrapper>

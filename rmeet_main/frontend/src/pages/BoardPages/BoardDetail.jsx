@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
 import ProfileImg from "../../components/ProfileImg";
-import { Button, FlexContainer, Input } from "../../components";
+import { FlexContainer } from "../../components";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";
 
 /*Context */
@@ -198,8 +197,19 @@ const CommentsWrapper = styled.div`
 `;
 
 const InputWrapper = styled(FlexContainer)`
-	width: 100%;
-	border: 10px solid ${props => props.theme.mainRed};
+	width: 70vw;
+	border: 3px solid ${props => props.theme.mainRed};
+	border-radius: 40px;
+	padding: 1%;
+`;
+
+const ScreenCommentCont = styled(FlexContainer)`
+	justify-content: space-between;
+	margin-bottom: 2%;
+`;
+
+const StyleTitle = styled.h1`
+	font-size: 3vw;
 `;
 
 const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
@@ -218,6 +228,7 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 
 	return (
 		<Screen>
+			<StyleTitle>Board</StyleTitle>
 			{Object.keys(currentPost).length === 0 ? (
 				<div>not found 404</div>
 			) : (
@@ -236,37 +247,39 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 							);
 						})}
 					</CommentsWrapper>
-					<InputWrapper>
-						<Input
-							value={newComment}
-							placeholder='Create a new comment!'
-							maxLenght={256}
-							onChange={_handleNewComment}
-							onKeyPress={_handleCreateCmt}
-							isLabelHidden
-							isMultipleLine
-							style={{
-								padding: "1.5%",
-								fontSize: "1.2vw",
-								width: "100%",
-								height: "4vw",
-								borderWidth: "0",
-								borderRadius: "0",
-							}}
-						/>
+					<ScreenCommentCont>
+						<InputWrapper>
+							<Input
+								value={newComment}
+								placeholder='Create a new comment!'
+								maxLenght={256}
+								onChange={_handleNewComment}
+								onKeyPress={_handleCreateCmt}
+								isLabelHidden
+								isMultipleLine
+								style={{
+									padding: "1%",
+									fontSize: "1vw",
+									width: "100%",
+									height: "2vw",
+									borderWidth: "0",
+									borderRadius: "0",
+									margin: "",
+								}}
+							/>
+						</InputWrapper>
 						<Button
 							title='SEND'
 							onClick={_handleCreateCmt}
 							style={{
 								width: "auto",
-								height: "4vw",
+								height: "auto",
 								padding: "1% 5%",
-								margin: "0 0 auto 0",
-								borderRadius: "0",
-								fontSize: "1.5vw",
+								margin: "0 0 0 2%",
+								fontSize: "1.2vw",
 							}}
 						/>
-					</InputWrapper>
+					</ScreenCommentCont>
 				</>
 			)}
 		</Screen>

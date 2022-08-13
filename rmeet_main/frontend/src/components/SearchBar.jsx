@@ -19,8 +19,8 @@ const MainCont = styled.div`
 const SearchCont = styled.div`
 	display: flex;
 	height: 100%;
-	border: 0.5vw solid ${props => props.theme.mainBlue};
-	border-bottom: ${props => (props.isShow ? "none" : "0.5vw solid #000056")};
+	border: 0.3vw solid ${props => props.theme.mainBlue};
+	border-bottom: ${props => (props.isShow ? "none" : "0.3vw solid #000056")};
 `;
 
 const IconCont = styled.div`
@@ -44,7 +44,7 @@ const StyledUl = styled.ul`
 	width: ${props => props.width};
 	position: absolute;
 	z-index: 1;
-	border: ${props => (props.isShow ? "0.5vw solid #000056" : "none")};
+	border: ${props => (props.isShow ? "0.3vw solid #000056" : "none")};
 	border-top: none;
 `;
 

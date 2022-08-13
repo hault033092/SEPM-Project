@@ -8,6 +8,7 @@ import ProfileImg from "./ProfileImg";
 import Rating from "@mui/material/Rating";
 import Image from "./Image";
 import smile from "../lib/img/icon/smile.svg";
+import unsmile from "../lib/img/icon/unsmile.svg";
 import { useNavigate } from "react-router-dom";
 const RowCont = styled(FlexContainer)`
 	width: 100%;
@@ -27,8 +28,8 @@ const MainCont = styled(RowCont)`
 	border: 0.3vw solid ${props => props.theme.mainBlue};
 	border-radius: 40px;
 	flex-direction: column;
-	padding: 1%;
-  margin-bottom: 3%;
+	padding: 1% 1% 1% 2%;
+	margin-bottom: 3%;
 `;
 
 const ReviewInfo = styled(ColCont)`
@@ -42,9 +43,29 @@ const LikeCont = styled(RowCont)`
 	border-radius: 40px;
 	padding: 0.7% 0.5%;
 	width: 15%;
-	color: ${props => props.theme.fontColorWhite};
+	color: ${props => props.theme.fontColor};
 	justify-content: space-around;
 	align-items: center;
+	transition: all 0.3s ease;
+	outline: none;
+
+	&:before {
+		height: 0%;
+		width: 2px;
+	}
+
+	&:hover {
+		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		color: ${props => props.theme.darkX2Grey};
+	}
+`;
+
+const LikeIconWrapper = styled(RowCont)`
+	justify-content: space-between;
+	align-items: center;
+	width: 38%;
 `;
 
 const CommentCont = styled(RowCont)`
@@ -59,13 +80,18 @@ const CourseInfoSubCont = styled(RowCont)`
 	color: ${props => props.theme.darkX2Grey};
 `;
 
-const AssignmentsWrapper = styled(ColCont)``;
+const AssignmentsWrapper = styled(ColCont)`
+	overflow-y: scroll;
+	height: 5vw;
+	padding-top: 5vw;
+`;
 
 const AssignmentCont = styled(CourseInfoSubCont)`
 	background-color: ${props => props.theme.mainBlue};
 	padding: 1% 3%;
 	border-radius: 40px;
 	color: ${props => props.theme.fontColorWhite};
+	margin-top: 1%;
 `;
 
 const StudyPeriodCont = styled(RowCont)`
@@ -87,7 +113,8 @@ const StyledSubTitle = styled(StyledTitle)`
 
 const StyledContent = styled.p`
 	font-size: 1vw;
-  text-decoration: ${props => props.underline ? "underline" : "none"};
+	text-decoration: ${props => (props.underline ? "underline" : "none")};
+	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
 `;
 
 const CourseReview = () => {
@@ -116,17 +143,21 @@ const CourseReview = () => {
 					<StyledContent>created at: 07-08-2022</StyledContent>
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
-					<StyledContent>Helpful!</StyledContent>
-					<RowCont>
+					<StyledContent fontWeight={600}>Helpful!</StyledContent>
+					<LikeIconWrapper>
 						<Image
-							src={smile}
+							src={isLike ? smile : unsmile}
 							alt={
 								"Smile Icon. Click here if you think this review is helpful."
 							}
-							style={{ width: "1.5vw", height: "1.5vw" }}
+							style={{
+								width: "1.5vw",
+								height: "1.5vw",
+								filter: "brightness(20%)",
+							}}
 						/>
-						<StyledContent>23</StyledContent>
-					</RowCont>
+						<StyledContent fontWeight={600}>23</StyledContent>
+					</LikeIconWrapper>
 				</LikeCont>
 			</RowCont>
 			<StudyPeriodCont>
@@ -157,8 +188,12 @@ const CourseReview = () => {
 							<StyledContent>2</StyledContent>
 						</AssignmentCont>
 						<AssignmentCont>
-							<StyledContent>Presentation</StyledContent>
-							<StyledContent>1</StyledContent>
+							<StyledContent>Essay</StyledContent>
+							<StyledContent>2</StyledContent>
+						</AssignmentCont>
+						<AssignmentCont>
+							<StyledContent>Quiz</StyledContent>
+							<StyledContent>10</StyledContent>
 						</AssignmentCont>
 					</AssignmentsWrapper>
 				</ColCont>

@@ -33,15 +33,28 @@ const SearchBarCont = styled(FlexContainer)`
 	align-items: flex-start;
 	padding: 3% 0;
 	margin-bottom: 10px;
+
+	@media (max-width: 820px) {
+		flex-direction: column;
+	}
 `;
 
 const StyleTitle = styled.h1`
 	font-size: 3vw;
+
+	@media (max-width: 820px) {
+		font-size: 3vh;
+	}
 `;
 
 const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
 	align-items: flex-end;
+
+	@media (max-width: 820px) {
+		margin-top: 3%;
+		width: 100%;
+	}
 `;
 
 const BoardCont = styled.div`
@@ -121,18 +134,20 @@ const BoardMain = () => {
 		<Screen>
 			<StyleTitle>Board</StyleTitle>
 			<SearchBarCont>
-				<SelectBox
-					groups={semesterInfo}
-					value={semester}
-					onChange={_handleSemesterChange}
-					style={SelectBoxStyle}
-				/>
-				<SelectBox
-					groups={yearInfo}
-					value={year}
-					onChange={_handleYearChange}
-					style={SelectBoxStyle}
-				/>
+				<FlexContainer>
+					<SelectBox
+						groups={semesterInfo}
+						value={semester}
+						onChange={_handleSemesterChange}
+						style={SelectBoxStyle}
+					/>
+					<SelectBox
+						groups={yearInfo}
+						value={year}
+						onChange={_handleYearChange}
+						style={SelectBoxStyle}
+					/>
+				</FlexContainer>
 				<SearchBarWrapper>
 					<SearchBar
 						value={course}

@@ -29,6 +29,7 @@ const ReviewCont = styled.div`
 
 const StyleTitle = styled.h1`
 	font-size: 3vw;
+	margin-top: 2%;
 `;
 
 const CourseDetail = ({ courseID }) => {

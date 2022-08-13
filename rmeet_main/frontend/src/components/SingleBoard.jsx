@@ -32,6 +32,15 @@ const StyledContainer = styled.div`
 	align-self: ${props => (props.self ? props.self : "center")};
 `;
 
+const IconMainCont = styled(FlexContainer)`
+	width: 20%;
+	justify-content: flex-end;
+
+	@media (max-width: 820px) {
+		width: 30%;
+	}
+`;
+
 const TitleCont = styled(CursorCont)`
 	flex-direction: column;
 	align-items: flex-start;
@@ -56,13 +65,22 @@ const IconWrapper = styled(CursorCont)`
 
 const MainCont = styled(FlexContainer)`
 	background-color: ${props => props.theme.screenBg};
-	border: 10px solid ${props => props.theme.mainBlue};
-	border-radius: 50px;
+	border: 0.3vw solid ${props => props.theme.mainBlue};
+	border-radius: 3vw;
 	flex-direction: column;
 	justify-content: space-around;
 	padding: 1.5%;
 	margin-top: 2%;
 	z-index: -1;
+	transition: all 0.3s ease;
+
+	&:hover {
+		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		background-color: ${props =>
+			props.isNavHidden ? props.theme.screenBg : "rgba(0, 0, 82, 0.09)"};
+	}
 `;
 
 const StyledText = styled.p`
@@ -110,9 +128,9 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 		navigation("/board/boardWrite");
 	};
 
-	const navigateToProfileDetail = (userID) => {
+	const navigateToProfileDetail = userID => {
 		navigation("/board/boardWrite/" + userID);
-	}
+	};
 
 	useEffect(() => {
 		userInfo.current = _getUserInfo();
@@ -156,10 +174,7 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 				</StyledText>
 			</ContentCont>
 			<StyledContainer className='subCont' content='flex-end' width='100%'>
-				<StyledContainer
-					className='IconMainCont'
-					width='20%'
-					content='flex-end'>
+				<IconMainCont>
 					<IconSubCont>
 						<IconWrapper onClick={navigateToDetail}>
 							<FontAwesomeIcon
@@ -192,7 +207,7 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 							{post.numOfLike}
 						</StyledText>
 					</IconSubCont>
-				</StyledContainer>
+				</IconMainCont>
 			</StyledContainer>
 		</MainCont>
 	);

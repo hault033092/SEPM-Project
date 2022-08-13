@@ -41,7 +41,7 @@ const CourseCont = styled.div`
 
 const errMsg = "Please enter the course name.";
 
-const BoardMain = () => {
+const CourseMain = () => {
 	const [courseList, setCourseList] = useState();
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -92,7 +92,7 @@ const BoardMain = () => {
 					<ValidationMessage message={errorMessage} />{" "}
 				</SearchBarWrapper>
 				<Button
-					title='Creat'
+					title='Create'
 					onClick={_handleCreate}
 					style={{
 						width: "auto",
@@ -157,4 +157,4 @@ const BoardMain = () => {
 	);
 };
 
-export default BoardMain;
+export default CourseMain;

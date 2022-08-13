@@ -14,8 +14,6 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 		props.style.fontWeight ? props.style.fontWeight : "500"};
 	text-align: ${props =>
 		props.style.textAlign ? props.style.textAlign : "center"};
-	background-color: ${props =>
-		props.style.btnColor ? props.style.btnColor : props.theme.mainRed};
 	border-radius: ${props =>
 		props.style.borderRadius ? props.style.borderRadius : "10px"};
 	border: none;
@@ -23,6 +21,32 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 	opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
 	color: #ffffff;
 	cursor: pointer;
+
+	background: transparent;
+	transition: all 0.3s ease;
+	position: relative;
+	display: inline-block;
+	box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+		7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+	outline: none;
+
+	background: rgb(230, 0, 40);
+	background: linear-gradient(
+		0deg,
+		rgba(230, 0, 40, 1) 0%,
+		rgba(230, 0, 40, 1) 0%,
+	);
+	&:before {
+		height: 0%;
+		width: 2px;
+	}
+
+	&:hover {
+		box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
+			-4px -4px 6px 0 rgba(116, 125, 136, 0.5),
+			inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
+			inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+	}
 `;
 
 const Button = ({ title, onClick, style, disabled }) => {
@@ -49,7 +73,6 @@ Button.defaultProps = {
 	style: {
 		margin: "10px 0",
 		padding: "0.8vh 1vw",
-		btnColor: "#E60028",
 		width: "100%",
 		height: "auto",
 		fontSize: "1vw",
