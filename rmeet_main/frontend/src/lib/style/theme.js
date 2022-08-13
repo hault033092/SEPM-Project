@@ -8,6 +8,7 @@ export const theme = {
 	fontColorWhite: "#ffffff",
 	lightGrey: "#D9D9D9",
 	darkGrey: "#D2D2D2",
+	darkX2Grey: "#1f1f1f",	
 	screenBg: "#ffffff",
 
 	/* Account Colors */
@@ -19,4 +20,8 @@ export const theme = {
 	commentGreen: "#147613",
 	heartPink: "#E22652",
 	commentGrey: "#D9D9D9",
+
+	/*Course colors */
+	unsmileBlue: "#8B8BFF",
+	smileBlue: "#5858FE",
 };

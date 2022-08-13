@@ -2,21 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 
 /*Components */
-import SingleBoard from "../../components/SingleBoard";
 import SearchBar from "../../components/SearchBar";
-import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
+import Course from "../../components/Course";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
-
-/*Sample Data */
-import {
-	sampleCurrentUser,
-	samplePostList,
-	semesterInfo,
-	yearInfo,
-	sampleCourseList,
-} from "../../lib/data/data";
 
 const Screen = styled(FlexContainer)`
 	width: 100%;
@@ -28,66 +18,41 @@ const Screen = styled(FlexContainer)`
 
 const SearchBarCont = styled(FlexContainer)`
 	width: 100%;
-	height: auto;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: flex-start;
 	padding: 3% 0;
 	margin-bottom: 10px;
+`;
+
+const SearchBarWrapper = styled(FlexContainer)`
+	flex-direction: column;
+	justify-content: flex-start;
 `;
 
 const StyleTitle = styled.h1`
 	font-size: 3vw;
 `;
 
-const SearchBarWrapper = styled(FlexContainer)`
-	flex-direction: column;
-	align-items: flex-end;
-`;
-
-const BoardCont = styled.div`
+const CourseCont = styled.div`
 	height: 70vh;
 	overflow-y: scroll;
+	width: 100%;
 `;
 
 const errMsg = "Please enter the course name.";
 
-const SelectBoxStyle = {
-	borderRadius: "50px",
-	width: "10vw",
-	margin: "0 0 auto 0",
-	labelContMargin: "0",
-	selectContBorder: "3px solid #000056",
-};
-
 const BoardMain = () => {
-	const [postList, setPostList] = useState(samplePostList);
-	const [semester, setSemester] = useState("semester1");
-	const [year, setYear] = useState("2020");
+	const [courseList, setCourseList] = useState();
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const theme = useContext(ThemeContext);
 
-	useEffect(() => {
-		// get post from api
-		// set post list
-		// setPostList
-	}, []);
-
-	useEffect(() => {
-		if (errorMessage === errMsg) {
-			setErrorMessage("");
-		}
-
-		// load result
-		// set post list
-	}, [course]);
-
 	const _onSearchValChange = e => {
 		setCourse(e.target.value);
 	};
 
-	const _handlePost = () => {
+	const _handleCreate = () => {
 		console.log("navigate to post page");
 	};
 
@@ -98,7 +63,7 @@ const BoardMain = () => {
 		}
 
 		console.log("search processing runs!!");
-		console.log("search for ", semester, year, course);
+		console.log("search for ", course);
 	};
 
 	const _handleDelete = () => {
@@ -109,30 +74,10 @@ const BoardMain = () => {
 		setCourse(value);
 	};
 
-	const _handleSemesterChange = e => {
-		setSemester(e.target.value);
-	};
-
-	const _handleYearChange = e => {
-		setYear(e.target.value);
-	};
-
 	return (
 		<Screen>
-			<StyleTitle>Board</StyleTitle>
+			<StyleTitle>Course</StyleTitle>
 			<SearchBarCont>
-				<SelectBox
-					groups={semesterInfo}
-					value={semester}
-					onChange={_handleSemesterChange}
-					style={SelectBoxStyle}
-				/>
-				<SelectBox
-					groups={yearInfo}
-					value={year}
-					onChange={_handleYearChange}
-					style={SelectBoxStyle}
-				/>
 				<SearchBarWrapper>
 					<SearchBar
 						value={course}
@@ -141,14 +86,14 @@ const BoardMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						width='40vw'
-						valuesList={sampleCourseList}
+						valuesList={courseList}
+						width={"60vw"}
 					/>
 					<ValidationMessage message={errorMessage} />{" "}
 				</SearchBarWrapper>
 				<Button
-					title='Post'
-					onClick={_handlePost}
+					title='Creat'
+					onClick={_handleCreate}
 					style={{
 						width: "auto",
 						height: "auto",
@@ -158,15 +103,56 @@ const BoardMain = () => {
 					}}
 				/>
 			</SearchBarCont>
-			<BoardCont>
-				{Object.values(postList).map((post, index) => (
-					<SingleBoard
-						key={index}
-						userID={sampleCurrentUser.userID}
-						post={post}
-					/>
-				))}
-			</BoardCont>
+			<CourseCont>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+				<Course
+					courseID={"111"}
+					courseName='Genre and Historical Movements'
+					LecturerName='Anas Sarwar'
+					rateValue={4.5}
+				/>
+			</CourseCont>
 		</Screen>
 	);
 };

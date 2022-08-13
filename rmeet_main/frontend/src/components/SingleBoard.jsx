@@ -111,7 +111,7 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 	};
 
 	const navigateToProfileDetail = (userID) => {
-		navigation("/board/boardWrite" + userID);
+		navigation("/board/boardWrite/" + userID);
 	}
 
 	useEffect(() => {

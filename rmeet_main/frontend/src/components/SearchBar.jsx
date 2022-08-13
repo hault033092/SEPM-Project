@@ -90,11 +90,10 @@ const SearchBar = ({
 	const [matchedList, setMatchedList] = useState([]);
 	const [isShow, setIsShow] = useState(false);
 	const _searchMatchedList = () => {
-		if (value.length <= 2) {
+		if (!value || value.length <= 2) {
 			setMatchedList([]);
 			return;
 		}
-
 		let res = [];
 		for (let idx = 0; idx < valuesList.length; idx++) {
 			if (valuesList[idx].value.toLowerCase().includes(value.toLowerCase())) {

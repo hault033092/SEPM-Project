@@ -15,5 +15,9 @@ npm install @emailjs/browser --save
 3. otp component:
 npm i react-otp-input
 
+4. rate component: 
+npm install @mui/material @emotion/react @emotion/styled
+
+
 
 
