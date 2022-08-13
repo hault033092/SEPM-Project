@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState, useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
+
+/*Components */
 import SingleBoard from "../../components/SingleBoard";
-import { StyledContainer } from "../../components/StyledContainer";
 import SearchBar from "../../components/SearchBar";
 import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
 import ValidationMessage from "../../components/ValidationMessage";
+import { FlexContainer } from "../../components";
+
+/*Sample Data */
 import {
 	sampleCurrentUser,
 	samplePostList,
@@ -13,43 +17,59 @@ import {
 	yearInfo,
 	sampleCourseList,
 } from "../../lib/data/data";
-import { FlexContainer } from "../../components";
 
-const Nav = styled(StyledContainer)`
-	width: 20%;
-	height: 100%;
-`;
-
-const Screen = styled(StyledContainer)`
-	width: 70%;
-	height: 100%;
-	margin: 5% 0;
-	flex-direction: column;
-	border: 3px solid tomato;
-`;
-
-const SearchBarCont = styled.div`
+const Screen = styled(FlexContainer)`
 	width: 100%;
-	height: 10%;
-	display: flex;
+	height: 100%;
+	flex-direction: column;
+	position: relative;
+	margin: 1%;
+`;
+
+const SearchBarCont = styled(FlexContainer)`
+	width: 100%;
+	height: auto;
 	justify-content: space-between;
-	z-index: 999;
+	align-items: flex-start;
+	padding: 3% 0;
+	margin-bottom: 10px;
+
+	@media (max-width: 820px) {
+		flex-direction: column;
+	}
+`;
+
+const StyleTitle = styled.h1`
+	font-size: 3vw;
+
+	@media (max-width: 820px) {
+		font-size: 3vh;
+	}
+`;
+
+const SearchBarWrapper = styled(FlexContainer)`
+	flex-direction: column;
+	align-items: flex-end;
+
+	@media (max-width: 820px) {
+		margin-top: 3%;
+		width: 100%;
+	}
 `;
 
 const BoardCont = styled.div`
-	height: 90%;
+	height: 70vh;
 	overflow-y: scroll;
 `;
 
 const errMsg = "Please enter the course name.";
 
-
-
 const SelectBoxStyle = {
-	border: "3px solid #000054",
 	borderRadius: "50px",
-	width: "auto",
-	padding: "3%",
+	width: "10vw",
+	margin: "0 0 auto 0",
+	labelContMargin: "0",
+	selectContBorder: "3px solid #000056",
 };
 
 const BoardMain = () => {
@@ -59,15 +79,21 @@ const BoardMain = () => {
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
+	const theme = useContext(ThemeContext);
+
 	useEffect(() => {
 		// get post from api
-		// set post list // setPostList
+		// set post list
+		// setPostList
 	}, []);
 
 	useEffect(() => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
 		}
+
+		// load result
+		// set post list
 	}, [course]);
 
 	const _onSearchValChange = e => {
@@ -76,10 +102,6 @@ const BoardMain = () => {
 
 	const _handlePost = () => {
 		console.log("navigate to post page");
-	};
-
-	const _handleBoardOnClick = () => {
-		console.log("navigate to board detail page");
 	};
 
 	const _handleSearch = () => {
@@ -101,57 +123,66 @@ const BoardMain = () => {
 	};
 
 	const _handleSemesterChange = e => {
-		setSemester(e.value.target);
+		setSemester(e.target.value);
 	};
 
 	const _handleYearChange = e => {
-		setYear(e.value.target);
+		setYear(e.target.value);
 	};
 
 	return (
-		<StyledContainer height='100%'>
-			<Nav></Nav>
-			<Screen>
-				<h1>Board</h1>
-				<SearchBarCont>
+		<Screen>
+			<StyleTitle>Board</StyleTitle>
+			<SearchBarCont>
+				<FlexContainer>
 					<SelectBox
-						label='Semester'
 						groups={semesterInfo}
 						value={semester}
 						onChange={_handleSemesterChange}
 						style={SelectBoxStyle}
 					/>
 					<SelectBox
-						label='Year'
 						groups={yearInfo}
 						value={year}
 						onChange={_handleYearChange}
 						style={SelectBoxStyle}
 					/>
+				</FlexContainer>
+				<SearchBarWrapper>
 					<SearchBar
 						value={course}
+						placeholder={"Enter the course name..."}
 						onChange={_onSearchValChange}
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						width='75%'
+						width='40vw'
 						valuesList={sampleCourseList}
 					/>
-					<Button title='Post' onClick={_handlePost} style={{ width: "20%" }} />
-				</SearchBarCont>
-				{errorMessage && <ValidationMessage message={errorMessage} />}
-				<BoardCont>
-					{Object.values(postList).map((post, index) => (
-						<SingleBoard
-							key={index}
-							userID={sampleCurrentUser.userID}
-							post={post}
-							onClick={_handleBoardOnClick}
-						/>
-					))}
-				</BoardCont>
-			</Screen>
-		</StyledContainer>
+					<ValidationMessage message={errorMessage} />{" "}
+				</SearchBarWrapper>
+				<Button
+					title='Post'
+					onClick={_handlePost}
+					style={{
+						width: "auto",
+						height: "auto",
+						padding: "1% 5%",
+						btnColor: theme.mainRed,
+						margin: "0",
+					}}
+				/>
+			</SearchBarCont>
+			<BoardCont>
+				{Object.values(postList).map((post, index) => (
+					<SingleBoard
+						key={index}
+						userID={sampleCurrentUser.userID}
+						post={post}
+					/>
+				))}
+			</BoardCont>
+		</Screen>
 	);
 };
 

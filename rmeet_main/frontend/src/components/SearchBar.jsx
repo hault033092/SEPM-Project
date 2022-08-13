@@ -3,64 +3,60 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import Input from "./Input";
 
 const MainCont = styled.div`
 	width: ${props => props.width};
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
 	border-radius: 5px;
-	box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.15);
+	position: relative;
+	margin: auto;
+	position: relative;
 `;
 
 const SearchCont = styled.div`
 	display: flex;
+	height: 100%;
+	border: 0.3vw solid ${props => props.theme.mainBlue};
+	border-bottom: ${props => (props.isShow ? "none" : "0.3vw solid #000056")};
 `;
 
 const IconCont = styled.div`
-	width: 25%;
+	width: 15%;
 	display: flex;
+	justify-content: flex-end;
 `;
 
 const IconWrapper = styled.div`
-	width: 30%;
-	margin-left: 5%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: tomato;
 `;
 
-const ResCont = styled.div``;
-
-const Input = styled.input`
-	width: 100%;
-	border: none;
-	height: 100%;
-	border-radius: 5px;
-	padding: 0px 40px 0px 10px;
-	font-size: 18px;
-	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-	:focus {
-		outline: none;
-	}
+const ResCont = styled.div`
+	display: ${props => (props.isShow ? "block" : "hidden")};
 `;
 
 const StyledUl = styled.ul`
-	width: 95%;
+	width: ${props => props.width};
+	position: absolute;
+	z-index: 1;
+	border: ${props => (props.isShow ? "0.3vw solid #000056" : "none")};
+	border-top: none;
 `;
 
 const StyledList = styled.li`
+	padding: 2%;
 	list-style: none;
-	border-radius: 3px;
+	font-size: 1.2vw;
 	opacity: 1;
-	padding: 8px 12px;
-	transition: all 0.5s linear;
-	background-color: ${props => props.theme.screenBg};
-
+	background-color: ${props => props.theme.lightGrey};
+	cursor: pointer;
 	:hover {
-		background: #ececec;
-		cursor: pointer;
+		background-color: ${props => props.theme.hoverBlue};
 	}
 `;
 
@@ -84,6 +80,7 @@ const List = ({ value, onSetValue, onSubmit }) => {
 const SearchBar = ({
 	value,
 	onChange,
+	placeholder,
 	valuesList,
 	onSubmit,
 	onDelete,
@@ -91,12 +88,12 @@ const SearchBar = ({
 	width,
 }) => {
 	const [matchedList, setMatchedList] = useState([]);
+	const [isShow, setIsShow] = useState(false);
 	const _searchMatchedList = () => {
-		if (value.length <= 2) {
+		if (!value || value.length <= 2) {
 			setMatchedList([]);
 			return;
 		}
-
 		let res = [];
 		for (let idx = 0; idx < valuesList.length; idx++) {
 			if (valuesList[idx].value.toLowerCase().includes(value.toLowerCase())) {
@@ -104,6 +101,7 @@ const SearchBar = ({
 			}
 		}
 		setMatchedList(res);
+		setIsShow(true);
 	};
 
 	const _onEnterPress = e => {
@@ -113,34 +111,45 @@ const SearchBar = ({
 	};
 
 	const _onSubmit = () => {
+		setIsShow(false);
 		setMatchedList([]);
 		onSubmit();
 	};
 
+	const _onDelete = () => {
+		setIsShow(false);
+		onDelete();
+	};
+
 	return (
 		<MainCont width={width}>
-			<SearchCont>
+			<SearchCont isShow={isShow}>
 				<Input
 					value={value}
+					placeholder={placeholder}
 					onChange={onChange}
 					onKeyUp={_searchMatchedList}
 					onKeyPress={_onEnterPress}
 					isLabelHidden
-					style={{ padding: "1.5%", fontSize: "1.2vw" }}
+					style={{
+						padding: "1.5%",
+						fontSize: "1.2vw",
+						width: "100%",
+						borderWidth: "0",
+						borderRadius: "0",
+					}}
 				/>
 				<IconCont onClick={_onSubmit}>
-					{value.length > 0 && (
-						<IconWrapper onClick={onDelete}>
-							<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
-						</IconWrapper>
-					)}
+					<IconWrapper onClick={_onDelete}>
+						<FontAwesomeIcon icon={solid("x")} fontSize='1.5vw' />
+					</IconWrapper>
 					<IconWrapper>
 						<FontAwesomeIcon icon={solid("search")} fontSize='1.5vw' />
 					</IconWrapper>
 				</IconCont>
 			</SearchCont>
-			<ResCont className='recommendValuesList'>
-				<StyledUl>
+			<ResCont isShow={isShow}>
+				<StyledUl width={width} isShow={isShow}>
 					{matchedList.map((item, index) => (
 						<List
 							key={index}

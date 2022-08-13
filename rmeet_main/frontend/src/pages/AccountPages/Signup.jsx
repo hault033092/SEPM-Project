@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { AccPageTemplate } from "../../components";
-import { Verification, CreateAccount } from "../../pages";
+import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
+import Verification from "./Verification"
+import CreateAccount from "./CreateAccount"
 
 const Signup = () => {
 	const [confirmedEmail, setConfirmedEmail] = useState("asd");

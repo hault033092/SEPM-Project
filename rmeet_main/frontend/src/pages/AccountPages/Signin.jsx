@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import {
-	AccPageTemplate,
 	Input,
 	ValidationMessage,
 	Button,
 } from "../../components";
+import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
 import {
 	validateStudentEmail,
 	removeWhitespace,
@@ -26,6 +27,8 @@ const Signin = () => {
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
+
+	const navigation = useNavigate();
 
 	useEffect(() => {
 		if (errorMessage === failLoginMsg) {
@@ -66,7 +69,7 @@ const Signin = () => {
 	};
 
 	const _handleSignUp = e => {
-		console.log("navigate to verification page!");
+		navigation("/signup");
 	};
 
 	return (
