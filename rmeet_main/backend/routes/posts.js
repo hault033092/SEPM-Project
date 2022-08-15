@@ -39,7 +39,7 @@ router.post('/createPost', verify, async (req, res) => {
 // Delete post
 router.delete('/deletePost', verify, async (req, res) => {
   try {
-    const removedPost = await Post.remove({ _id: req.params.postId })
+    const removedPost = await Post.deleteOne({ _id: req.params.postId })
     res.json('Post deleted!')
   } catch (error) {
     res.json({ message: error })
