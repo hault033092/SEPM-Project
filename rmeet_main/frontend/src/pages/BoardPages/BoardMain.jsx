@@ -50,16 +50,16 @@ const StyleTitle = styled.h1`
 const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
 	align-items: flex-end;
-
-	@media (max-width: 820px) {
-		margin-top: 3%;
-		width: 100%;
-	}
+	width: 100%;
 `;
 
 const BoardCont = styled.div`
 	height: 70vh;
 	overflow-y: scroll;
+`;
+
+const SearchButtonWrapper = styled(FlexContainer)`
+	justify-content: space-around;
 `;
 
 const errMsg = "Please enter the course name.";
@@ -156,7 +156,6 @@ const BoardMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						width='40vw'
 						valuesList={sampleCourseList}
 					/>
 					<ValidationMessage message={errorMessage} />{" "}
@@ -165,7 +164,7 @@ const BoardMain = () => {
 					title='Post'
 					onClick={_handlePost}
 					style={{
-						width: "auto",
+						width: "15%",
 						height: "auto",
 						padding: "1% 5%",
 						btnColor: theme.mainRed,

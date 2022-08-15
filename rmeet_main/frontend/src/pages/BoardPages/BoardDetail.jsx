@@ -222,8 +222,8 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 
 	const _handleCreateCmt = () => {
 		setNewComment("");
-		console.log("send request to creat a new comment");
-		console.log("reload list of commemnt");
+		console.log("send request to create a new comment");
+		console.log("reload list of comment");
 	};
 
 	return (

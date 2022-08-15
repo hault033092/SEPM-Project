@@ -129,6 +129,7 @@ const Verification = ({ setConfirmedEmail }) => {
 				title={"Send code"}
 				onClick={_sendCode}
 				disabled={!isValidEmail}
+				hiddenHoverStyle={true}
 			/>
 			{isSuccessSendEmail && (
 				<ValidationMessage
@@ -155,6 +156,7 @@ const Verification = ({ setConfirmedEmail }) => {
 					title={"Verify"}
 					onClick={_handleSubmit}
 					disabled={!isValidCodeInput}
+					hiddenHoverStyle={true}
 				/>
 			</WrapperCont>
 		</>

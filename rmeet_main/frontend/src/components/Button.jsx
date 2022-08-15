@@ -34,7 +34,7 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 	background: linear-gradient(
 		0deg,
 		rgba(230, 0, 40, 1) 0%,
-		rgba(230, 0, 40, 1) 0%,
+		rgba(230, 0, 40, 1) 0%
 	);
 	&:before {
 		height: 0%;
@@ -42,21 +42,22 @@ const StyledButton = styled.button.attrs(({ disabled }) => ({
 	}
 
 	&:hover {
-		box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
-			-4px -4px 6px 0 rgba(116, 125, 136, 0.5),
-			inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
-			inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+		box-shadow: ${props =>
+			props.hiddenHoverStyle
+				? "none"
+				: "4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4)"};
 	}
 `;
 
-const Button = ({ title, onClick, style, disabled }) => {
+const Button = ({ title, onClick, style, disabled, hiddenHoverStyle }) => {
 	return (
 		<StyledButton
 			type='button'
 			value={title}
 			onClick={onClick}
 			style={style}
-			disabled={disabled}>
+			disabled={disabled}
+			hiddenHoverStyle={hiddenHoverStyle}>
 			{title}
 		</StyledButton>
 	);
@@ -67,6 +68,7 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	style: PropTypes.object,
 	disabled: PropTypes.bool,
+	hiddenHoverStyle: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -80,6 +82,7 @@ Button.defaultProps = {
 		textAlign: "center",
 		borderRadius: "10px",
 	},
+	hiddenHoverStyle: false,
 };
 
 export default Button;

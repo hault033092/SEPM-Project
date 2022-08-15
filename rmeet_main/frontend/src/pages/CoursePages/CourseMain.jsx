@@ -27,6 +27,7 @@ const SearchBarCont = styled(FlexContainer)`
 const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
 	justify-content: flex-start;
+	width: 100%;
 `;
 
 const StyleTitle = styled.h1`
@@ -87,7 +88,6 @@ const CourseMain = () => {
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
 						valuesList={courseList}
-						width={"60vw"}
 					/>
 					<ValidationMessage message={errorMessage} />{" "}
 				</SearchBarWrapper>
@@ -95,7 +95,7 @@ const CourseMain = () => {
 					title='Create'
 					onClick={_handleCreate}
 					style={{
-						width: "auto",
+						width: "15%",
 						height: "auto",
 						padding: "1% 5%",
 						btnColor: theme.mainRed,

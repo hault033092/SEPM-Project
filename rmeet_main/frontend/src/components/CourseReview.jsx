@@ -26,7 +26,6 @@ const ColCont = styled(RowCont)`
 const MainCont = styled(RowCont)`
 	width: 100%;
 	border: 0.3vw solid ${props => props.theme.mainBlue};
-	border-radius: 40px;
 	flex-direction: column;
 	padding: 1% 1% 1% 2%;
 	margin-bottom: 3%;
@@ -59,6 +58,10 @@ const LikeCont = styled(RowCont)`
 		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
 		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
 		color: ${props => props.theme.darkX2Grey};
+	}
+
+	@media (max-width: 820px) {
+		margin: 2%;
 	}
 `;
 
@@ -97,6 +100,10 @@ const AssignmentCont = styled(CourseInfoSubCont)`
 const StudyPeriodCont = styled(RowCont)`
 	justify-content: space-between;
 	width: 20vw;
+
+	@media (max-width: 400px) {
+		width: 100%;
+	}
 `;
 
 const StyledTitle = styled.p`
@@ -115,7 +122,12 @@ const StyledContent = styled.p`
 	font-size: 1vw;
 	text-decoration: ${props => (props.underline ? "underline" : "none")};
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
+
+	@media (max-width: 400px) {
+		font-size: 0.1vw;
+	}
 `;
+
 
 const CourseReview = () => {
 	const [isLike, setIsLike] = useState(false);
@@ -139,7 +151,13 @@ const CourseReview = () => {
 					onShowProfile={navigateToProfileDetail}
 				/>
 				<ReviewInfo>
-					<Rating name='read-only' value={4.5} precision={0.5} readOnly />
+					<Rating
+						name='read-only'
+						value={4.5}
+						precision={0.5}
+						readOnly
+						size={"small"}
+					/>
 					<StyledContent>created at: 07-08-2022</StyledContent>
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
@@ -175,44 +193,44 @@ const CourseReview = () => {
 					</StyledContent>
 				</CommentCont>
 			</ColCont>
-			<RowCont>
-				<ColCont>
-					<StyledTitle>Assignment</StyledTitle>
-					<AssignmentsWrapper>
-						<AssignmentCont>
-							<StyledContent>Quiz</StyledContent>
-							<StyledContent>10</StyledContent>
-						</AssignmentCont>
-						<AssignmentCont>
-							<StyledContent>Essay</StyledContent>
-							<StyledContent>2</StyledContent>
-						</AssignmentCont>
-						<AssignmentCont>
-							<StyledContent>Essay</StyledContent>
-							<StyledContent>2</StyledContent>
-						</AssignmentCont>
-						<AssignmentCont>
-							<StyledContent>Quiz</StyledContent>
-							<StyledContent>10</StyledContent>
-						</AssignmentCont>
-					</AssignmentsWrapper>
-				</ColCont>
-				<ColCont>
-					<StyledTitle>Course Info</StyledTitle>
-					<CourseInfoSubCont>
-						<StyledSubTitle>Study mode:</StyledSubTitle>
-						<StyledContent underline>Full face-to-face course</StyledContent>
-					</CourseInfoSubCont>
-					<CourseInfoSubCont>
-						<StyledSubTitle>Course type:</StyledSubTitle>
-						<StyledContent underline>Tutorial only</StyledContent>
-					</CourseInfoSubCont>
-					<CourseInfoSubCont>
-						<StyledSubTitle>Recommend to: </StyledSubTitle>
-						<StyledContent underline>2nd year student</StyledContent>
-					</CourseInfoSubCont>
-				</ColCont>
-			</RowCont>
+				<RowCont>
+					<ColCont>
+						<StyledTitle>Assignment</StyledTitle>
+						<AssignmentsWrapper>
+							<AssignmentCont>
+								<StyledContent>Quiz</StyledContent>
+								<StyledContent>10</StyledContent>
+							</AssignmentCont>
+							<AssignmentCont>
+								<StyledContent>Essay</StyledContent>
+								<StyledContent>2</StyledContent>
+							</AssignmentCont>
+							<AssignmentCont>
+								<StyledContent>Essay</StyledContent>
+								<StyledContent>2</StyledContent>
+							</AssignmentCont>
+							<AssignmentCont>
+								<StyledContent>Quiz</StyledContent>
+								<StyledContent>10</StyledContent>
+							</AssignmentCont>
+						</AssignmentsWrapper>
+					</ColCont>
+					<ColCont>
+						<StyledTitle>Course Info</StyledTitle>
+						<CourseInfoSubCont>
+							<StyledSubTitle>Study mode:</StyledSubTitle>
+							<StyledContent underline>Full face-to-face course</StyledContent>
+						</CourseInfoSubCont>
+						<CourseInfoSubCont>
+							<StyledSubTitle>Course type:</StyledSubTitle>
+							<StyledContent underline>Tutorial only</StyledContent>
+						</CourseInfoSubCont>
+						<CourseInfoSubCont>
+							<StyledSubTitle>Recommend to: </StyledSubTitle>
+							<StyledContent underline>2nd year student</StyledContent>
+						</CourseInfoSubCont>
+					</ColCont>
+				</RowCont>
 		</MainCont>
 	);
 };

@@ -35,21 +35,21 @@ const DetailIconWrapper = styled(FlexContainer)`
 `;
 
 const ContentCont = styled(FlexContainer)`
-	width: 75%;
+	width: 85%;
 	flex-direction: column;
 	align-items: flex-start;
 `;
 
 const RateCont = styled(FlexContainer)`
-	width: 12vw;
+	width: auto;
 	align-self: flex-start;
 	justify-content: space-between;
+	margin-bottom: 3%;
 `;
 
 const StyledTitle = styled.p`
 	font-size: 1.5vw;
 	font-weight: 700;
-	margin-bottom: 3%;
 `;
 
 const StyledContent = styled.p`
@@ -78,12 +78,18 @@ const Course = ({
 		<MainCont onClick={_handleOnClick} isNavHidden={isNavHidden}>
 			<ContentCont>
 				<StyledTitle>{courseName}</StyledTitle>
+				<RateCont>
+					<Rating
+						name='read-only'
+						value={rateValue}
+						precision={0.5}
+						readOnly
+						size={"small"}
+					/>
+					<StyledContent fontWeight={600}>{rateValue}</StyledContent>
+				</RateCont>
 				<StyledContent>{LecturerName}</StyledContent>
 			</ContentCont>
-			<RateCont>
-				<Rating name='read-only' value={rateValue} precision={0.5} readOnly />
-				<StyledContent fontWeight={800}>{rateValue}</StyledContent>
-			</RateCont>
 			{isNavHidden || (
 				<DetailIconWrapper>
 					<Image
