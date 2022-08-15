@@ -1,5 +1,5 @@
 const express = require('express')
-const PORT = 8080
+const PORT = 6960
 const app = express()
 const mongoose = require('mongoose')
 // const bodyParser = require('body-parser')
@@ -24,6 +24,5 @@ app.use('/api/posts', postRoute)
 
 //Connect to db
 mongoose.connect(process.env.DB_CONNECTION, () => console.log('DB connected!'))
-
 //Listen to port
 app.listen(`${PORT}`, () => console.log('It is working!'))
