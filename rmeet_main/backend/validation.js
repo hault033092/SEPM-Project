@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi')
 
 const registerValidation = (data) => {
   const schema = Joi.object({
-    name: Joi.string().min(6).required(),
+    userName: Joi.string().min(6).required(),
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
   })
@@ -25,6 +25,18 @@ const passwordValidate = (data) => {
   return schema.validate(data)
 }
 
+const postValidate = (data) => {
+  const schema = Joi.object({
+    // userId: Joi.object().required(),
+    title: Joi.string().min(1).max(64).required(),
+    semester: Joi.string().min(1).required(),
+    year: Joi.number().min(4).required(),
+    content: Joi.string().min(6).max(2048).required(),
+  })
+  return schema.validate(data)
+}
+
 module.exports.registerValidation = registerValidation
 module.exports.loginValidation = loginValidation
 module.exports.passwordValidate = passwordValidate
+module.exports.postValidate = postValidate

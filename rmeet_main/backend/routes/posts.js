@@ -1,13 +1,49 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
+const Post = require('../model/Post')
+const { postValidate } = require('../validation')
 
-router.get('/', verify, (req, res) => {
-  res.json({
-    posts: {
-      title: 'my first post',
-      description: 'random data you shouldnt access',
-    },
+// Get all post
+router.get('/getPosts', verify, async (req, res) => {
+  try {
+    const getPosts = await Post.find()
+    res.json(getPosts)
+  } catch (err) {
+    res.json({ message: err })
+  }
+})
+
+// Create post
+router.post('/createPost', verify, async (req, res) => {
+  const { error } = postValidate(req.body)
+  if (error) return res.status(400).send(error.details[0].message)
+
+  const post = new Post({
+    userId: req.userId,
+    // courseId: req.courseId,
+    title: req.body.title,
+    content: req.body.content,
+    semester: req.body.semester,
+    year: req.body.year,
+    // like: req.bodyyear,
   })
+
+  try {
+    const savePost = await post.save()
+    res.send({ post: post.id })
+  } catch (err) {
+    res.status(400).send(err)
+  }
+})
+
+// Delete post
+router.delete('/deletePost', verify, async (req, res) => {
+  try {
+    const removedPost = await Post.remove({ _id: req.params.postId })
+    res.json('Post deleted!')
+  } catch (error) {
+    res.json({ message: error })
+  }
 })
 
 module.exports = router
