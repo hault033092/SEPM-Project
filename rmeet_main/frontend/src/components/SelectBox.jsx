@@ -75,7 +75,7 @@ const SelectBox = ({ label, groups, value, onChange, isGrouped, style }) => {
 };
 
 SelectBox.propTypes = {
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	groups: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 	value: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,

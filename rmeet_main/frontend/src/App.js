@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Pages from "./pages/Pages";
 import { theme } from "./lib/style/theme";
 import GlobalCSS from "./lib/style/GlobalCSS";
-import NavBar from "./components/NavBar"
+import NavBar from "./components/NavBar";
 
 import { CurrentPostProvider } from "./contexts/CurrentPost";
 
@@ -19,7 +19,7 @@ function App() {
 			<ThemeProvider theme={theme}>
 				<CurrentPostProvider>
 					<AppContainer>
-			
+						<NavBar />
 						<Pages />
 					</AppContainer>
 				</CurrentPostProvider>

@@ -8,6 +8,7 @@ import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
+import CenterModal from "../../components/CenterModal";
 
 /*Sample Data */
 import {
@@ -78,6 +79,8 @@ const BoardMain = () => {
 	const [year, setYear] = useState("2020");
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [isModalShow, setIsModalShow] = useState(false);
+	const [focusedPost, setFocusedPost] = useState("");
 
 	const theme = useContext(ThemeContext);
 
@@ -98,6 +101,16 @@ const BoardMain = () => {
 
 	const _onSearchValChange = e => {
 		setCourse(e.target.value);
+	};
+
+	const _onHideModal = () => {
+		setIsModalShow(false);
+		setFocusedPost("");
+	};
+
+	const _onDeletePost = () => {
+		console.log("delete post!");
+		_onHideModal();
 	};
 
 	const _handlePost = () => {
@@ -178,9 +191,19 @@ const BoardMain = () => {
 						key={index}
 						userID={sampleCurrentUser.userID}
 						post={post}
+						setModalShow={setIsModalShow}
+						setFocusedPost={setFocusedPost}
 					/>
 				))}
 			</BoardCont>
+			<CenterModal
+				header='Are you sure?'
+				desc='Do you want to delete this post?'
+				BtnName='Delete'
+				BtnOnClick={_onDeletePost}
+				isModalShow={isModalShow}
+				onHide={_onHideModal}
+			/>
 		</Screen>
 	);
 };
