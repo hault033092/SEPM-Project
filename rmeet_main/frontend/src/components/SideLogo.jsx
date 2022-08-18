@@ -1,6 +1,6 @@
 import Image from "./Image";
 import PropTypes from "prop-types";
-import SideLogoSrc from "../images/logo.png";
+import SideLogoSrc from "../lib/img/logo.png";
 
 const SideLogo = ({ width, height }) => {
 	return (

@@ -1,9 +1,11 @@
 import { React, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { user } from "../images/icon";
+import { user } from "../lib/img/icon";
 import ProfileImage from "../components/ProfileImage"
 
 const Account = () => {
+    const navigate = useNavigate();
     const [profileImg, setProfileImg] = useState(user);
 
     const _handleProfileImgChange = e => {
@@ -62,7 +64,7 @@ const Account = () => {
                     <Field>
                         <Label htmlFor="courses">Completed course(s):</Label>
                         <Area id="courses" type="textarea" rows="15" spellcheck="false" value=""></Area>
-                        <AddButton>+ Add Course</AddButton>
+                        <AddButton onClick={() => {navigate("/review-course")}}>+ Add Course</AddButton>
                     </Field>
                     <SubmitField>
                         <CancelButton>Cancel Changes</CancelButton>
@@ -80,16 +82,8 @@ const AccountContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: 1.5rem 0;
+    padding-top: 1.5rem;
     margin: 0 auto;
-`
-
-const AccountContent = styled.div`
-    height: inherit;
-    width: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 `
 
 const Heading = styled.h1`
@@ -100,18 +94,27 @@ const Heading = styled.h1`
     font-weight: 900;
 `
 
+const AccountContent = styled.div`
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
 const PersonalInfo = styled.div`
     height: inherit;
     width: 25%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-direction: column;
     background-color: #00005433;
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
     border-right: 0.2rem solid #000054;
-    padding: 1.5rem 1.5rem;
+    padding: 1.2rem 1.2rem;
 `
 
 const AcademicInfo = styled.div`
@@ -119,13 +122,13 @@ const AcademicInfo = styled.div`
     width: 65%;
     display: flex;
     align-items: center;
-    // justify-content: space-around;
+    justify-content: space-between;
     flex-direction: column;
     background-color: #00005433;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem; 
     border-left: 0.2rem solid #000054;
-    padding: 1.5rem 3rem;
+    padding: 1.2rem 3rem;
 `
 
 const Title = styled.h2`
@@ -134,9 +137,19 @@ const Title = styled.h2`
     color: #000054;
 `
 
+const Field = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`
+
 const Label = styled.label`
     font-weight: 700;
     color: #000054;
+    margin-right: 1rem;
+    width: 10rem;
+    display: flex;
+    align-items: center;
 `
 
 const InputField = styled.input`
@@ -144,7 +157,6 @@ const InputField = styled.input`
     border: none;
     text-align: center;
     transition: 0.25s ease-in-out;
-    padding: 0.5rem 0;
 
     &:focus {
         transform: scale(1.05, 1.05);
@@ -157,17 +169,12 @@ const Area = styled.textarea`
     border-radius: 1rem;
     border: none;
     transition: 0.25s ease-in-out;
+    cursor: default;
 
     &:focus {
         transform: scaleX(1.05);
         background-color: lightskyblue;
     }
-`
-
-const Field = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
 `
 
 const SubmitField = styled.div`
@@ -196,6 +203,9 @@ const AddButton = styled(Button)`
     border-radius: 0.5rem;
     background-color: #000054;
     margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 const CancelButton = styled(Button)`

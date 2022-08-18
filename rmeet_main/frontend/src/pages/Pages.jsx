@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom"
 import Home from "./Home"
 import Timetable from "./Timetable"
 import Account from "./Account"
+import CourseReview from "./CourseReview"
+import CreatePost from "./CreatePost"
 
 const Pages = () => {
   return (
@@ -10,6 +12,7 @@ const Pages = () => {
             <Route path="/" element={<Home />} />
             <Route path="/timetable" element={<Timetable />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/review-course" element={<CourseReview />}></Route>
         </Routes>
   )
 }

@@ -1,6 +1,6 @@
 import Image from "./Image";
 import PropTypes from "prop-types";
-import MainLogoSrc from "../images/logo.svg";
+import MainLogoSrc from "../lib/img/logo.svg";
 
 const MainLogo = ({ width, height }) => {
 	return (
