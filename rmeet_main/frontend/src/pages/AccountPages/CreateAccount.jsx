@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import {
 	ValidationMessage,
@@ -9,8 +9,8 @@ import {
 } from "../../components";
 import Input from "../../components/Input";
 import { majors } from "../../lib/data/data";
-import { user } from "../../lib/img/icon";
 import { removeWhitespace } from "../../util/accountValidation";
+
 
 const InputWrapper = styled(FlexContainer)`
 	width: 100%;
@@ -29,7 +29,7 @@ const SubWrapper = styled(FlexContainer)`
 const CreateAccount = ({ studentEmail }) => {
 	const email = useRef(studentEmail);
 
-	const [profileImg, setProfileImg] = useState(user);
+	const [profileImg, setProfileImg] = useState("");
 	const [username, setUserName] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [pwdConfirm, setPwdConfirm] = useState("");
@@ -88,7 +88,6 @@ const CreateAccount = ({ studentEmail }) => {
 	};
 
 	const _handleSubmit = e => {
-		console.log("navigate to homepage!");
 		const accountInfo = {
 			email: email.current,
 			profileImg,
@@ -97,6 +96,10 @@ const CreateAccount = ({ studentEmail }) => {
 			major,
 			bio,
 		};
+
+		// process for creating an account
+
+		setCurrentUser(email)
 	};
 
 	return (
@@ -169,6 +172,7 @@ const CreateAccount = ({ studentEmail }) => {
 						title={"Create new account"}
 						onClick={_handleSubmit}
 						disabled={!isValid}
+						hiddenHoverStyle={true}
 					/>
 				</SubWrapper>
 			</InputWrapper>

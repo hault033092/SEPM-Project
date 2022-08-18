@@ -91,7 +91,7 @@ const Signin = () => {
 				isPassword={true}
 			/>
 			{!isValid && <ValidationMessage message={errorMessage} />}
-			<Button title={"Log in"} onClick={_handleSubmit} disabled={!isValid} />
+			<Button title={"Log in"} onClick={_handleSubmit} disabled={!isValid} hiddenHoverStyle={true} />
 			<StyledText onClick={_handleSignUp}>create new account</StyledText>
 		</AccPageTemplate>
 	);

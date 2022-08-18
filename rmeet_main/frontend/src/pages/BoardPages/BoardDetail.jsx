@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
@@ -8,6 +9,7 @@ import { FlexContainer } from "../../components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";
+import CenterModal from "../../components/CenterModal";
 
 /*Context */
 import { CurrentPostContext } from "../../contexts/CurrentPost";
@@ -125,6 +127,8 @@ const Comment = ({ commentInfo, isCurrentUserComment }) => {
 	const writerInfo = useRef({ username: "cornsoup", profileImg: "" });
 	const [isEdit, setEdit] = useState(false);
 
+	const navigation = useNavigate();
+
 	const _handleEdit = () => {
 		setEdit(true);
 	};
@@ -143,13 +147,18 @@ const Comment = ({ commentInfo, isCurrentUserComment }) => {
 		return { username: "cornsoup", profileImg: "" };
 	};
 
+	const navigateToProfileDetail = userID => {
+		navigation("/account/" + userID);
+	};
+
 	return (
 		<CommentCont>
 			<ProfileImg
 				src={writerInfo.current.profileImg}
 				width='4.5vw'
 				height='4.5vw'
-				isDropBox
+				isShowProfile={true}
+				onShowProfile={navigateToProfileDetail}
 			/>
 			<CommentWrapper>
 				{isEdit ? (
@@ -214,7 +223,19 @@ const StyleTitle = styled.h1`
 
 const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 	const [newComment, setNewComment] = useState("");
+	const [isModalShow, setIsModalShow] = useState(false);
+	const [deleteTarget, setDeleteTarget] = useState("");
 	const { currentPost } = useContext(CurrentPostContext);
+
+	const _onDeletePost = () => {
+		console.log("Delete " + deleteTarget);
+		setIsModalShow(false);
+	};
+
+	const _onClickDeletePost = () => {
+		setIsModalShow(true);
+		setDeleteTarget("post");
+	};
 
 	const _handleNewComment = e => {
 		setNewComment(e.target.value);
@@ -222,8 +243,8 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 
 	const _handleCreateCmt = () => {
 		setNewComment("");
-		console.log("send request to creat a new comment");
-		console.log("reload list of commemnt");
+		console.log("send request to create a new comment");
+		console.log("reload list of comment");
 	};
 
 	return (
@@ -234,7 +255,12 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 			) : (
 				<>
 					<FlexContainer>
-						<SingleBoard userID={userID} post={currentPost} isDetail />
+						<SingleBoard
+							userID={userID}
+							post={currentPost}
+							setModalShow={_onClickDeletePost}
+							isDetail
+						/>
 					</FlexContainer>
 					<CommentsWrapper>
 						{Object.values(currentPost.comments).map((item, index) => {
@@ -282,6 +308,14 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 					</ScreenCommentCont>
 				</>
 			)}
+			<CenterModal
+				header='Are you sure?'
+				desc='Do you want to delete this post?'
+				BtnName='Delete'
+				BtnOnClick={_onDeletePost}
+				isModalShow={isModalShow}
+				onHide={() => setIsModalShow(false)}
+			/>
 		</Screen>
 	);
 };

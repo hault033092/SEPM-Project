@@ -8,6 +8,7 @@ import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
+import CenterModal from "../../components/CenterModal";
 
 /*Sample Data */
 import {
@@ -50,16 +51,16 @@ const StyleTitle = styled.h1`
 const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
 	align-items: flex-end;
-
-	@media (max-width: 820px) {
-		margin-top: 3%;
-		width: 100%;
-	}
+	width: 100%;
 `;
 
 const BoardCont = styled.div`
 	height: 70vh;
 	overflow-y: scroll;
+`;
+
+const SearchButtonWrapper = styled(FlexContainer)`
+	justify-content: space-around;
 `;
 
 const errMsg = "Please enter the course name.";
@@ -78,6 +79,8 @@ const BoardMain = () => {
 	const [year, setYear] = useState("2020");
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [isModalShow, setIsModalShow] = useState(false);
+	const [focusedPost, setFocusedPost] = useState("");
 
 	const theme = useContext(ThemeContext);
 
@@ -98,6 +101,16 @@ const BoardMain = () => {
 
 	const _onSearchValChange = e => {
 		setCourse(e.target.value);
+	};
+
+	const _onHideModal = () => {
+		setIsModalShow(false);
+		setFocusedPost("");
+	};
+
+	const _onDeletePost = () => {
+		console.log("delete post!");
+		_onHideModal();
 	};
 
 	const _handlePost = () => {
@@ -156,7 +169,6 @@ const BoardMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						width='40vw'
 						valuesList={sampleCourseList}
 					/>
 					<ValidationMessage message={errorMessage} />{" "}
@@ -165,7 +177,7 @@ const BoardMain = () => {
 					title='Post'
 					onClick={_handlePost}
 					style={{
-						width: "auto",
+						width: "15%",
 						height: "auto",
 						padding: "1% 5%",
 						btnColor: theme.mainRed,
@@ -179,9 +191,19 @@ const BoardMain = () => {
 						key={index}
 						userID={sampleCurrentUser.userID}
 						post={post}
+						setModalShow={setIsModalShow}
+						setFocusedPost={setFocusedPost}
 					/>
 				))}
 			</BoardCont>
+			<CenterModal
+				header='Are you sure?'
+				desc='Do you want to delete this post?'
+				BtnName='Delete'
+				BtnOnClick={_onDeletePost}
+				isModalShow={isModalShow}
+				onHide={_onHideModal}
+			/>
 		</Screen>
 	);
 };

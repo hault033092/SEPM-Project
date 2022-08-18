@@ -1,11 +1,11 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import InitNav from "./pages/InitNav";
-import MainNav from "./pages/MainNav";
+import Pages from "./pages/Pages";
 import { theme } from "./lib/style/theme";
-import GlobalCSS from './lib/style/GlobalCSS';
-import { CurrentPostProvider } from "./contexts/CurrentPost";
+import GlobalCSS from "./lib/style/GlobalCSS";
 import NavBar from "./components/NavBar";
+
+import { CurrentPostProvider } from "./contexts/CurrentPost";
 
 const AppContainer = styled.div`
 	height: 100%;
@@ -13,22 +13,15 @@ const AppContainer = styled.div`
 `;
 
 function App() {
-	const currentUser = true;
-
-	
 	return (
 		<div className='App'>
 			<GlobalCSS />
 			<ThemeProvider theme={theme}>
 				<CurrentPostProvider>
-					{currentUser ? (
-						<AppContainer>
-							<NavBar />
-							<MainNav />
-						</AppContainer>
-					) : (
-						<InitNav />
-					)}
+					<AppContainer>
+						<NavBar />
+						<Pages />
+					</AppContainer>
 				</CurrentPostProvider>
 			</ThemeProvider>
 		</div>

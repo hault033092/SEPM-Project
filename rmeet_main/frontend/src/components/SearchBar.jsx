@@ -6,21 +6,30 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Input from "./Input";
 
 const MainCont = styled.div`
-	width: ${props => props.width};
+	width: 90%;
+	margin: 0 5%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
 	position: relative;
-	margin: auto;
-	position: relative;
+
+	@media (max-width: 820px) {
+		width: 100%;
+	}
 `;
 
 const SearchCont = styled.div`
 	display: flex;
+	width: 90%;
+	margin: 0 5%;
 	height: 100%;
 	border: 0.3vw solid ${props => props.theme.mainBlue};
 	border-bottom: ${props => (props.isShow ? "none" : "0.3vw solid #000056")};
+
+	@media (max-width: 820px) {
+		width: 100%;
+	}
 `;
 
 const IconCont = styled.div`
@@ -41,11 +50,16 @@ const ResCont = styled.div`
 `;
 
 const StyledUl = styled.ul`
-	width: ${props => props.width};
+	width: 90%;
+	margin: 0 5%;
 	position: absolute;
 	z-index: 1;
 	border: ${props => (props.isShow ? "0.3vw solid #000056" : "none")};
 	border-top: none;
+
+	@media (max-width: 820px) {
+		width: 100%;
+	}
 `;
 
 const StyledList = styled.li`
@@ -85,7 +99,6 @@ const SearchBar = ({
 	onSubmit,
 	onDelete,
 	setValue,
-	width,
 }) => {
 	const [matchedList, setMatchedList] = useState([]);
 	const [isShow, setIsShow] = useState(false);
@@ -122,7 +135,7 @@ const SearchBar = ({
 	};
 
 	return (
-		<MainCont width={width}>
+		<MainCont>
 			<SearchCont isShow={isShow}>
 				<Input
 					value={value}
@@ -149,7 +162,7 @@ const SearchBar = ({
 				</IconCont>
 			</SearchCont>
 			<ResCont isShow={isShow}>
-				<StyledUl width={width} isShow={isShow}>
+				<StyledUl isShow={isShow}>
 					{matchedList.map((item, index) => (
 						<List
 							key={index}
@@ -171,7 +184,7 @@ SearchBar.propTypes = {
 	onSubmit: PropTypes.func,
 	onDelete: PropTypes.func,
 	setValue: PropTypes.func,
-	width: PropTypes.string,
+	style: PropTypes.object,
 };
 
 export default SearchBar;

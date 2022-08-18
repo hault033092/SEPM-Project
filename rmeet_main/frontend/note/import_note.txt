@@ -18,6 +18,7 @@ npm i react-otp-input
 4. rate component: 
 npm install @mui/material @emotion/react @emotion/styled
 
-
+5. modal screen:
+npm install react-bootstrap bootstrap
 
 

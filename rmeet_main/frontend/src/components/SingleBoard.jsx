@@ -71,7 +71,6 @@ const MainCont = styled(FlexContainer)`
 	justify-content: space-around;
 	padding: 1.5%;
 	margin-top: 2%;
-	z-index: -1;
 	transition: all 0.3s ease;
 
 	&:hover {
@@ -100,7 +99,13 @@ const DropBoxWrapper = styled(FlexContainer)`
 	height: 2vw;
 `;
 
-const SingleBoard = ({ userID, post, isDetail }) => {
+const SingleBoard = ({
+	userID,
+	post,
+	isDetail,
+	setModalShow,
+	setFocusedPost,
+}) => {
 	const isMyPost = useRef(post.writerID === userID);
 	const userInfo = useRef(user);
 	const theme = useContext(ThemeContext);
@@ -108,6 +113,13 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 	const [isLikePost, setIsLikePost] = useState(false);
 
 	const navigation = useNavigate();
+
+	useEffect(() => {
+		userInfo.current = _getUserInfo();
+		if (userInfo.current.likedPostsIDs.includes(post.postID)) {
+			setIsLikePost(true);
+		}
+	}, []);
 
 	const _getUserInfo = () => {
 		// get user profile from API by userID
@@ -117,6 +129,11 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 	const _updateNumOfLike = () => {
 		console.log("update!");
 		setIsLikePost(prev => !prev);
+	};
+
+	const _onClickDelete = () => {
+		setModalShow(true);
+		setFocusedPost(post);
 	};
 
 	const navigateToDetail = () => {
@@ -129,15 +146,8 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 	};
 
 	const navigateToProfileDetail = userID => {
-		navigation("/board/boardWrite/" + userID);
+		navigation("/account/" + userID);
 	};
-
-	useEffect(() => {
-		userInfo.current = _getUserInfo();
-		if (userInfo.current.likedPostsIDs.includes(post.postID)) {
-			setIsLikePost(true);
-		}
-	}, []);
 
 	return (
 		<MainCont className='mainCont' theme={theme}>
@@ -157,7 +167,7 @@ const SingleBoard = ({ userID, post, isDetail }) => {
 						<DropBoxWrapper>
 							{isMyPost.current && (
 								<DropBox
-									onDelete={navigateToEditPost}
+									onDelete={_onClickDelete}
 									onEdit={navigateToEditPost}
 								/>
 							)}
@@ -218,10 +228,13 @@ SingleBoard.propTypes = {
 	post: PropTypes.object.isRequired,
 	onClick: PropTypes.func,
 	isDetail: PropTypes.bool,
+	setModalShow: PropTypes.func,
+	setFocusedPost: PropTypes.func,
 };
 
 SingleBoard.defaultProps = {
 	onClick: () => {},
+	setFocusedPost: () => {},
 };
 
 export default SingleBoard;
