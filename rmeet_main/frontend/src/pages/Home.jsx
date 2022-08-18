@@ -54,7 +54,7 @@ const Home = () => {
                     <Label>Allocate+</Label>
                 </CircleImage>
                 <CircleImage href="">
-                    <NavLink to="/board">
+                    <NavLink to="/">
                         <Image src={Board} ALT="Board" style={{
                             width: "5rem",
                             height: "5rem",
