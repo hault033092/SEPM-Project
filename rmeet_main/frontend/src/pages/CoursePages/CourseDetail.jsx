@@ -11,8 +11,7 @@ const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
-	position: relative;
-	margin: 1%;
+	padding: 1%;
 `;
 
 const ContentWrapper = styled(FlexContainer)`
@@ -28,8 +27,17 @@ const ReviewCont = styled.div`
 `;
 
 const StyleTitle = styled.h1`
-	font-size: 3vw;
-	margin-top: 2%;
+	font-size: 5vh;
+	font-weight: 800;
+	@media (max-width: 820px) {
+		font-size: 5vh;
+		font-weight: 600;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 3vh;
+		font-weight: 600;
+	}
 `;
 
 const CourseDetail = ({ courseID }) => {
@@ -46,10 +54,9 @@ const CourseDetail = ({ courseID }) => {
 				/>
 				<ReviewCont>
 					<CourseReview />
-          <CourseReview />
-          <CourseReview />
-          <CourseReview />
-          <CourseReview />
+					<CourseReview />
+					<CourseReview />
+					<CourseReview />
 				</ReviewCont>
 			</ContentWrapper>
 		</Screen>

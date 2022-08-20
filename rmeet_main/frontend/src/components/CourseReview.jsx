@@ -10,6 +10,7 @@ import Image from "./Image";
 import smile from "../lib/img/icon/smile.svg";
 import unsmile from "../lib/img/icon/unsmile.svg";
 import { useNavigate } from "react-router-dom";
+
 const RowCont = styled(FlexContainer)`
 	width: 100%;
 	align-items: flex-start;
@@ -26,9 +27,22 @@ const ColCont = styled(RowCont)`
 const MainCont = styled(RowCont)`
 	width: 100%;
 	border: 0.3vw solid ${props => props.theme.mainBlue};
+	border-radius: 3vw;
 	flex-direction: column;
-	padding: 1% 1% 1% 2%;
+	padding: 1%;
 	margin-bottom: 3%;
+
+	&:hover {
+		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
+		color: ${props => props.theme.darkX2Grey};
+	}
+
+	@media (max-width: 400px) {
+		border: 0.5vw solid ${props => props.theme.mainBlue};
+		border-radius: 3vw;
+	}
 `;
 
 const ReviewInfo = styled(ColCont)`
@@ -41,12 +55,13 @@ const LikeCont = styled(RowCont)`
 		props.isLike ? props.theme.smileBlue : props.theme.unsmileBlue};
 	border-radius: 40px;
 	padding: 0.7% 0.5%;
-	width: 15%;
+	width: 100%;
 	color: ${props => props.theme.fontColor};
 	justify-content: space-around;
 	align-items: center;
 	transition: all 0.3s ease;
 	outline: none;
+	cursor: pointer;
 
 	&:before {
 		height: 0%;
@@ -68,12 +83,12 @@ const LikeCont = styled(RowCont)`
 const LikeIconWrapper = styled(RowCont)`
 	justify-content: space-between;
 	align-items: center;
-	width: 38%;
+	width: auto;
 `;
 
 const CommentCont = styled(RowCont)`
 	border: 3px solid ${props => props.theme.darkGrey};
-	border-radius: 40px;
+	border-radius: 2vw;
 	color: ${props => props.theme.fontColor};
 	padding: 0.5% 1%;
 `;
@@ -122,12 +137,17 @@ const StyledContent = styled.p`
 	font-size: 1vw;
 	text-decoration: ${props => (props.underline ? "underline" : "none")};
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
+	color: ${props =>
+		props.fontColor ? props.fontColor : props.theme.fontColor};
 
 	@media (max-width: 400px) {
 		font-size: 0.1vw;
 	}
 `;
 
+const StyledContentWhite = styled(StyledContent)`
+	color: ${props => props.theme.fontColorWhite};
+`;
 
 const CourseReview = () => {
 	const [isLike, setIsLike] = useState(false);
@@ -145,11 +165,12 @@ const CourseReview = () => {
 			<RowCont>
 				<ProfileImg
 					src={""}
-					width='3vw'
-					height='3vw'
+					width='6vw'
+					height='5vw'
 					isShowProfile={true}
 					onShowProfile={navigateToProfileDetail}
 				/>
+
 				<ReviewInfo>
 					<Rating
 						name='read-only'
@@ -161,29 +182,35 @@ const CourseReview = () => {
 					<StyledContent>created at: 07-08-2022</StyledContent>
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
-					<StyledContent fontWeight={600}>Helpful!</StyledContent>
 					<LikeIconWrapper>
+						<StyledContent
+							fontWeight={600}
+							fontColor={isLike ? "#fff" : "#000"}>
+							Helpful!
+						</StyledContent>
 						<Image
 							src={isLike ? smile : unsmile}
 							alt={
 								"Smile Icon. Click here if you think this review is helpful."
 							}
 							style={{
-								width: "1.5vw",
-								height: "1.5vw",
+								width: "2vw",
+								height: "2vw",
 								filter: "brightness(20%)",
 							}}
 						/>
-						<StyledContent fontWeight={600}>23</StyledContent>
 					</LikeIconWrapper>
+					<StyledContent fontWeight={600} fontColor={isLike ? "#fff" : "#000"}>
+						23
+					</StyledContent>
 				</LikeCont>
 			</RowCont>
 			<StudyPeriodCont>
-				<StyledTitle>Studied it in the </StyledTitle>
+				<StyledTitle>Studied it in the: </StyledTitle>
 				<StyledContent underline>2nd semester, 2022</StyledContent>
 			</StudyPeriodCont>
 			<ColCont>
-				<StyledTitle>Comments</StyledTitle>
+				<StyledTitle>Comments:</StyledTitle>
 				<CommentCont>
 					<StyledContent>
 						The course was very comprehensive and easy to understand. The
@@ -193,44 +220,44 @@ const CourseReview = () => {
 					</StyledContent>
 				</CommentCont>
 			</ColCont>
-				<RowCont>
-					<ColCont>
-						<StyledTitle>Assignment</StyledTitle>
-						<AssignmentsWrapper>
-							<AssignmentCont>
-								<StyledContent>Quiz</StyledContent>
-								<StyledContent>10</StyledContent>
-							</AssignmentCont>
-							<AssignmentCont>
-								<StyledContent>Essay</StyledContent>
-								<StyledContent>2</StyledContent>
-							</AssignmentCont>
-							<AssignmentCont>
-								<StyledContent>Essay</StyledContent>
-								<StyledContent>2</StyledContent>
-							</AssignmentCont>
-							<AssignmentCont>
-								<StyledContent>Quiz</StyledContent>
-								<StyledContent>10</StyledContent>
-							</AssignmentCont>
-						</AssignmentsWrapper>
-					</ColCont>
-					<ColCont>
-						<StyledTitle>Course Info</StyledTitle>
-						<CourseInfoSubCont>
-							<StyledSubTitle>Study mode:</StyledSubTitle>
-							<StyledContent underline>Full face-to-face course</StyledContent>
-						</CourseInfoSubCont>
-						<CourseInfoSubCont>
-							<StyledSubTitle>Course type:</StyledSubTitle>
-							<StyledContent underline>Tutorial only</StyledContent>
-						</CourseInfoSubCont>
-						<CourseInfoSubCont>
-							<StyledSubTitle>Recommend to: </StyledSubTitle>
-							<StyledContent underline>2nd year student</StyledContent>
-						</CourseInfoSubCont>
-					</ColCont>
-				</RowCont>
+			<RowCont>
+				<ColCont>
+					<StyledTitle>Assignment:</StyledTitle>
+					<AssignmentsWrapper>
+						<AssignmentCont>
+							<StyledContentWhite>Quiz</StyledContentWhite>
+							<StyledContentWhite>10</StyledContentWhite>
+						</AssignmentCont>
+						<AssignmentCont>
+							<StyledContentWhite>Essay</StyledContentWhite>
+							<StyledContentWhite>10</StyledContentWhite>
+						</AssignmentCont>
+						<AssignmentCont>
+							<StyledContentWhite>Presentation</StyledContentWhite>
+							<StyledContentWhite>2</StyledContentWhite>
+						</AssignmentCont>
+						<AssignmentCont>
+							<StyledContentWhite>Quiz</StyledContentWhite>
+							<StyledContentWhite>10</StyledContentWhite>
+						</AssignmentCont>
+					</AssignmentsWrapper>
+				</ColCont>
+				<ColCont>
+					<StyledTitle>Course Info:</StyledTitle>
+					<CourseInfoSubCont>
+						<StyledSubTitle>Study mode:</StyledSubTitle>
+						<StyledContent underline>Full face-to-face course</StyledContent>
+					</CourseInfoSubCont>
+					<CourseInfoSubCont>
+						<StyledSubTitle>Course type:</StyledSubTitle>
+						<StyledContent underline>Tutorial only</StyledContent>
+					</CourseInfoSubCont>
+					<CourseInfoSubCont>
+						<StyledSubTitle>Recommend to: </StyledSubTitle>
+						<StyledContent underline>2nd year student</StyledContent>
+					</CourseInfoSubCont>
+				</ColCont>
+			</RowCont>
 		</MainCont>
 	);
 };

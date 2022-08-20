@@ -4,8 +4,6 @@ import {
 	majors,
 	imagesData,
 	sampleCourseList,
-	semesterInfo,
-	yearInfo,
 } from "./data";
 
 export {
@@ -14,6 +12,4 @@ export {
 	majors,
 	imagesData,
 	sampleCourseList,
-	semesterInfo,
-	yearInfo,
 };

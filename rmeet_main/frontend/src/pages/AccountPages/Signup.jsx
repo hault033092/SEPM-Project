@@ -3,9 +3,6 @@ import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
 import Verification from "./Verification"
 import CreateAccount from "./CreateAccount"
 
-/*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
-
 const Signup = () => {
 	const [confirmedEmail, setConfirmedEmail] = useState("");
 

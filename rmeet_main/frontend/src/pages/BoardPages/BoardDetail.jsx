@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -100,6 +100,14 @@ const CommentWrapper = styled(FlexContainer)`
 const HeaderWrapper = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
+	justify-content: space-between;
+	align-items: flex-start;
+`;
+
+const UserNameDateWrapper = styled(FlexContainer)`
+	flex-direction: row;
+	width: 100%;
+	justify-content: flex-start;
 `;
 
 const DropBoxWrapper = styled(FlexContainer)`
@@ -111,26 +119,35 @@ const TextWrapper = styled(FlexContainer)`
 	border-radius: 50px;
 	padding: 1.5%;
 	width: 100%;
-	justify-content: flex-start;
 	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
 `;
 
 const StyledText = styled.p`
-	width: 100%;
 	height: 100%;
-	font-size: ${props => props.fontSize};
+	margin: ${props => (props.margin ? props.margin : "0")};
+	text-decoration: ${props => (props.isUnderline ? "underline" : "none")};
+	font-size: ${props => props.fontSize}vw;
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
-	align-self: ${props => (props.alignSelf ? props.alignSelf : "flex-start")};
+
+	@media (max-width: 400px) {
+		font-size: ${props => props.fontSize - 0.4}vw;
+	}
 `;
 
-const Comment = ({ commentInfo, isCurrentUserComment }) => {
-	const writerInfo = useRef({ username: "cornsoup", profileImg: "" });
+const Comment = ({ commentInfo, isCurrentUserComment, onDelete }) => {
+	const writerInfo = useRef({ username: "pizza", profileImg: "" });
 	const [isEdit, setEdit] = useState(false);
 
 	const navigation = useNavigate();
 
 	const _handleEdit = () => {
 		setEdit(true);
+	};
+
+	const _handleDelete = () => {
+		onDelete();
 	};
 
 	const _handleOnCancel = () => {
@@ -169,19 +186,21 @@ const Comment = ({ commentInfo, isCurrentUserComment }) => {
 				) : (
 					<TextWrapper>
 						<HeaderWrapper>
-							<StyledText fontSize='1.5vw' fontWeight='600'>
-								{writerInfo.current.username}
-							</StyledText>
+							<UserNameDateWrapper>
+								<StyledText fontSize={1.5} fontWeight='600'>
+									{writerInfo.current.username}
+								</StyledText>
+								<StyledText fontSize={0.5} margin='0 0 0 1%' isUnderline={true}>
+									{commentInfo.createdAt}
+								</StyledText>
+							</UserNameDateWrapper>
 							<DropBoxWrapper>
 								{isCurrentUserComment && !isEdit && (
-									<DropBox onEdit={_handleEdit} onDelete={_handleEdit} />
+									<DropBox onEdit={_handleEdit} onDelete={_handleDelete} />
 								)}
 							</DropBoxWrapper>
 						</HeaderWrapper>
-						<StyledText fontSize='1vw'>{commentInfo.content}</StyledText>
-						<StyledText fontSize='0.5vw' alignSelf='flex-end'>
-							{commentInfo.createdAt}
-						</StyledText>
+						<StyledText fontSize={1}>{commentInfo.content}</StyledText>
 					</TextWrapper>
 				)}
 			</CommentWrapper>
@@ -193,7 +212,7 @@ const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
-	margin: 1%;
+	padding: 1%;
 `;
 
 const CommentsWrapper = styled.div`
@@ -206,19 +225,34 @@ const CommentsWrapper = styled.div`
 `;
 
 const InputWrapper = styled(FlexContainer)`
-	width: 70vw;
+	width: 100%;
 	border: 3px solid ${props => props.theme.mainRed};
 	border-radius: 40px;
 	padding: 1%;
+
+	@media (max-width: 400px) {
+		padding: 3%;
+	}
 `;
 
 const ScreenCommentCont = styled(FlexContainer)`
+	width: 100%;
 	justify-content: space-between;
 	margin-bottom: 2%;
 `;
 
 const StyleTitle = styled.h1`
-	font-size: 3vw;
+	font-size: 5vh;
+	font-weight: 800;
+	@media (max-width: 820px) {
+		font-size: 5vh;
+		font-weight: 600;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 3vh;
+		font-weight: 600;
+	}
 `;
 
 const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
@@ -227,14 +261,30 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 	const [deleteTarget, setDeleteTarget] = useState("");
 	const { currentPost } = useContext(CurrentPostContext);
 
-	const _onDeletePost = () => {
-		console.log("Delete " + deleteTarget);
+	const navigation = useNavigate();
+
+	const _onDelete = () => {
 		setIsModalShow(false);
+		setDeleteTarget("");
+		if (deleteTarget === "post") {
+			// delete post
+
+			navigation("/board");
+			return;
+		}
+
+		// delete comment
+		// reload page
 	};
 
 	const _onClickDeletePost = () => {
 		setIsModalShow(true);
 		setDeleteTarget("post");
+	};
+
+	const _onClickDeleteComment = () => {
+		setIsModalShow(true);
+		setDeleteTarget("comment");
 	};
 
 	const _handleNewComment = e => {
@@ -250,69 +300,65 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 	return (
 		<Screen>
 			<StyleTitle>Board</StyleTitle>
-			{Object.keys(currentPost).length === 0 ? (
-				<div>not found 404</div>
-			) : (
-				<>
-					<FlexContainer>
-						<SingleBoard
-							userID={userID}
-							post={currentPost}
-							setModalShow={_onClickDeletePost}
-							isDetail
+			<FlexContainer>
+				<SingleBoard
+					userID={userID}
+					post={currentPost}
+					setModalShow={_onClickDeletePost}
+					isDetail
+					isNavHidden={true}
+				/>
+			</FlexContainer>
+			<CommentsWrapper>
+				{Object.values(currentPost.comments).map((item, index) => {
+					return (
+						<Comment
+							key={index}
+							commentInfo={item}
+							isCurrentUserComment={item.writerID === userID}
+							onDelete={_onClickDeleteComment}
 						/>
-					</FlexContainer>
-					<CommentsWrapper>
-						{Object.values(currentPost.comments).map((item, index) => {
-							return (
-								<Comment
-									key={index}
-									commentInfo={item}
-									isCurrentUserComment={item.writerID === userID}
-								/>
-							);
-						})}
-					</CommentsWrapper>
-					<ScreenCommentCont>
-						<InputWrapper>
-							<Input
-								value={newComment}
-								placeholder='Create a new comment!'
-								maxLenght={256}
-								onChange={_handleNewComment}
-								onKeyPress={_handleCreateCmt}
-								isLabelHidden
-								isMultipleLine
-								style={{
-									padding: "1%",
-									fontSize: "1vw",
-									width: "100%",
-									height: "2vw",
-									borderWidth: "0",
-									borderRadius: "0",
-									margin: "",
-								}}
-							/>
-						</InputWrapper>
-						<Button
-							title='SEND'
-							onClick={_handleCreateCmt}
-							style={{
-								width: "auto",
-								height: "auto",
-								padding: "1% 5%",
-								margin: "0 0 0 2%",
-								fontSize: "1.2vw",
-							}}
-						/>
-					</ScreenCommentCont>
-				</>
-			)}
+					);
+				})}
+			</CommentsWrapper>
+			<ScreenCommentCont>
+				<InputWrapper>
+					<Input
+						value={newComment}
+						placeholder='Create a new comment!'
+						maxLenght={256}
+						onChange={_handleNewComment}
+						onKeyPress={_handleCreateCmt}
+						isLabelHidden
+						isMultipleLine
+						style={{
+							padding: "0 0.5%",
+							fontSize: "1.3vw",
+							width: "100%",
+							height: "auto",
+							borderWidth: "0",
+							borderRadius: "0",
+							margin: "0",
+						}}
+					/>
+				</InputWrapper>
+				<Button
+					title='SEND'
+					onClick={_handleCreateCmt}
+					style={{
+						width: "auto",
+						height: "auto",
+						padding: "1% 5%",
+						margin: "0 0 0 2%",
+						fontSize: "1.2vw",
+					}}
+				/>
+			</ScreenCommentCont>
 			<CenterModal
 				header='Are you sure?'
-				desc='Do you want to delete this post?'
+				desc={`Are you sure you want to delete this ${deleteTarget}?`}
 				BtnName='Delete'
-				BtnOnClick={_onDeletePost}
+				BtnOnClick={_onDelete}
 				isModalShow={isModalShow}
 				onHide={() => setIsModalShow(false)}
 			/>

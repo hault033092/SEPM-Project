@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import camera from "../lib/img/icon/camera.svg";
 import user from "../lib/img/icon/user.svg";
 import Image from "./Image";
+import { FlexContainer } from "./FlexContainer";
 
-const Container = styled.div`
+const Container = styled(FlexContainer)`
 	width: ${props => props.width};
 	height: ${props => props.height};
 	border-radius: 50%;
@@ -21,11 +22,13 @@ const BtnContainer = styled(Container)`
 	padding: 5%;
 	position: absolute;
 	background-color: ${props => props.theme.slideMsg};
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	bottom: 0;
 	right: 0;
+
+	@media (max-width: 400px) {
+		width: 2.5vw;
+		height: 2.5vw;
+	}
 `;
 
 const StyledLabel = styled.label`
@@ -105,8 +108,8 @@ const ProfileImg = ({
 				src={src === "" ? user : src}
 				alt={"Profile Image"}
 				style={{
-					width,
-					height,
+					width: "90%",
+					height: "90%",
 					borderRadius: "50%",
 					padding: "5%",
 				}}

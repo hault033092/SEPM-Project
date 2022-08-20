@@ -16,10 +16,6 @@ import { CurrentPostContext } from "../contexts/CurrentPost";
 /*sample data */
 import user from "../lib/img/icon/user.svg";
 
-const CursorCont = styled(FlexContainer)`
-	cursor: pointer;
-`;
-
 const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
 	width: ${props => (props.width ? props.width : "auto")};
@@ -41,28 +37,6 @@ const IconMainCont = styled(FlexContainer)`
 	}
 `;
 
-const TitleCont = styled(CursorCont)`
-	flex-direction: column;
-	align-items: flex-start;
-	width: 100%;
-	margin: 1%;
-	cursor: pointer;
-`;
-
-const ContentCont = styled(CursorCont)`
-	padding: 1%;
-	cursor: pointer;
-`;
-
-const IconSubCont = styled(FlexContainer)`
-	width: 30%;
-	justify-content: space-around;
-`;
-
-const IconWrapper = styled(CursorCont)`
-	margin-right: 5%;
-`;
-
 const MainCont = styled(FlexContainer)`
 	background-color: ${props => props.theme.screenBg};
 	border: 0.3vw solid ${props => props.theme.mainBlue};
@@ -74,13 +48,46 @@ const MainCont = styled(FlexContainer)`
 	transition: all 0.3s ease;
 
 	&:hover {
-		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
-		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
-		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.2);
+		box-shadow: ${props =>
+			props.isNavHidden ? "0" : "10px 10px 5px 0px rgba(0, 0, 0, 0.2)"};
+		-webkit-box-shadow: ${props =>
+			props.isNavHidden ? "0" : "10px 10px 5px 0px rgba(0, 0, 0, 0.2)"};
+		-moz-box-shadow: ${props =>
+			props.isNavHidden ? "0" : "10px 10px 5px 0px rgba(0, 0, 0, 0.2)"};
 		background-color: ${props =>
 			props.isNavHidden ? props.theme.screenBg : "rgba(0, 0, 82, 0.09)"};
 	}
+
+	@media (max-width: 400px) {
+		border: 0.5vw solid ${props => props.theme.mainBlue};
+		border-radius: 3vw;
+	}
 `;
+
+const TitleCont = styled(FlexContainer)`
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	margin: 1%;
+	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
+`;
+
+const ContentCont = styled(FlexContainer)`
+	padding: 1%;
+	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
+`;
+
+const IconSubCont = styled(FlexContainer)`
+	width: 30%;
+	justify-content: space-around;
+`;
+
+const IconWrapper = styled(FlexContainer)`
+	margin-right: 5%;
+	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
+`;
+
+
 
 const StyledText = styled.p`
 	font-weight: ${props => props.weight};
@@ -103,6 +110,7 @@ const SingleBoard = ({
 	userID,
 	post,
 	isDetail,
+	isNavHidden,
 	setModalShow,
 	setFocusedPost,
 }) => {
@@ -127,7 +135,6 @@ const SingleBoard = ({
 	};
 
 	const _updateNumOfLike = () => {
-		console.log("update!");
 		setIsLikePost(prev => !prev);
 	};
 
@@ -137,12 +144,15 @@ const SingleBoard = ({
 	};
 
 	const navigateToDetail = () => {
+		if (isNavHidden) {
+			return;
+		}
 		setCurrentPost(post);
 		navigation("/board/detail");
 	};
 
 	const navigateToEditPost = () => {
-		navigation("/board/boardWrite");
+		navigation("/board/create-post");
 	};
 
 	const navigateToProfileDetail = userID => {
@@ -150,7 +160,7 @@ const SingleBoard = ({
 	};
 
 	return (
-		<MainCont className='mainCont' theme={theme}>
+		<MainCont className='mainCont' theme={theme} isNavHidden={isNavHidden}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
 				<ProfileImg
 					src={userInfo.current.profileImg}
@@ -159,7 +169,7 @@ const SingleBoard = ({
 					isShowProfile={true}
 					onShowProfile={navigateToProfileDetail}
 				/>
-				<TitleCont>
+				<TitleCont isNavHidden={isNavHidden}>
 					<DropBoxContentWrapper>
 						<StyledText weight='600' size='1.3vw' onClick={navigateToDetail}>
 							{post.title}
@@ -178,7 +188,7 @@ const SingleBoard = ({
 					</StyledText>
 				</TitleCont>
 			</StyledContainer>
-			<ContentCont onClick={navigateToDetail}>
+			<ContentCont isNavHidden={isNavHidden} onClick={navigateToDetail}>
 				<StyledText weight='300' size='1vw'>
 					{isDetail ? post.content : post.content.slice(0, 247) + "..."}
 				</StyledText>
@@ -186,7 +196,7 @@ const SingleBoard = ({
 			<StyledContainer className='subCont' content='flex-end' width='100%'>
 				<IconMainCont>
 					<IconSubCont>
-						<IconWrapper onClick={navigateToDetail}>
+						<IconWrapper isNavHidden={isNavHidden} onClick={navigateToDetail}>
 							<FontAwesomeIcon
 								icon={regular("comment")}
 								fontSize='2vw'
@@ -228,6 +238,7 @@ SingleBoard.propTypes = {
 	post: PropTypes.object.isRequired,
 	onClick: PropTypes.func,
 	isDetail: PropTypes.bool,
+	isNavHidden: PropTypes.bool,
 	setModalShow: PropTypes.func,
 	setFocusedPost: PropTypes.func,
 };
@@ -235,6 +246,7 @@ SingleBoard.propTypes = {
 SingleBoard.defaultProps = {
 	onClick: () => {},
 	setFocusedPost: () => {},
+	isNavHidden: false,
 };
 
 export default SingleBoard;

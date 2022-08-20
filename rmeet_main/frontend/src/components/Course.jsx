@@ -26,35 +26,45 @@ const MainCont = styled(FlexContainer)`
 		background-color: ${props =>
 			props.isNavHidden ? props.theme.screenBg : "rgba(0, 0, 82, 0.037)"};
 	}
+
+	@media (max-width: 400px) {
+		border: 0.5vw solid ${props => props.theme.mainBlue};
+		border-radius: 30px;
+	}
 `;
 
 const SubCont = styled(FlexContainer)``;
 
 const DetailIconWrapper = styled(FlexContainer)`
-	width: 10%;
+	width: auto;
 `;
 
 const ContentCont = styled(FlexContainer)`
-	width: 85%;
+	width: 95%;
 	flex-direction: column;
 	align-items: flex-start;
 `;
 
 const RateCont = styled(FlexContainer)`
 	width: auto;
-	align-self: flex-start;
 	justify-content: space-between;
 	margin-bottom: 3%;
 `;
 
+const StyledRating = styled(Rating).attrs(({ size }) => ({
+	size,
+}))``;
+
 const StyledTitle = styled.p`
 	font-size: 1.5vw;
 	font-weight: 700;
+	margin: 0;
 `;
 
-const StyledContent = styled.p`
+const StyledText = styled.p`
 	font-size: 1vw;
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
+	margin: 0;
 `;
 
 const Course = ({
@@ -86,9 +96,9 @@ const Course = ({
 						readOnly
 						size={"small"}
 					/>
-					<StyledContent fontWeight={600}>{rateValue}</StyledContent>
+					<StyledText fontWeight={600}>{rateValue}</StyledText>
 				</RateCont>
-				<StyledContent>{LecturerName}</StyledContent>
+				<StyledText>{LecturerName}</StyledText>
 			</ContentCont>
 			{isNavHidden || (
 				<DetailIconWrapper>
