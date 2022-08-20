@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import Pages from "./pages/Pages";
+import InitNav from "./pages/InitNav";
+import MainNav from "./pages/MainNav";
 import { theme } from "./lib/style/theme";
 import GlobalCSS from "./lib/style/GlobalCSS";
 import NavBar from "./components/NavBar";
@@ -13,14 +14,22 @@ const AppContainer = styled.div`
 `;
 
 function App() {
+	const isLogin = true;
+
 	return (
 		<div className='App'>
 			<GlobalCSS />
 			<ThemeProvider theme={theme}>
 				<CurrentPostProvider>
 					<AppContainer>
-						<NavBar />
-						<Pages />
+						{isLogin ? (
+							<>
+								{/* {<NavBar />} */}
+								<MainNav />
+							</>
+						) : (
+							<InitNav />
+						)}
 					</AppContainer>
 				</CurrentPostProvider>
 			</ThemeProvider>

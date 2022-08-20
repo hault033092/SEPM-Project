@@ -37,6 +37,10 @@ const StyledInput = styled.input.attrs(({ isPassword, disabled }) => ({
 	&:focus {
 		outline: none;
 	}
+
+	@media (max-width: 400px) {
+		font-size: 0.2vw;
+	}
 `;
 
 const StyledTextarea = styled.textarea`
@@ -50,6 +54,10 @@ const StyledTextarea = styled.textarea`
 	background-color: #fff;
 	&:focus {
 		outline: none;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 0.2vw;
 	}
 `;
 

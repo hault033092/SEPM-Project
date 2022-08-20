@@ -14,10 +14,9 @@ const CenterModal = ({
 		<Modal
 			show={isModalShow}
 			onHide={onHide}
-			size='sm-down'
 			aria-labelledby='contained-modal-title-vcenter'
 			centered
-      fullscreen={'sm-down'}>
+			dialogClassName="modal-50w">
 			<Modal.Header closeButton>
 				<Modal.Title id='contained-modal-title-vcenter'>{header}</Modal.Title>
 			</Modal.Header>

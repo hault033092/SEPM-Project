@@ -7,28 +7,23 @@ import Input from "./Input";
 
 const MainCont = styled.div`
 	width: 90%;
-	margin: 0 5%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	border-radius: 5px;
 	position: relative;
-
-	@media (max-width: 820px) {
-		width: 100%;
-	}
 `;
 
 const SearchCont = styled.div`
 	display: flex;
 	width: 90%;
-	margin: 0 5%;
 	height: 100%;
 	border: 0.3vw solid ${props => props.theme.mainBlue};
 	border-bottom: ${props => (props.isShow ? "none" : "0.3vw solid #000056")};
 
-	@media (max-width: 820px) {
-		width: 100%;
+	@media (max-width: 400px) {
+		border: 0.5vw solid ${props => props.theme.mainBlue};
+		border-bottom: ${props => (props.isShow ? "none" : "0.5vw solid #000056")};
 	}
 `;
 
@@ -51,14 +46,15 @@ const ResCont = styled.div`
 
 const StyledUl = styled.ul`
 	width: 90%;
-	margin: 0 5%;
 	position: absolute;
 	z-index: 1;
 	border: ${props => (props.isShow ? "0.3vw solid #000056" : "none")};
 	border-top: none;
+	padding: 0;
 
-	@media (max-width: 820px) {
-		width: 100%;
+	@media (max-width: 400px) {
+		border: ${props => (props.isShow ? "0.5vw solid #000056" : "none")};
+		border-top: none;
 	}
 `;
 

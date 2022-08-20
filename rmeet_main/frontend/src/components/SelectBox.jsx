@@ -10,6 +10,7 @@ const Container = styled.div`
 `;
 
 const LabelContainer = styled(Container)`
+	display: ${props => (props.label === "" ? "none" : "block")};
 	margin: ${props =>
 		props.style.labelContMargin ? props.style.labelContMargin : "2vh 0"};
 `;
@@ -57,7 +58,7 @@ const SelectBox = ({ label, groups, value, onChange, isGrouped, style }) => {
 
 	return (
 		<Container style={style}>
-			<LabelContainer style={style}>
+			<LabelContainer style={style} label={label}>
 				<StyledLabel htmlFor={label} style={style}>
 					{label}
 				</StyledLabel>
@@ -83,6 +84,7 @@ SelectBox.propTypes = {
 };
 
 SelectBox.defaultProps = {
+	label: "",
 	style: {},
 };
 

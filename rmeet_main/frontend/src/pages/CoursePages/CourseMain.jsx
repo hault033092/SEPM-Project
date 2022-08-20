@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 /*Components */
 import SearchBar from "../../components/SearchBar";
@@ -8,30 +9,56 @@ import Course from "../../components/Course";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 
+/*Sample Data */
+import { sampleCourseList } from "../../lib/data/data";
+
 const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
 	flex-direction: column;
 	position: relative;
-	margin: 1%;
+	padding: 1%;
 `;
 
 const SearchBarCont = styled(FlexContainer)`
 	width: 100%;
-	justify-content: space-around;
+	height: auto;
+	justify-content: space-between;
 	align-items: flex-start;
-	padding: 3% 0;
-	margin-bottom: 10px;
+	padding: 2% 0;
+
+	@media (max-width: 400px) {
+		margin-bottom: 3vh;
+	}
 `;
 
 const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
-	justify-content: flex-start;
+	align-items: flex-start;
 	width: 100%;
+
+	@media (max-width: 820px) {
+		margin: 0;
+	}
+`;
+
+const ErrMsgWrapper = styled.div`
+	height: 1vw;
+	display: ${props => (props.msgHidden ? "hidden" : "block")};
 `;
 
 const StyleTitle = styled.h1`
-	font-size: 3vw;
+	font-size: 5vh;
+	font-weight: 800;
+	@media (max-width: 820px) {
+		font-size: 5vh;
+		font-weight: 600;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 3vh;
+		font-weight: 600;
+	}
 `;
 
 const CourseCont = styled.div`
@@ -47,14 +74,15 @@ const CourseMain = () => {
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
+	const navigation = useNavigate();
 	const theme = useContext(ThemeContext);
 
 	const _onSearchValChange = e => {
 		setCourse(e.target.value);
 	};
 
-	const _handleCreate = () => {
-		console.log("navigate to post page");
+	const _handleCreateReview = () => {
+		navigation("/review-course");
 	};
 
 	const _handleSearch = () => {
@@ -87,15 +115,17 @@ const CourseMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						valuesList={courseList}
+						valuesList={sampleCourseList}
 					/>
-					<ValidationMessage message={errorMessage} />{" "}
+					<ErrMsgWrapper msgHidden={errorMessage.length === 0}>
+						<ValidationMessage message={errorMessage} />
+					</ErrMsgWrapper>
 				</SearchBarWrapper>
 				<Button
-					title='Create'
-					onClick={_handleCreate}
+					title='Post'
+					onClick={_handleCreateReview}
 					style={{
-						width: "15%",
+						width: "15vw",
 						height: "auto",
 						padding: "1% 5%",
 						btnColor: theme.mainRed,
@@ -107,7 +137,7 @@ const CourseMain = () => {
 				<Course
 					courseID={"111"}
 					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
+					LecturerName='Anas Sarwar, Anas Sarwar, Anas Sarwar, Anas Sarwar'
 					rateValue={4.5}
 				/>
 				<Course
