@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
+
+/* Components */
 import {
 	ValidationMessage,
 	Button,
@@ -25,6 +28,10 @@ const SubWrapper = styled(FlexContainer)`
 	align-items: flex-start;
 `;
 
+const client = axios.create({
+	baseURL: "https://localhost:8080/api/user/register",
+});
+
 const CreateAccount = ({ studentEmail }) => {
 	const email = useRef(studentEmail);
 
@@ -42,6 +49,17 @@ const CreateAccount = ({ studentEmail }) => {
 	useEffect(() => {
 		setIsValid(username && pwd && pwdConfirm && major && !errorMessage);
 	}, [username, pwd, pwdConfirm, major, errorMessage]);
+
+	const registerUser = userInfo => {
+		client
+			.post("", userInfo)
+			.then(response => {
+				console.log(response);
+			})
+			.catch(error => {
+				console.log("error: ", error);
+			});
+	};
 
 	const _handleProfileImgChange = e => {
 		const {
@@ -92,21 +110,9 @@ const CreateAccount = ({ studentEmail }) => {
 			password: pwd,
 		};
 
-		const connectApi = await fetch(`localhost:6960/api/user/register`, {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(accountInfo),
-		})
-			.then(() => {
-				console.log("register!")
-			})
-			.catch(err => {
-				setErrorMessage(err.toString());
-			});
+		console.log(accountInfo)
 
+		registerUser(accountInfo);
 	};
 
 	return (
