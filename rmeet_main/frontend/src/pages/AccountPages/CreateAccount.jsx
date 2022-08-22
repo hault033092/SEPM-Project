@@ -50,8 +50,8 @@ const CreateAccount = ({ studentEmail }) => {
 		setIsValid(username && pwd && pwdConfirm && major && !errorMessage);
 	}, [username, pwd, pwdConfirm, major, errorMessage]);
 
-	const registerUser = userInfo => {
-		client.post("", userInfo).then(response => {
+	const registerUser = async userInfo => {
+		let response = await client.post("", userInfo).then(response => {
 			console.log(response);
 		});
 	};
@@ -105,8 +105,6 @@ const CreateAccount = ({ studentEmail }) => {
 			email: email.current,
 			password: pwd,
 		};
-
-		console.log(accountInfo);
 
 		registerUser(accountInfo);
 	};

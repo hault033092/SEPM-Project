@@ -25,7 +25,7 @@ const StyledText = styled.p`
 const failLoginMsg = "Please check your email and password and try again.";
 
 const client = axios.create({
-	baseURL: "localhost:8080/api/user/login",
+	baseURL: "http://localhost:8080/api/user/login",
 });
 
 const Signin = () => {
@@ -46,8 +46,8 @@ const Signin = () => {
 		setIsValid(email && password && !errorMessage);
 	}, [email, password, errorMessage]);
 
-	const login = user => {
-		client.post("", user).then(response => {
+	const login = async user => {
+		let response = await client.post("", user).then(response => {
 			console.log(response);
 		});
 	};
@@ -70,12 +70,7 @@ const Signin = () => {
 			password,
 		};
 
-		console.log(user);
-
 		login(user);
-
-		setErrorMessage(failLoginMsg);
-		setIsValid(false);
 	};
 
 	const _handleSignUp = e => {
