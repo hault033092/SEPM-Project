@@ -24,7 +24,7 @@ function App() {
 					<AppContainer>
 						{isLogin ? (
 							<>
-								{/* {<NavBar />} */}
+								{<NavBar />}
 								<MainNav />
 							</>
 						) : (

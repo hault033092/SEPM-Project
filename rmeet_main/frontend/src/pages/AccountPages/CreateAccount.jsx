@@ -11,7 +11,6 @@ import Input from "../../components/Input";
 import { majors } from "../../lib/data/data";
 import { removeWhitespace } from "../../util/accountValidation";
 
-
 const InputWrapper = styled(FlexContainer)`
 	width: 100%;
 	justify-content: space-between;
@@ -87,19 +86,27 @@ const CreateAccount = ({ studentEmail }) => {
 		setBio(e.target.value);
 	};
 
-	const _handleSubmit = e => {
+	const _handleSubmit = async e => {
 		const accountInfo = {
 			email: email.current,
-			profileImg,
-			username,
-			pwd,
-			major,
-			bio,
+			password: pwd,
 		};
 
-		// process for creating an account
+		const connectApi = await fetch(`localhost:6960/api/user/register`, {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(accountInfo),
+		})
+			.then(() => {
+				console.log("register!")
+			})
+			.catch(err => {
+				setErrorMessage(err.toString());
+			});
 
-		setCurrentUser(email)
 	};
 
 	return (
