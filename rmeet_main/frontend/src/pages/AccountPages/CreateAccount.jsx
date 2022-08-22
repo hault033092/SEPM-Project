@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
+<<<<<<< Updated upstream
 /* Components */
+=======
+/*Components */
+>>>>>>> Stashed changes
 import {
 	ValidationMessage,
 	Button,
@@ -14,6 +18,7 @@ import Input from "../../components/Input";
 import { majors } from "../../lib/data/data";
 import { removeWhitespace } from "../../util/accountValidation";
 
+/* Styled Components */
 const InputWrapper = styled(FlexContainer)`
 	width: 100%;
 	justify-content: space-between;
@@ -28,8 +33,14 @@ const SubWrapper = styled(FlexContainer)`
 	align-items: flex-start;
 `;
 
+<<<<<<< Updated upstream
 const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/register",
+=======
+/* Data */
+const client = axios.create({
+	baseURL: "https://localhost:8080",
+>>>>>>> Stashed changes
 });
 
 const CreateAccount = ({ studentEmail }) => {
@@ -51,9 +62,19 @@ const CreateAccount = ({ studentEmail }) => {
 	}, [username, pwd, pwdConfirm, major, errorMessage]);
 
 	const registerUser = userInfo => {
+<<<<<<< Updated upstream
 		client.post("", userInfo).then(response => {
 			console.log(response);
 		});
+=======
+		client
+			.post("", {
+				userInfo,
+			})
+			.then(response => {
+				console.log(response);
+			});
+>>>>>>> Stashed changes
 	};
 
 	const _handleProfileImgChange = e => {

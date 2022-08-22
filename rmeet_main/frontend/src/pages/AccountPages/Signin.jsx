@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {
-	Input,
-	ValidationMessage,
-	Button,
-} from "../../components";
-import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate"
+import axios from "axios";
+
+/* Components */
+import { Input, ValidationMessage, Button } from "../../components";
+import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate";
 import {
 	validateStudentEmail,
 	removeWhitespace,
 } from "../../util/accountValidation";
+
+/* Styled Components */
 
 const StyledText = styled.p`
 	color: #ffffff;
@@ -20,7 +21,12 @@ const StyledText = styled.p`
 	cursor: pointer;
 `;
 
+/* Data */
 const failLoginMsg = "Please check your email and password and try again.";
+
+const client = axios.create({
+	baseURL: "https://localhost:8080",
+});
 
 const Signin = () => {
 	const [email, setEmail] = useState("");
@@ -39,6 +45,8 @@ const Signin = () => {
 	useEffect(() => {
 		setIsValid(email && password && !errorMessage);
 	}, [email, password, errorMessage]);
+
+
 
 	const _handleEmailChange = e => {
 		const refinedEmail = removeWhitespace(e.target.value);
@@ -91,7 +99,12 @@ const Signin = () => {
 				isPassword={true}
 			/>
 			{!isValid && <ValidationMessage message={errorMessage} />}
-			<Button title={"Log in"} onClick={_handleSubmit} disabled={!isValid} hiddenHoverStyle={true} />
+			<Button
+				title={"Log in"}
+				onClick={_handleSubmit}
+				disabled={!isValid}
+				hiddenHoverStyle={true}
+			/>
 			<StyledText onClick={_handleSignUp}>create new account</StyledText>
 		</AccPageTemplate>
 	);
