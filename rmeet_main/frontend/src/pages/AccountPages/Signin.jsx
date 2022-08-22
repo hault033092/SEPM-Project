@@ -25,7 +25,7 @@ const StyledText = styled.p`
 const failLoginMsg = "Please check your email and password and try again.";
 
 const client = axios.create({
-	baseURL: "https://localhost:8080",
+	baseURL: "localhost:8080/api/user/login",
 });
 
 const Signin = () => {
@@ -46,7 +46,11 @@ const Signin = () => {
 		setIsValid(email && password && !errorMessage);
 	}, [email, password, errorMessage]);
 
-
+	const login = user => {
+		client.post("", user).then(response => {
+			console.log(response);
+		});
+	};
 
 	const _handleEmailChange = e => {
 		const refinedEmail = removeWhitespace(e.target.value);
@@ -66,11 +70,9 @@ const Signin = () => {
 			password,
 		};
 
-		const isLoginSuccess = true;
-		if (isLoginSuccess) {
-			console.log("navigate to homepage", "user info", user);
-			return;
-		}
+		console.log(user);
+
+		login(user);
 
 		setErrorMessage(failLoginMsg);
 		setIsValid(false);
