@@ -4,7 +4,7 @@ import Verification from "./Verification"
 import CreateAccount from "./CreateAccount"
 
 const Signup = () => {
-	const [confirmedEmail, setConfirmedEmail] = useState("gain3701@gmail.com");
+	const [confirmedEmail, setConfirmedEmail] = useState("12gain3701@gmail.com");
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);

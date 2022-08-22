@@ -29,7 +29,7 @@ const SubWrapper = styled(FlexContainer)`
 `;
 
 const client = axios.create({
-	baseURL: "https://localhost:8080/api/user/register",
+	baseURL: "http://localhost:8080/api/user/register",
 });
 
 const CreateAccount = ({ studentEmail }) => {
@@ -51,14 +51,9 @@ const CreateAccount = ({ studentEmail }) => {
 	}, [username, pwd, pwdConfirm, major, errorMessage]);
 
 	const registerUser = userInfo => {
-		client
-			.post("", userInfo)
-			.then(response => {
-				console.log(response);
-			})
-			.catch(error => {
-				console.log("error: ", error);
-			});
+		client.post("", userInfo).then(response => {
+			console.log(response);
+		});
 	};
 
 	const _handleProfileImgChange = e => {
@@ -106,11 +101,12 @@ const CreateAccount = ({ studentEmail }) => {
 
 	const _handleSubmit = async e => {
 		const accountInfo = {
+			userName: "abcdefff",
 			email: email.current,
 			password: pwd,
 		};
 
-		console.log(accountInfo)
+		console.log(accountInfo);
 
 		registerUser(accountInfo);
 	};
