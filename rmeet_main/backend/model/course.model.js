@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const courseSchema = mongoose.Schema(
   {
     courseId: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       required: true,
     },
 
@@ -15,4 +15,4 @@ const courseSchema = mongoose.Schema(
   { timestamp: true }
 )
 
-module.exports = mongoose('Course', courseSchema)
+module.exports = mongoose.model('Course', courseSchema)

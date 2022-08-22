@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
-const Post = require('../model/Post')
+const Post = require('../model/post.model')
 const { postValidate } = require('../validation')
 
 // Get all post
@@ -10,6 +10,16 @@ router.get('/getPosts', verify, async (req, res) => {
     res.json(getPosts)
   } catch (err) {
     res.json({ message: err })
+  }
+})
+
+// Get post by id
+router.get('/getPost/:postId', verify, async (req, res) => {
+  try {
+    const getPosts = await Post.findOne({ _id: req.body.postId })
+    res.json(getPosts)
+  } catch (error) {
+    res.json({ message: error })
   }
 })
 
@@ -31,8 +41,8 @@ router.post('/createPost', verify, async (req, res) => {
   try {
     const savePost = await post.save()
     res.send({ post: post.id })
-  } catch (err) {
-    res.status(400).send(err)
+  } catch (error) {
+    res.status(400).send(error)
   }
 })
 

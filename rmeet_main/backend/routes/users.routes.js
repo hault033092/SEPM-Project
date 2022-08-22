@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const User = require('../model/User')
+const User = require('../model/user.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { registerValidation, loginValidation } = require('../validation')
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
-  //Save user
+  //Register a user
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,
@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
   }
 })
 
-//Login
+//User login
 router.post('/login', async (req, res) => {
   //
   const { error } = loginValidation(req.body)
@@ -54,8 +54,53 @@ router.post('/login', async (req, res) => {
   //Create token
   const token = jwt.sign({ _id: foundUser._id }, process.env.TOKEN_SECRET)
   res.header('auth-token', token).send(token)
+})
 
-  //
+//Get all users
+router.get('/getUsers', async (req, res) => {
+  try {
+    const gotUsers = await User.find()
+    res.json(gotUsers)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+//Get user by a specific ID
+router.get('/:userID', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userID)
+    res.json(user)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+//Delete specific users (all if necessary) by ID
+router.delete('/:userId', async (req, res) => {
+  try {
+    const removedUser = await User.remove({ _id: req.params.userId }) //Mongo generates id by this format
+    res.json(removedUser)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+//Find user by ID and update said user's attributes
+router.patch('/:userID', async (req, res) => {
+  try {
+    const userID = req.params.userID
+    const updatedData = req.body
+    const options = { new: true }
+    const updatedUser = await User.findByIdAndUpdate(
+      userID,
+      updatedData,
+      options
+    )
+    res.json(updatedUser)
+  } catch (error) {
+    res.json({ message: error })
+  }
 })
 
 module.exports = router
