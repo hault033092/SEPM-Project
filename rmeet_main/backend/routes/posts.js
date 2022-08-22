@@ -37,10 +37,34 @@ router.post('/createPost', verify, async (req, res) => {
 })
 
 // Delete post
-router.delete('/deletePost', verify, async (req, res) => {
+router.delete('/:postId', verify, async (req, res) => {
   try {
-    const removedPost = await Post.deleteOne({ _id: req.params.postId })
-    res.json('Post deleted!')
+    const removedPost = await Post.deleteOne({
+      _id: req.params.postId,
+    })
+    res.json(removedPost)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+// Update post
+router.patch('/:postId', verify, async (req, res) => {
+  try {
+    const updatedPost = await Post.updateOne(
+      {
+        _id: req.params.postId,
+      },
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          semester: req.body.semester,
+          year: req.body.year,
+        },
+      }
+    )
+    res.json(updatedPost)
   } catch (error) {
     res.json({ message: error })
   }
