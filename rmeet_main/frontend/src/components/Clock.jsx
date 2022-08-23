@@ -54,7 +54,7 @@ const Screen = styled.div`
     align-items: center;
     transition: 0.5s ease-in-out;
     width: clamp(18rem, 24rem, 36rem);
-    height: clamp(8rem, 12rem, 16rem);
+    height: clamp(9rem, 12rem, 18rem);
     border-radius: 2rem;
     border: 0.4rem solid #FFFFFF;
     background: linear-gradient(
@@ -67,6 +67,11 @@ const Screen = styled.div`
     &:hover {
         transform: translateY(-10px);
         box-shadow: 0 0 0.5rem 0.5rem rgba(0,0,0,0.5);
+    }
+
+    @media screen and (max-width: 899px) {
+        height: clamp(8rem, 11rem, 16rem);
+        width: clamp(16rem, 22rem, 32rem);
     }
 `
 
@@ -83,6 +88,11 @@ const ClockDisplay = styled.div`
         red 50%,
         red 100%
     );
+
+    @media screen and (max-width: 899px) {
+        height: clamp(4rem, 6rem, 10rem);
+        width: clamp(8rem, 18rem, 20rem);
+    }
 `
 
 const Heading = styled.h1`

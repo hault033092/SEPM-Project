@@ -47,13 +47,17 @@ const Display = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+
+    @media screen and (max-width: 899px) {
+        justify-self: space-between;
+    }
 `
 
 const DateElement = styled.h2`
     cursor: pointer;
     transition: 0.5s ease-in-out;
-    height: 6rem;
-    width: 12rem;
+    height: clamp(4rem, 6rem, 8rem);
+    width: clamp(8rem, 12rem, 16rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,6 +75,11 @@ const DateElement = styled.h2`
     &:nth-child(4):hover {
         transform: translateY(1rem);
     } 
+
+    @media screen and (max-width: 899px) {
+        height: clamp(4rem, 5rem, 6rem);
+        width: clamp(8rem, 10rem, 12rem);
+    }
 `
 
 export default LiveDate;

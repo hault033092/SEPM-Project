@@ -53,6 +53,12 @@ const PostContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 1.5rem 1.5rem;
+
+  @media screen and (max-width: 1199px) {
+    position: absolute;
+    justify-content: space-between;
+    padding: 7rem 1rem 0 1rem;
+}
 `
     
 const Heading = styled.h1`
@@ -61,6 +67,10 @@ const Heading = styled.h1`
     text-transform: uppercase;
     color: black;
     font-weight: 900;
+
+    @media screen and (max-width: 1199px) {
+      font-size: 2.4rem;
+    }
 `
 
 const PostContent = styled.div`
@@ -99,6 +109,10 @@ const TitleInput = styled.input`
     font-weight: 700;
     color: #000054;
     opacity: 0.5;
+  }
+
+  @media screen and (max-width: 1199px) {
+    font-size: 2.4rem;
   }
 `
 

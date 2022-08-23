@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
-import { user, camera } from "../lib/img/icon/";
+import camera from "../lib/img/icon/camera.svg";
+import user from "../lib/img/icon/user.svg";
 import Image from "./Image";
+import { FlexContainer } from "./FlexContainer";
 
-const Container = styled.div`
+const Container = styled(FlexContainer)`
 	width: ${props => props.width};
 	height: ${props => props.height};
 	border-radius: 50%;
-	border: ${props => props.border};
 	position: relative;
 	background-color: ${props => props.theme.lightGrey};
+	filter: ${props => (props.isHover ? "brightness(60%)" : "brightness(100%)")};
+	cursor: pointer;
 `;
 
 const BtnContainer = styled(Container)`
@@ -19,12 +21,13 @@ const BtnContainer = styled(Container)`
 	height: 2vw;
 	padding: 5%;
 	position: absolute;
-	right: 0;
-	bottom: 0;
 	background-color: ${props => props.theme.slideMsg};
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	bottom: 0;
+	right: 0;
+	@media (max-width: 400px) {
+		width: 2.5vw;
+		height: 2.5vw;
+	}
 `;
 
 const StyledLabel = styled.label`
@@ -51,7 +54,7 @@ const PhotoButton = ({ onChange, width, height }) => {
 					<Image
 						src={camera}
 						alt={"Camera Icon. Click here to change your profile image."}
-						width={width} height={height}
+						style={{ width: "1.5vw", height: "1.5vw" }}
 					/>
 				</BtnContainer>
 			</StyledLabel>
@@ -60,19 +63,54 @@ const PhotoButton = ({ onChange, width, height }) => {
 	);
 };
 
-const ProfileImage = ({ src, width, height, onChangePhoto, isShowButton }) => {
+const ProfileImg = ({
+	src,
+	width,
+	height,
+	onChangePhoto,
+	isShowButton,
+	isShowProfile,
+	onShowProfile,
+}) => {
+	const [isHover, setIsHover] = useState(false);
+
+	const _handleOnMouseEnter = () => {
+		if (!isShowProfile) {
+			return;
+		}
+		setIsHover(true);
+	};
+
+	const _handleMouseLeave = () => {
+		if (!isShowProfile) {
+			return;
+		}
+		setIsHover(false);
+	};
+
+	const _handleOnClick = () => {
+		if (!isShowProfile) {
+			return;
+		}
+		onShowProfile();
+	};
+
 	return (
-		<Container width={width} height={height}>
+		<Container
+			width={width}
+			height={height}
+			isHover={isHover}
+			onClick={_handleOnClick}
+			onMouseEnter={_handleOnMouseEnter}
+			onMouseLeave={_handleMouseLeave}>
 			<Image
-				src={src}
+				src={src === "" ? user : src}
 				alt={"Profile Image"}
 				style={{
-					width,
-					height,
+					width: "90%",
+					height: "90%",
 					borderRadius: "50%",
-					border: "0.2rem solid #FFFFFF",
 					padding: "5%",
-					outline: "0.2rem solid red"
 				}}
 			/>
 			{isShowButton && (
@@ -82,20 +120,24 @@ const ProfileImage = ({ src, width, height, onChangePhoto, isShowButton }) => {
 	);
 };
 
-ProfileImage.propTypes = {
+ProfileImg.propTypes = {
 	src: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
 	onChangePhoto: PropTypes.func,
 	isShowButton: PropTypes.bool,
+	isShowProfile: PropTypes.bool,
+	onShowProfile: PropTypes.func,
 };
 
-ProfileImage.defaultProps = {
+ProfileImg.defaultProps = {
 	src: user,
 	isShowButton: false,
-	onChangePhoto: () => {},
+	isShowProfile: false,
 	width: "6vw",
 	height: "6vw",
+	onChangePhoto: () => {},
+	onShowProfile: () => {},
 };
 
-export default ProfileImage;
+export default ProfileImg;
