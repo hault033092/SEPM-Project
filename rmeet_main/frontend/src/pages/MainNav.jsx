@@ -1,16 +1,22 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import Timetable from "./Timetable";
-import Account from "./Account";
 
+/* Board Pages */
 import BoardMain from "./BoardPages/BoardMain";
 import BoardDetail from "./BoardPages/BoardDetail";
 import CreatePost from "./CreatePost";
 
+/* Board Pages */
 import CourseMain from "./CoursePages/CourseMain";
 import CourseDetail from "./CoursePages/CourseDetail";
 import CourseReview from "./CourseReview";
+
+/* Message Pages */
+import MessageMain from "./MessagePages/MessageMain";
+
+/* Account Pages */
+import Account from "./Account";
 
 const MainNav = () => {
 	return (
@@ -22,7 +28,7 @@ const MainNav = () => {
 			<Route exact path='/course' element={<CourseMain />} />
 			<Route exact path='/course/detail' element={<CourseDetail />} />
 			<Route path='/review-course' element={<CourseReview />} />
-			<Route path='/timetable' element={<Timetable />} />
+			<Route path='/message' element={<MessageMain />} />
 			<Route path='/account' element={<Account />} />
 		</Routes>
 	);
