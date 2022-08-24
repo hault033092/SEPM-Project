@@ -2,7 +2,7 @@ import { React, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { user } from "../lib/img/icon";
-import ProfileImage from "../components/ProfileImage"
+import ProfileImg from "../components/ProfileImg"
 
 const Account = () => {
     const navigate = useNavigate();
@@ -30,12 +30,13 @@ const Account = () => {
             <AccountContent>
                 <PersonalInfo>
                     <Title>Personal Info</Title>
-                    <ProfileImage
+                    <ProfileImg
 					src={profileImg}
                     width= "8rem"
                     height= "8rem"
 					onChangePhoto={_handleProfileImgChange}
-					isShowButton />
+					isShowButton 
+                    />
                     <Field>
                         <Label htmlFor="email">Email:</Label>
                         <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
@@ -63,7 +64,7 @@ const Account = () => {
                     </Field>
                     <Field>
                         <Label htmlFor="courses">Completed course(s):</Label>
-                        <Area id="courses" type="textarea" rows="15" spellcheck="false" value=""></Area>
+                        <Area id="courses" type="textarea" rows="10" spellcheck="false" value=""></Area>
                         <AddButton onClick={() => {navigate("/review-course")}}>+ Add Course</AddButton>
                     </Field>
                     <SubmitField>
@@ -84,12 +85,19 @@ const AccountContainer = styled.div`
     flex-direction: column;
     padding-top: 1.5rem;
     margin: 0 auto;
+
+    @media screen and (max-width: 1199px) {
+        position: absolute;
+        justify-content: space-between;
+        padding: 7rem 0 0 0;
+    }
 `
 
 const Heading = styled.h1`
     font-family: "Orbitron", sans-serif;
     font-size: 2rem;
     text-transform: uppercase;
+    text-align: center;
     color: black;
     font-weight: 900;
 `
@@ -97,10 +105,16 @@ const Heading = styled.h1`
 const AccountContent = styled.div`
     height: 100%;
     width: 100%;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 1199px) {
+        height: auto;
+        position: relative;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
 `
 
 const PersonalInfo = styled.div`
@@ -115,6 +129,15 @@ const PersonalInfo = styled.div`
     border-bottom-left-radius: 1rem;
     border-right: 0.2rem solid #000054;
     padding: 1.2rem 1.2rem;
+
+    @media screen and (max-width: 1199px) {
+        height: 80vh;
+        width: 90%;
+        border-top-right-radius: 1rem;
+        border-bottom-left-radius: 0;
+        border-bottom: 0.2rem solid #000054;
+        border-right: none;
+    }
 `
 
 const AcademicInfo = styled.div`
@@ -128,7 +151,16 @@ const AcademicInfo = styled.div`
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem; 
     border-left: 0.2rem solid #000054;
-    padding: 1.2rem 3rem;
+    padding: 1.2rem 1.2rem;
+
+    @media screen and (max-width: 1199px) {
+        height: 80vh;
+        width: 90%;
+        border-bottom-left-radius: 1rem;
+        border-top-right-radius: 0;
+        border-top: 0.2rem solid #000054;
+        border-left: none;
+    }
 `
 
 const Title = styled.h2`
