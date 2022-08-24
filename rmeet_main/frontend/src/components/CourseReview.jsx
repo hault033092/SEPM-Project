@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 /*Components */
 import { FlexContainer } from "../components";
 import ProfileImg from "./ProfileImg";
 import Rating from "@mui/material/Rating";
-import Image from "./Image";
-import smile from "../lib/img/icon/smile.svg";
-import unsmile from "../lib/img/icon/unsmile.svg";
 import { useNavigate } from "react-router-dom";
 
 const RowCont = styled(FlexContainer)`
@@ -26,21 +25,14 @@ const ColCont = styled(RowCont)`
 
 const MainCont = styled(RowCont)`
 	width: 100%;
-	border: 0.3vw solid ${props => props.theme.mainBlue};
-	border-radius: 3vw;
+	height: auto;
 	flex-direction: column;
 	padding: 1%;
 	margin-bottom: 3%;
-
-	&:hover {
-		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
-		-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
-		-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.05) inset;
-		color: ${props => props.theme.darkX2Grey};
-	}
+	box-shadow: 3px 3px 14px -2px rgb(0 0 0 / 30%);
+	border-radius: 20px;
 
 	@media (max-width: 400px) {
-		border: 0.5vw solid ${props => props.theme.mainBlue};
 		border-radius: 3vw;
 	}
 `;
@@ -52,10 +44,13 @@ const ReviewInfo = styled(ColCont)`
 
 const LikeCont = styled(RowCont)`
 	background-color: ${props =>
-		props.isLike ? props.theme.smileBlue : props.theme.unsmileBlue};
+		props.isLike ? props.theme.smileBlue : "rgba(138, 138, 255, 0.5)"};
+	border: 3px solid
+		${props =>
+			props.isLike ? props.theme.smileBlue : "rgba(138, 138, 255, 0.5)"};
 	border-radius: 40px;
 	padding: 0.7% 0.5%;
-	width: 100%;
+	width: 17vw;
 	color: ${props => props.theme.fontColor};
 	justify-content: space-around;
 	align-items: center;
@@ -78,12 +73,10 @@ const LikeCont = styled(RowCont)`
 	@media (max-width: 820px) {
 		margin: 2%;
 	}
-`;
 
-const LikeIconWrapper = styled(RowCont)`
-	justify-content: space-between;
-	align-items: center;
-	width: auto;
+	@media (max-width: 400px) {
+		width: 40%;
+	}
 `;
 
 const CommentCont = styled(RowCont)`
@@ -94,30 +87,38 @@ const CommentCont = styled(RowCont)`
 `;
 
 const CourseInfoSubCont = styled(RowCont)`
+	height: 2.5vw;
 	justify-content: space-between;
-	color: ${props => props.theme.darkX2Grey};
-`;
+	color: ${props => props.theme.fontColor};
+	padding: 1% 3%;
+	margin-top: 1%;
 
-const AssignmentsWrapper = styled(ColCont)`
-	overflow-y: scroll;
-	height: 5vw;
-	padding-top: 5vw;
+	@media (max-width: 400px) {
+		height: 2.5vw;
+	}
 `;
 
 const AssignmentCont = styled(CourseInfoSubCont)`
+	height: 2.5vw;
 	background-color: ${props => props.theme.mainBlue};
 	padding: 1% 3%;
 	border-radius: 40px;
 	color: ${props => props.theme.fontColorWhite};
 	margin-top: 1%;
+
+	@media (max-width: 400px) {
+		height: 6vw;
+	}
 `;
 
 const StudyPeriodCont = styled(RowCont)`
 	justify-content: space-between;
 	width: 20vw;
+	padding-left: 0.5%;
 
 	@media (max-width: 400px) {
 		width: 100%;
+		margin-top: 3%;
 	}
 `;
 
@@ -131,17 +132,22 @@ const StyledTitle = styled.p`
 const StyledSubTitle = styled(StyledTitle)`
 	font-weight: 500;
 	font-size: 1vw;
+
+	@media (max-width: 400px) {
+		font-weight: 300;
+		font-size: 0.5vw;
+	}
 `;
 
 const StyledContent = styled.p`
-	font-size: 1vw;
+	font-size: ${props => (props.fontSize ? props.fontSize : "1vw")};
 	text-decoration: ${props => (props.underline ? "underline" : "none")};
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
 	color: ${props =>
 		props.fontColor ? props.fontColor : props.theme.fontColor};
 
 	@media (max-width: 400px) {
-		font-size: 0.1vw;
+		font-size: 2px;
 	}
 `;
 
@@ -153,7 +159,7 @@ const CourseReview = () => {
 	const [isLike, setIsLike] = useState(false);
 	const navigation = useNavigate();
 	const navigateToProfileDetail = userID => {
-		navigation("/board/boardWrite/" + userID);
+		navigation("/account/viewProfile/" + userID);
 	};
 
 	const _handleLike = () => {
@@ -165,8 +171,8 @@ const CourseReview = () => {
 			<RowCont>
 				<ProfileImg
 					src={""}
-					width='6vw'
-					height='5vw'
+					width='7%'
+					height='7%'
 					isShowProfile={true}
 					onShowProfile={navigateToProfileDetail}
 				/>
@@ -182,26 +188,20 @@ const CourseReview = () => {
 					<StyledContent>created at: 07-08-2022</StyledContent>
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
-					<LikeIconWrapper>
-						<StyledContent
-							fontWeight={600}
-							fontColor={isLike ? "#fff" : "#000"}>
-							Helpful!
-						</StyledContent>
-						<Image
-							src={isLike ? smile : unsmile}
-							alt={
-								"Smile Icon. Click here if you think this review is helpful."
-							}
-							style={{
-								width: "2vw",
-								height: "2vw",
-								filter: "brightness(20%)",
-							}}
+					{isLike ? (
+						<FontAwesomeIcon
+							icon={solid("smile")}
+							fontSize='2vw'
+							color={"#fafafa"}
 						/>
-					</LikeIconWrapper>
-					<StyledContent fontWeight={600} fontColor={isLike ? "#fff" : "#000"}>
-						23
+					) : (
+						<FontAwesomeIcon icon={regular("smile")} fontSize='2vw' />
+					)}
+					<StyledContent
+						fontSize={"1.2vw"}
+						fontWeight={600}
+						fontColor={isLike ? "#fff" : "#000"}>
+						Helpful! (23)
 					</StyledContent>
 				</LikeCont>
 			</RowCont>
@@ -223,7 +223,7 @@ const CourseReview = () => {
 			<RowCont>
 				<ColCont>
 					<StyledTitle>Assignment:</StyledTitle>
-					<AssignmentsWrapper>
+					<ColCont>
 						<AssignmentCont>
 							<StyledContentWhite>Quiz</StyledContentWhite>
 							<StyledContentWhite>10</StyledContentWhite>
@@ -240,7 +240,7 @@ const CourseReview = () => {
 							<StyledContentWhite>Quiz</StyledContentWhite>
 							<StyledContentWhite>10</StyledContentWhite>
 						</AssignmentCont>
-					</AssignmentsWrapper>
+					</ColCont>
 				</ColCont>
 				<ColCont>
 					<StyledTitle>Course Info:</StyledTitle>

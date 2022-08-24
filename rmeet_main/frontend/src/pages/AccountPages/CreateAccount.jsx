@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
+/* Components */
 import {
 	ValidationMessage,
 	Button,
@@ -11,7 +13,7 @@ import Input from "../../components/Input";
 import { majors } from "../../lib/data/data";
 import { removeWhitespace } from "../../util/accountValidation";
 
-
+/* Styled Components */
 const InputWrapper = styled(FlexContainer)`
 	width: 100%;
 	justify-content: space-between;
@@ -25,6 +27,10 @@ const SubWrapper = styled(FlexContainer)`
 	justify-content: flex-start;
 	align-items: flex-start;
 `;
+
+const client = axios.create({
+	baseURL: "http://localhost:8080/api/user/register",
+});
 
 const CreateAccount = ({ studentEmail }) => {
 	const email = useRef(studentEmail);
@@ -43,6 +49,12 @@ const CreateAccount = ({ studentEmail }) => {
 	useEffect(() => {
 		setIsValid(username && pwd && pwdConfirm && major && !errorMessage);
 	}, [username, pwd, pwdConfirm, major, errorMessage]);
+
+	const registerUser = async userInfo => {
+		let response = await client.post("", userInfo).then(response => {
+			console.log(response);
+		});
+	};
 
 	const _handleProfileImgChange = e => {
 		const {
@@ -87,19 +99,14 @@ const CreateAccount = ({ studentEmail }) => {
 		setBio(e.target.value);
 	};
 
-	const _handleSubmit = e => {
+	const _handleSubmit = async e => {
 		const accountInfo = {
+			userName: "abcdefff",
 			email: email.current,
-			profileImg,
-			username,
-			pwd,
-			major,
-			bio,
+			password: pwd,
 		};
 
-		// process for creating an account
-
-		setCurrentUser(email)
+		registerUser(accountInfo);
 	};
 
 	return (

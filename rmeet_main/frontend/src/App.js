@@ -9,9 +9,12 @@ import NavBar from "./components/NavBar";
 import { CurrentPostProvider } from "./contexts/CurrentPost";
 
 const AppContainer = styled.div`
-	height: 100%;
-	display: flex;
-`;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+`
 
 function App() {
 	const isLogin = true;
