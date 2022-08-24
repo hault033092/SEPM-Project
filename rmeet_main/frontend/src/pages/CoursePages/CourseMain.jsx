@@ -9,9 +9,11 @@ import Course from "../../components/Course";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 
+
 /*Sample Data */
 import { sampleCourseList } from "../../lib/data/data";
 
+/* Styled Component */
 const Screen = styled(FlexContainer)`
 	width: 100%;
 	height: 100%;
@@ -67,6 +69,9 @@ const CourseCont = styled.div`
 	width: 100%;
 `;
 
+
+
+/* Data */
 const errMsg = "Please enter the course name.";
 
 const CourseMain = () => {

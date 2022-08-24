@@ -149,7 +149,8 @@ const BoardMain = () => {
 	};
 
 	const _onDeletePost = () => {
-		console.log("delete post!");
+		console.log("delete post!"); // delete 'focusedPost' 
+
 		_onHideModal();
 	};
 
