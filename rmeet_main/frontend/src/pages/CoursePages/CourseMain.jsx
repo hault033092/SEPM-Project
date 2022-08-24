@@ -83,6 +83,10 @@ const CourseMain = () => {
 	const theme = useContext(ThemeContext);
 
 	const _onSearchValChange = e => {
+		if (errorMessage === errMsg) {
+			setErrorMessage("");
+		}
+		
 		setCourse(e.target.value);
 	};
 

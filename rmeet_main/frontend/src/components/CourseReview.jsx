@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { FlexContainer } from "../components";
 import ProfileImg from "./ProfileImg";
 import DropBox from "./DropBox";
+import Image from "./Image";
 import Rating from "@mui/material/Rating";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
+
+/* Data */
+import solLike from "../lib/img/icon/solLike.svg";
+import regLike from "../lib/img/icon/regLike.svg";
 
 const RowCont = styled(FlexContainer)`
 	width: 100%;
@@ -54,7 +57,7 @@ const LikeCont = styled(RowCont)`
 	border: 3px solid
 		${props =>
 			props.isLike ? props.theme.smileBlue : "rgba(138, 138, 255, 0.5)"};
-	border-radius: 40px;
+	border-radius: 5px;
 	padding: 0.7% 0.5%;
 	width: 17vw;
 	color: ${props => props.theme.fontColor};
@@ -191,7 +194,7 @@ const CourseReview = ({ courseInfo, setModalShow, setFocusedReview }) => {
 	const deleteReview = () => {
 		setModalShow(true);
 		setFocusedReview("review id");
-	}
+	};
 
 	return (
 		<MainCont>
@@ -220,13 +223,26 @@ const CourseReview = ({ courseInfo, setModalShow, setFocusedReview }) => {
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
 					{isLike ? (
-						<FontAwesomeIcon
-							icon={solid("smile")}
-							fontSize='1.2vw'
-							color={"#fafafa"}
+						<Image
+							src={solLike}
+							alt={"like icon"}
+							style={{
+								width: "2vw",
+								height: "2vw",
+								filter: "brightness(0) invert(1)",
+							}}
 						/>
 					) : (
-						<FontAwesomeIcon icon={regular("smile")} fontSize='1.2vw' />
+						<Image
+							src={regLike}
+							alt={
+								"like icon. Click here if you think the review was not helpful"
+							}
+							style={{
+								width: "2vw",
+								height: "2vw",
+							}}
+						/>
 					)}
 					<StyledContent
 						fontSize={"1vw"}
@@ -303,6 +319,5 @@ CourseReview.defaultProps = {
 	setModalShow: () => {},
 	setFocusedReview: () => {},
 };
-
 
 export default CourseReview;

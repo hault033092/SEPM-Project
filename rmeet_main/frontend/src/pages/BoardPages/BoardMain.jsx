@@ -62,8 +62,8 @@ const SearchBarWrapper = styled(FlexContainer)`
 `;
 
 const ErrMsgWrapper = styled.div`
-	margin: 0 10%;
-	height: 1vw;
+	width: 90%;
+	height: auto;
 	display: ${props => (props.msgHidden ? "hidden" : "block")};
 	@media (max-width: 820px) {
 		margin: 0;
@@ -130,16 +130,12 @@ const BoardMain = () => {
 		// setPostList
 	}, []);
 
-	useEffect(() => {
+
+	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
 		}
 
-		// load result
-		// set post list
-	}, [course]);
-
-	const _onSearchValChange = e => {
 		setCourse(e.target.value);
 	};
 
