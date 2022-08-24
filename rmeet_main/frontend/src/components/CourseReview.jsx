@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useNavigate } from "react-router-dom";
 
 /*Components */
 import { FlexContainer } from "../components";
 import ProfileImg from "./ProfileImg";
+import DropBox from "./DropBox";
 import Rating from "@mui/material/Rating";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 const RowCont = styled(FlexContainer)`
 	width: 100%;
@@ -40,6 +41,11 @@ const MainCont = styled(RowCont)`
 const ReviewInfo = styled(ColCont)`
 	align-items: flex-start;
 	color: ${props => props.theme.darkX2Grey};
+`;
+
+const RatingDropBoxWrapper = styled(RowCont)`
+	justify-content: flex-start;
+	align-items: center;
 `;
 
 const LikeCont = styled(RowCont)`
@@ -122,6 +128,11 @@ const StudyPeriodCont = styled(RowCont)`
 	}
 `;
 
+const DropBoxWrapper = styled(RowCont)`
+	width: 8%;
+	margin-left: 3%;
+`;
+
 const StyledTitle = styled.p`
 	color: ${props => props.theme.mainBlue};
 	font-weight: 700;
@@ -140,7 +151,7 @@ const StyledSubTitle = styled(StyledTitle)`
 `;
 
 const StyledContent = styled.p`
-	font-size: ${props => (props.fontSize ? props.fontSize : "1vw")};
+	font-size: ${props => (props.fontSize ? props.fontSize : "0.7vw")};
 	text-decoration: ${props => (props.underline ? "underline" : "none")};
 	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
 	color: ${props =>
@@ -155,9 +166,15 @@ const StyledContentWhite = styled(StyledContent)`
 	color: ${props => props.theme.fontColorWhite};
 `;
 
-const CourseReview = () => {
+const CourseReview = ({ courseInfo, setModalShow, setFocusedReview }) => {
+	const isMyReview = useRef(null);
 	const [isLike, setIsLike] = useState(false);
 	const navigation = useNavigate();
+
+	useEffect(() => {
+		isMyReview.current = true; // check courseInfo.writerID === current user ID
+	}, []);
+
 	const navigateToProfileDetail = userID => {
 		navigation("/account/viewProfile/" + userID);
 	};
@@ -165,6 +182,16 @@ const CourseReview = () => {
 	const _handleLike = () => {
 		setIsLike(prev => !prev);
 	};
+
+	const editReview = () => {
+		navigation("/review-course");
+		// send a review id to edit review
+	};
+
+	const deleteReview = () => {
+		setModalShow(true);
+		setFocusedReview("review id");
+	}
 
 	return (
 		<MainCont>
@@ -176,29 +203,33 @@ const CourseReview = () => {
 					isShowProfile={true}
 					onShowProfile={navigateToProfileDetail}
 				/>
-
 				<ReviewInfo>
-					<Rating
-						name='read-only'
-						value={4.5}
-						precision={0.5}
-						readOnly
-						size={"small"}
-					/>
+					<RatingDropBoxWrapper>
+						<Rating
+							name='read-only'
+							value={4.5}
+							precision={0.5}
+							readOnly
+							size={"small"}
+						/>
+						<DropBoxWrapper>
+							<DropBox onEdit={editReview} onDelete={deleteReview} />
+						</DropBoxWrapper>
+					</RatingDropBoxWrapper>
 					<StyledContent>created at: 07-08-2022</StyledContent>
 				</ReviewInfo>
 				<LikeCont onClick={_handleLike} isLike={isLike}>
 					{isLike ? (
 						<FontAwesomeIcon
 							icon={solid("smile")}
-							fontSize='2vw'
+							fontSize='1.2vw'
 							color={"#fafafa"}
 						/>
 					) : (
-						<FontAwesomeIcon icon={regular("smile")} fontSize='2vw' />
+						<FontAwesomeIcon icon={regular("smile")} fontSize='1.2vw' />
 					)}
 					<StyledContent
-						fontSize={"1.2vw"}
+						fontSize={"1vw"}
 						fontWeight={600}
 						fontColor={isLike ? "#fff" : "#000"}>
 						Helpful! (23)
@@ -261,5 +292,17 @@ const CourseReview = () => {
 		</MainCont>
 	);
 };
+
+CourseReview.propTypes = {
+	courseInfo: PropTypes.object.isRequired,
+	setModalShow: PropTypes.func,
+	setFocusedReview: PropTypes.func,
+};
+
+CourseReview.defaultProps = {
+	setModalShow: () => {},
+	setFocusedReview: () => {},
+};
+
 
 export default CourseReview;
