@@ -63,8 +63,7 @@ const SearchBarWrapper = styled(FlexContainer)`
 
 const ErrMsgWrapper = styled.div`
 	width: 90%;
-	height: auto;
-	display: ${props => (props.msgHidden ? "hidden" : "block")};
+	height: 1vw;
 	@media (max-width: 820px) {
 		margin: 0;
 	}
@@ -209,7 +208,7 @@ const BoardMain = () => {
 							setValue={_handleCourseEvent}
 							valuesList={sampleCourseList}
 						/>
-						<ErrMsgWrapper msgHidden={errorMessage.length === 0}>
+						<ErrMsgWrapper >
 							<ValidationMessage message={errorMessage} />
 						</ErrMsgWrapper>
 					</SearchBarWrapper>

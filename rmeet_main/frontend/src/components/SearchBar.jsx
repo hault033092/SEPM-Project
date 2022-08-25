@@ -16,7 +16,7 @@ const MainCont = styled.div`
 
 const SearchCont = styled.div`
 	display: flex;
-	width: 90%;
+	width: 100%;
 	height: 100%;
 	border: 0.3vw solid ${props => props.theme.mainBlue};
 	border-bottom: ${props => (props.isShow ? "none" : "0.3vw solid #000056")};
@@ -45,7 +45,7 @@ const ResCont = styled.div`
 `;
 
 const StyledUl = styled.ul`
-	width: 90%;
+	width: 100%;
 	position: absolute;
 	z-index: 1;
 	border: ${props => (props.isShow ? "0.3vw solid #000056" : "none")};
