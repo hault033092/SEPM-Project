@@ -1,5 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import NavBar from "../components/NavBar";
+import { CurrentUserContext } from "../contexts/CurrentUser";
+
+/* Sign in & Sign up page */
+import Signin from "./AccountPages/Signin";
+import Signup from "./AccountPages/Signup";
+
+/* Homepage */
 import Home from "./Home";
 
 /* Board Pages */
@@ -19,18 +27,32 @@ import MessageMain from "./MessagePages/MessageMain";
 import Account from "./Account";
 
 const MainNav = () => {
+	const { currentUser } = useContext(CurrentUserContext);
+
 	return (
-		<Routes>
-			<Route path='/' element={<Home />} />
-			<Route exact path='/board' element={<BoardMain />} />
-			<Route exact path='/board/detail' element={<BoardDetail />} />
-			<Route path='/board/create-post' element={<CreatePost />} />
-			<Route exact path='/course' element={<CourseMain />} />
-			<Route exact path='/course/detail' element={<CourseDetail />} />
-			<Route path='/review-course' element={<CourseReview />} />
-			<Route path='/message' element={<MessageMain />} />
-			<Route path='/account' element={<Account />} />
-		</Routes>
+		<>
+			{currentUser.token ? (
+				<>
+					<NavBar />
+					<Routes>
+						<Route path='/' element={<Home />} />
+						<Route exact path='/board' element={<BoardMain />} />
+						<Route exact path='/board/detail' element={<BoardDetail />} />
+						<Route path='/board/create-post' element={<CreatePost />} />
+						<Route exact path='/course' element={<CourseMain />} />
+						<Route exact path='/course/detail' element={<CourseDetail />} />
+						<Route path='/review-course' element={<CourseReview />} />
+						<Route path='/message' element={<MessageMain />} />
+						<Route path='/account' element={<Account />} />
+					</Routes>
+				</>
+			) : (
+				<Routes>
+					<Route path='/' element={<Signin />} />
+					<Route path='/signup' element={<Signup />} />
+				</Routes>
+			)}
+		</>
 	);
 };
 
