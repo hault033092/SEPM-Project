@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 /* Components */
 import Course from "../../components/Course";
 import { FlexContainer } from "../../components";
-import CourseReview from "../../components/CourseReview";
+import Review from "../../components/Review";
 import Image from "../../components/Image";
 import CenterModal from "../../components/CenterModal";
 
@@ -114,22 +114,22 @@ const CourseDetail = ({ courseID }) => {
 					isNavHidden={true}
 				/>
 				<ReviewCont>
-					<CourseReview
+					<Review
 						courseInfo={{}}
 						setModalShow={setIsModalShow}
 						setFocusedReview={setFocusedReview}
 					/>
-					<CourseReview
+					<Review
 						courseInfo={{}}
 						setModalShow={setIsModalShow}
 						setFocusedReview={setFocusedReview}
 					/>
-					<CourseReview
+					<Review
 						courseInfo={{}}
 						setModalShow={setIsModalShow}
 						setFocusedReview={setFocusedReview}
 					/>
-					<CourseReview
+					<Review
 						courseInfo={{}}
 						setModalShow={setIsModalShow}
 						setFocusedReview={setFocusedReview}

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 /*Components */
-import { FlexContainer } from "../components";
+import { FlexContainer } from ".";
 import ProfileImg from "./ProfileImg";
 import DropBox from "./DropBox";
 import Image from "./Image";
@@ -169,7 +169,7 @@ const StyledContentWhite = styled(StyledContent)`
 	color: ${props => props.theme.fontColorWhite};
 `;
 
-const CourseReview = ({ courseInfo, setModalShow, setFocusedReview }) => {
+const Review = ({ courseInfo, setModalShow, setFocusedReview }) => {
 	const isMyReview = useRef(null);
 	const [isLike, setIsLike] = useState(false);
 	const navigation = useNavigate();
@@ -309,15 +309,15 @@ const CourseReview = ({ courseInfo, setModalShow, setFocusedReview }) => {
 	);
 };
 
-CourseReview.propTypes = {
+Review.propTypes = {
 	courseInfo: PropTypes.object.isRequired,
 	setModalShow: PropTypes.func,
 	setFocusedReview: PropTypes.func,
 };
 
-CourseReview.defaultProps = {
+Review.defaultProps = {
 	setModalShow: () => {},
 	setFocusedReview: () => {},
 };
 
-export default CourseReview;
+export default Review;
