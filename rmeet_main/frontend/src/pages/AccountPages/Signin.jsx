@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Components */
 import { Input, ValidationMessage, Button } from "../../components";
-import AccPageTemplate from "../../components/TemplateCmp/AccPageTemplate";
+import AccPageTemplate from "../../components/AccPageTemplate";
 import {
 	validateStudentEmail,
 	removeWhitespace,

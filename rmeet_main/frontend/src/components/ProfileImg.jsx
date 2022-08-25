@@ -11,7 +11,7 @@ const Container = styled(FlexContainer)`
 	height: ${props => props.height};
 	border-radius: 50%;
 	position: relative;
-	background-color: ${props => props.theme.lightGrey};
+	background: ${props => props.theme.slideMsg};
 	filter: ${props => (props.isHover ? "brightness(60%)" : "brightness(100%)")};
 	cursor: pointer;
 `;
@@ -21,7 +21,6 @@ const BtnContainer = styled(Container)`
 	height: 2vw;
 	padding: 5%;
 	position: absolute;
-	background-color: ${props => props.theme.slideMsg};
 	bottom: 0;
 	right: 0;
 
@@ -108,8 +107,8 @@ const ProfileImg = ({
 				src={src === "" ? user : src}
 				alt={"Profile Image"}
 				style={{
-					width: "90%",
-					height: "90%",
+					width: "100%",
+					height: "100%",
 					borderRadius: "50%",
 					padding: "5%",
 				}}
