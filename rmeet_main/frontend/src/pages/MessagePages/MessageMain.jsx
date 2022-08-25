@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 /*Components */
 import SearchBar from "../../components/SearchBar";
 import ValidationMessage from "../../components/ValidationMessage";
-import { FlexContainer } from "../../components";
+import { FlexContainer } from "../../components/FlexContainer";
+import Message from "../../components/Message";
 
 /*Sample Data */
 import { sampleCourseList } from "../../lib/data/data";
@@ -19,21 +20,11 @@ const Screen = styled(FlexContainer)`
 	padding: 1%;
 `;
 
-const SearchBarCont = styled(FlexContainer)`
-	width: 100%;
-	height: auto;
-	justify-content: space-between;
-	padding: 2% 0;
-
-	@media (max-width: 400px) {
-		margin-bottom: 3vh;
-	}
-`;
-
 const SearchBarWrapper = styled(FlexContainer)`
-	width: 100%;
+	width: 90%;
 	flex-direction: column;
 	justify-content: flex-start;
+	padding: 2% 5%;
 
 	@media (max-width: 820px) {
 		margin: 0;
@@ -43,7 +34,10 @@ const SearchBarWrapper = styled(FlexContainer)`
 const ErrMsgWrapper = styled.div`
 	width: 90%;
 	height: 1vw;
-	display: ${props => (props.msgHidden ? "hidden" : "block")};
+
+	@media (max-width: 820px) {
+		margin: 0;
+	}
 `;
 
 const StyleTitle = styled.h1`
@@ -61,9 +55,10 @@ const StyleTitle = styled.h1`
 `;
 
 const MessageCont = styled.div`
+	width: 90%;
+	margin-top: 1vw;
 	height: 70vh;
 	overflow-y: scroll;
-	width: 100%;
 `;
 
 /* Data */
@@ -114,12 +109,55 @@ const MessageMain = () => {
 					setValue={_handleMessageEvent}
 					valuesList={sampleCourseList}
 				/>
-				<ErrMsgWrapper msgHidden={errorMessage.length === 0}>
+				<ErrMsgWrapper>
 					<ValidationMessage message={errorMessage} />
 				</ErrMsgWrapper>
 			</SearchBarWrapper>
 
-			<MessageCont></MessageCont>
+			<MessageCont>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+				<Message
+					recipient={"lovely cat"}
+					lastMessage={
+						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+					}
+					onNavigate={() => {}}
+				/>
+			</MessageCont>
 		</Screen>
 	);
 };

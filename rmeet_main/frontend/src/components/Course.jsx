@@ -33,8 +33,6 @@ const MainCont = styled(FlexContainer)`
 	}
 `;
 
-const SubCont = styled(FlexContainer)``;
-
 const DetailIconWrapper = styled(FlexContainer)`
 	width: auto;
 `;
@@ -50,10 +48,6 @@ const RateCont = styled(FlexContainer)`
 	justify-content: space-between;
 	margin-bottom: 3%;
 `;
-
-const StyledRating = styled(Rating).attrs(({ size }) => ({
-	size,
-}))``;
 
 const StyledTitle = styled.p`
 	font-size: 1.5vw;
