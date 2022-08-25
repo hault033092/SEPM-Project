@@ -114,6 +114,7 @@ const Input = ({
 					style={style}
 					isPassword={isPassword}
 					disabled={disabled}
+					autoComplete='on'
 				/>
 			)}
 		</Container>

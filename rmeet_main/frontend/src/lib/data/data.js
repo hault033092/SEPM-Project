@@ -1,9 +1,3 @@
-import {
-	logoNoTitle,
-	getTeammates,
-	sendMessage,
-	createReview,
-} from "../img/illustration";
 
 export const sampleCourseList = [
 	{
@@ -181,38 +175,3 @@ export const samplePostList = {
 	},
 };
 
-export const majors = {
-	SSET: [
-		{ key: "BH073", value: "Electronic and Computer Systems Engineering" },
-		{ key: "BH120", value: "Software Engineering" },
-		{ key: "BH070", value: "Applied Science (Aviation)" },
-		{ key: "BH199", value: "Science (Food Technology and Nutrition)" },
-		{ key: "BH123", value: "Robotics and Mechatronics Engineering" },
-		{ key: "BH154", value: "Applied Science (Psychology)" },
-		{ key: "BH162", value: "Information Technology" },
-	],
-	SCD: [
-		{ key: "BP309", value: "Design (Digital Media)" },
-		{ key: "BP316", value: "Design Studies" },
-		{ key: "BP222", value: "Communication (Professional Communication)" },
-		{ key: "BP317", value: "Languages" },
-		{ key: "BP327", value: "Fashion (Enterprise)" },
-		{ key: "BP325", value: "Digital Film and Video" },
-		{ key: "BP214", value: "Design (Games)" },
-	],
-	SBM: [
-		{ key: "BP343", value: "Business" },
-		{ key: "BP312", value: "Tourism and Hospitality Management" },
-		{ key: "BP318", value: " Digital Marketing" },
-	],
-};
-
-export const imagesData = [
-	{ src: logoNoTitle, desc: "Private community\n for \n only RMIT" },
-	{ src: getTeammates, desc: "Ask help\n and\n share information!" },
-	{ src: sendMessage, desc: "Send message!" },
-	{
-		src: createReview,
-		desc: "Create a course review!",
-	},
-];

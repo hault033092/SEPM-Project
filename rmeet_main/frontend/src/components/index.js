@@ -7,7 +7,7 @@ import SelectBox from "./SelectBox";
 import ProfileImg from "./ProfileImg";
 import SearchBar from "./SearchBar";
 import AutoSlideshow from "./AutoSlideshow";
-import AccPageTemplate from "./TemplateCmp/AccPageTemplate";
+import AccPageTemplate from "./AccPageTemplate";
 import ValidationMessage from "./ValidationMessage";
 
 export {

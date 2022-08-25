@@ -1,39 +1,34 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import InitNav from "./pages/InitNav";
 import MainNav from "./pages/MainNav";
 import { theme } from "./lib/style/theme";
 import GlobalCSS from "./lib/style/GlobalCSS";
-import NavBar from "./components/NavBar";
 
+/* Context */
 import { CurrentPostProvider } from "./contexts/CurrentPost";
+import {
+	CurrentUserProvider,
+} from "./contexts/CurrentUser";
 
 const AppContainer = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-`
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+`;
 
 function App() {
-	const isLogin = true;
-
 	return (
 		<div className='App'>
 			<GlobalCSS />
 			<ThemeProvider theme={theme}>
 				<CurrentPostProvider>
-					<AppContainer>
-						{isLogin ? (
-							<>
-								{<NavBar />}
-								<MainNav />
-							</>
-						) : (
-							<InitNav />
-						)}
-					</AppContainer>
+					<CurrentUserProvider>
+						<AppContainer>
+							<MainNav />
+						</AppContainer>
+					</CurrentUserProvider>
 				</CurrentPostProvider>
 			</ThemeProvider>
 		</div>
