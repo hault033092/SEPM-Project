@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
@@ -120,15 +122,41 @@ const BoardMain = () => {
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedPost, setFocusedPost] = useState("");
 
+	const { currentUser } = useContext(CurrentUserContext);
 	const theme = useContext(ThemeContext);
+
 	const navigation = useNavigate();
 
 	useEffect(() => {
-		// get post from api
-		// set post list
-		// setPostList
+		// get current user's token
+
+		getPosts();
 	}, []);
 
+	const getPosts = async () => {
+		// get current user's token
+		const { token } = currentUser;
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": token,
+			},
+		});
+
+		try {
+			let response = await client
+				.get("/api/posts/getPosts")
+				.then(response => {
+					console.log(response.data);
+					setPostList(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
@@ -144,7 +172,7 @@ const BoardMain = () => {
 	};
 
 	const _onDeletePost = () => {
-		console.log("delete post!"); // delete 'focusedPost' 
+		console.log("delete post!"); // delete 'focusedPost'
 
 		_onHideModal();
 	};
@@ -208,7 +236,7 @@ const BoardMain = () => {
 							setValue={_handleCourseEvent}
 							valuesList={sampleCourseList}
 						/>
-						<ErrMsgWrapper >
+						<ErrMsgWrapper>
 							<ValidationMessage message={errorMessage} />
 						</ErrMsgWrapper>
 					</SearchBarWrapper>
