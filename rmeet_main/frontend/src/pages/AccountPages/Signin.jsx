@@ -26,8 +26,6 @@ const StyledForm = styled.form`
 `;
 
 /* Data */
-const failLoginMsg = "Please check your email and password and try again.";
-
 const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/login",
 });
@@ -56,7 +54,7 @@ const Signin = () => {
 					};
 					setCurrentUser(currentUser);
 				})
-				.catch(function (error) {
+				.catch(error => {
 					setErrorMessage(error.response.data);
 				});
 		} catch (error) {

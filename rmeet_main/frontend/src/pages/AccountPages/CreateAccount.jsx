@@ -100,7 +100,7 @@ const CreateAccount = ({ studentEmail }) => {
 					setCurrentUser(currentUser);
 					navigation("/");
 				})
-				.catch(function (error) {
+				.catch(error => {
 					setErrorMessage(error.response.data);
 				});
 		} catch (error) {
