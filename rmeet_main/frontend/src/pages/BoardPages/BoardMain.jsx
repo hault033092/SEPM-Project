@@ -200,7 +200,7 @@ const BoardMain = () => {
 	};
 
 	const _handleCreatePost = () => {
-		navigation("/board/create-post");
+		navigation("/board/create-post", { state: { mode: "create" } });
 	};
 
 	const _handleSearch = () => {
