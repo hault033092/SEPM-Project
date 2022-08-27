@@ -11,10 +11,7 @@ import ProfileImg from "../components/ProfileImg";
 import DropBox from "./DropBox";
 
 /*Context */
-import { CurrentPostContext } from "../contexts/CurrentPost";
-
-/*sample data */
-import user from "../lib/img/icon/user.svg";
+import { CurrentUserContext } from "../contexts/CurrentUser";
 
 const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
@@ -73,7 +70,9 @@ const TitleCont = styled(FlexContainer)`
 `;
 
 const ContentCont = styled(FlexContainer)`
+	width: 100%;
 	padding: 1%;
+	justify-content: flex-start;
 	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
 `;
 
@@ -86,8 +85,6 @@ const IconWrapper = styled(FlexContainer)`
 	margin-right: 5%;
 	cursor: ${props => (props.isNavHidden ? "default" : "pointer")};
 `;
-
-
 
 const StyledText = styled.p`
 	font-weight: ${props => props.weight};
@@ -107,32 +104,27 @@ const DropBoxWrapper = styled(FlexContainer)`
 `;
 
 const SingleBoard = ({
-	userID,
 	post,
 	isDetail,
 	isNavHidden,
 	setModalShow,
 	setFocusedPost,
 }) => {
-	const isMyPost = useRef(post.writerID === userID);
-	const userInfo = useRef(user);
+	const isMyPost = useRef(null);
+	const writerInfo = useRef(null);
 	const theme = useContext(ThemeContext);
-	const { setCurrentPost } = useContext(CurrentPostContext);
 	const [isLikePost, setIsLikePost] = useState(false);
+
+	const { currentUser } = useContext(CurrentUserContext);
 
 	const navigation = useNavigate();
 
 	useEffect(() => {
-		userInfo.current = _getUserInfo();
-		if (userInfo.current.likedPostsIDs.includes(post.postID)) {
-			setIsLikePost(true);
-		}
-	}, []);
+		// check whether the post was written by the curren user
+		isMyPost.current = true; // post.writerId === currentUser.uid //MEMO
 
-	const _getUserInfo = () => {
-		// get user profile from API by userID
-		return { profileImg: "", likedPostsIDs: ["111", "222", "333"] };
-	};
+
+	}, []);
 
 	const _updateNumOfLike = () => {
 		setIsLikePost(prev => !prev);
@@ -140,30 +132,29 @@ const SingleBoard = ({
 
 	const _onClickDelete = () => {
 		setModalShow(true);
-		setFocusedPost(post);
+		setFocusedPost(post["_id"]);
 	};
 
 	const navigateToDetail = () => {
 		if (isNavHidden) {
 			return;
 		}
-		setCurrentPost(post);
-		navigation("/board/detail");
+		navigation("/board/postId");  //MEMO
 	};
 
 	const navigateToEditPost = () => {
 		navigation("/board/create-post");
 	};
 
-	const navigateToProfileDetail = userID => {
-		navigation("/account/" + userID);
+	const navigateToProfileDetail = () => {
+		navigation("/account/" + post.userId); //MEMO
 	};
 
 	return (
 		<MainCont className='mainCont' theme={theme} isNavHidden={isNavHidden}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
 				<ProfileImg
-					src={userInfo.current.profileImg}
+					src={"" /* writer profile img */}
 					width='5vw'
 					height='5vw'
 					isShowProfile={true}
@@ -234,7 +225,6 @@ const SingleBoard = ({
 };
 
 SingleBoard.propTypes = {
-	userID: PropTypes.string.isRequired,
 	post: PropTypes.object.isRequired,
 	onClick: PropTypes.func,
 	isDetail: PropTypes.bool,
