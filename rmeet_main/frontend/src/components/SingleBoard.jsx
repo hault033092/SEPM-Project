@@ -137,11 +137,13 @@ const SingleBoard = ({
 		if (isNavHidden) {
 			return;
 		}
-		navigation(`/board/${post["_id"]}`);  //MEMO
+		navigation(`/board/${post["_id"]}`); //MEMO
 	};
 
 	const navigateToEditPost = () => {
-		navigation("/board/create-post");
+		navigation("/board/create-post", {
+			state: { mode: "update", postId: post["_id"] },
+		});
 	};
 
 	const navigateToProfileDetail = () => {

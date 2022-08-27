@@ -6,7 +6,7 @@ const CreatePost = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	console.log(location.state.mode);
+	console.log(location.state);
 
 	return (
 		<PostContainer>
