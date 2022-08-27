@@ -122,8 +122,6 @@ const SingleBoard = ({
 	useEffect(() => {
 		// check whether the post was written by the curren user
 		isMyPost.current = true; // post.writerId === currentUser.uid //MEMO
-
-
 	}, []);
 
 	const _updateNumOfLike = () => {
@@ -139,7 +137,7 @@ const SingleBoard = ({
 		if (isNavHidden) {
 			return;
 		}
-		navigation("/board/postId");  //MEMO
+		navigation(`/board/${post["_id"]}`);  //MEMO
 	};
 
 	const navigateToEditPost = () => {

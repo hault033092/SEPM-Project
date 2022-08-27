@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
@@ -12,6 +11,9 @@ import Button from "../../components/Button";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 import CenterModal from "../../components/CenterModal";
+
+/*Context */
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
@@ -179,15 +181,13 @@ const BoardMain = () => {
 	};
 
 	const _onDeletePost = async () => {
-		console.log("delete post!"); // delete 'focusedPost'
-		console.log(focusedPost);
 		const client = getClient();
-		
+
 		try {
 			let response = await client
-				.get("/api/posts/getPosts")
+				.delete(`/api/posts/${focusedPost}`)
 				.then(response => {
-					setPostList(response.data);
+					getPosts(client);
 				})
 				.catch(error => {
 					console.log(error);

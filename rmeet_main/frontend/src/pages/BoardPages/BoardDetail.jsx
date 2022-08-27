@@ -1,6 +1,7 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
@@ -11,8 +12,8 @@ import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";
 import CenterModal from "../../components/CenterModal";
 
-/*sample data */
-import { sampleCurrentUser } from "../../lib/data/data";
+/*Context */
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 const EditCommentWrapper = styled(FlexContainer)`
 	flex-direction: column;
@@ -253,7 +254,7 @@ const StyleTitle = styled.h1`
 `;
 
 /* Data */
-const currentPost =  {
+const currentPost = {
 	postID: "111",
 	writerID: "000000",
 	title: "Looking for 1 more team member",
@@ -285,14 +286,48 @@ const currentPost =  {
 	createdAt: "07-08-2022",
 };
 
-const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
+const BoardDetail = ({ match }) => {
 	const [newComment, setNewComment] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [deleteTarget, setDeleteTarget] = useState("");
 
+	const { currentUser } = useContext(CurrentUserContext);
+
 	const navigation = useNavigate();
 
+	const postId = useParams();
 
+	useEffect(() => {
+		const client = getClient();
+		getPost(client);
+	}, []);
+
+	const getClient = () => {
+		const { token } = currentUser; // get current user's token
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": token,
+			},
+		});
+
+		return client;
+	};
+
+	const getPost = async client => {
+		try {
+			let response = await client
+				.get("/api/posts/getPosts")
+				.then(response => {
+					console.log(response);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const _onDelete = () => {
 		setIsModalShow(false);
@@ -333,7 +368,6 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 			<StyleTitle>Board</StyleTitle>
 			<FlexContainer>
 				<SingleBoard
-					userID={userID}
 					post={currentPost}
 					setModalShow={_onClickDeletePost}
 					isDetail
@@ -346,7 +380,7 @@ const BoardDetail = ({ userID = sampleCurrentUser.userID }) => {
 						<Comment
 							key={index}
 							commentInfo={item}
-							isCurrentUserComment={item.writerID === userID}
+							isCurrentUserComment={true /* MEMO */}
 							onDelete={_onClickDeleteComment}
 						/>
 					);
