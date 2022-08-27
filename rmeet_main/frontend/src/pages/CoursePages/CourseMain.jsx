@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 /*Components */
 import SearchBar from "../../components/SearchBar";
@@ -9,6 +10,8 @@ import Course from "../../components/Course";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 
+/*Context */
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /*Sample Data */
 import { sampleCourseList } from "../../lib/data/data";
@@ -68,24 +71,56 @@ const CourseCont = styled.div`
 	width: 100%;
 `;
 
-
-
 /* Data */
 const errMsg = "Please enter the course name.";
 
 const CourseMain = () => {
-	const [courseList, setCourseList] = useState();
+	const [courseList, setCourseList] = useState([]);
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
+	const { currentUser } = useContext(CurrentUserContext);
+
 	const navigation = useNavigate();
 	const theme = useContext(ThemeContext);
+
+	useEffect(() => {
+		const client = getClient();
+		getCourses(client);
+	}, []);
+
+	const getClient = () => {
+		const { token } = currentUser; // get current user's token
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": token,
+			},
+		});
+
+		return client;
+	};
+
+	const getCourses = async client => {
+		try {
+			let response = await client
+				.get("/api/course/getCourses")
+				.then(response => {
+					setCourseList(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
 		}
-		
+
 		setCourse(e.target.value);
 	};
 
@@ -142,54 +177,15 @@ const CourseMain = () => {
 				/>
 			</SearchBarCont>
 			<CourseCont>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar, Anas Sarwar, Anas Sarwar, Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-				/>
+				{Object.values(courseList).map((course, index) => (
+					<Course
+						key={index}
+						courseID={course._id}
+						courseName={course.courseName}
+						LecturerName={course.lecturerName}
+						rateValue={course.__v}
+					/>
+				))}
 			</CourseCont>
 		</Screen>
 	);

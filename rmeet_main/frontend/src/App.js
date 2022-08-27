@@ -5,10 +5,7 @@ import { theme } from "./lib/style/theme";
 import GlobalCSS from "./lib/style/GlobalCSS";
 
 /* Context */
-import { CurrentPostProvider } from "./contexts/CurrentPost";
-import {
-	CurrentUserProvider,
-} from "./contexts/CurrentUser";
+import { CurrentUserProvider } from "./contexts/CurrentUser";
 
 const AppContainer = styled.div`
 	height: 100%;
@@ -23,13 +20,11 @@ function App() {
 		<div className='App'>
 			<GlobalCSS />
 			<ThemeProvider theme={theme}>
-				<CurrentPostProvider>
-					<CurrentUserProvider>
-						<AppContainer>
-							<MainNav />
-						</AppContainer>
-					</CurrentUserProvider>
-				</CurrentPostProvider>
+				<CurrentUserProvider>
+					<AppContainer>
+						<MainNav />
+					</AppContainer>
+				</CurrentUserProvider>
 			</ThemeProvider>
 		</div>
 	);

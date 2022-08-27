@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
@@ -13,12 +12,8 @@ import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 import CenterModal from "../../components/CenterModal";
 
-/*Sample Data */
-import {
-	sampleCurrentUser,
-	samplePostList,
-	sampleCourseList,
-} from "../../lib/data/data";
+/*Context */
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
@@ -86,6 +81,7 @@ const StyleTitle = styled.h1`
 `;
 
 const BoardCont = styled.div`
+	width: 100%;
 	height: 70vh;
 	overflow-y: scroll;
 `;
@@ -111,10 +107,22 @@ const yearInfo = [
 	{ key: "2022", value: "2022" },
 ];
 
+const sampleCourseList = [
+	{
+		key: "COSC2539",
+		value: "Security in Computing and Information Technology",
+	},
+	{ key: "COSC2503", value: "Programming Project 2" },
+	{ key: "COSC2740", value: "Flagship Internship (IT)" },
+	{ key: "COSC2638", value: "Cloud Computing" },
+	{ key: "MATH2081", value: "Mathematics for Computing" },
+	{ key: "COSC2769", value: "Further Web Programming" },
+];
+
 const errMsg = "Please enter the course name.";
 
 const BoardMain = () => {
-	const [postList, setPostList] = useState(samplePostList);
+	const [postList, setPostList] = useState([]);
 	const [semester, setSemester] = useState("semester1");
 	const [year, setYear] = useState("2020");
 	const [course, setCourse] = useState("");
@@ -128,14 +136,12 @@ const BoardMain = () => {
 	const navigation = useNavigate();
 
 	useEffect(() => {
-		// get current user's token
-
-		getPosts();
+		const client = getClient();
+		getPosts(client);
 	}, []);
 
-	const getPosts = async () => {
-		// get current user's token
-		const { token } = currentUser;
+	const getClient = () => {
+		const { token } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
@@ -143,11 +149,14 @@ const BoardMain = () => {
 			},
 		});
 
+		return client;
+	};
+
+	const getPosts = async client => {
 		try {
 			let response = await client
 				.get("/api/posts/getPosts")
 				.then(response => {
-					console.log(response.data);
 					setPostList(response.data);
 				})
 				.catch(error => {
@@ -171,14 +180,27 @@ const BoardMain = () => {
 		setFocusedPost("");
 	};
 
-	const _onDeletePost = () => {
-		console.log("delete post!"); // delete 'focusedPost'
+	const _onDeletePost = async () => {
+		const client = getClient();
+
+		try {
+			let response = await client
+				.delete(`/api/posts/${focusedPost}`)
+				.then(response => {
+					getPosts(client);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 
 		_onHideModal();
 	};
 
 	const _handleCreatePost = () => {
-		navigation("/board/create-post");
+		navigation("/board/create-post", { state: { mode: "create" } });
 	};
 
 	const _handleSearch = () => {
@@ -257,7 +279,6 @@ const BoardMain = () => {
 				{Object.values(postList).map((post, index) => (
 					<SingleBoard
 						key={index}
-						userID={sampleCurrentUser.userID}
 						post={post}
 						setModalShow={setIsModalShow}
 						setFocusedPost={setFocusedPost}
