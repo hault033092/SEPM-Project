@@ -1,0 +1,4 @@
+0. component name : original code link
+
+
+1. AutoSlideshow : https://codepen.io/bnsddk/pen/dyXaNod

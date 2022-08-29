@@ -1,0 +1,24 @@
+0. library name: 
+npm command
+
+1. fontawesome : 
+npm install babel-plugin-macros
+npm i --save @fortawesome/fontawesome-svg-core
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/react-fontawesome@latest
+
+
+2. email js:
+npm install @emailjs/browser --save
+
+
+3. otp component:
+npm i react-otp-input
+
+4. rate component: 
+npm install @mui/material @emotion/react @emotion/styled
+
+5. modal screen:
+npm install react-bootstrap bootstrap
+
+
