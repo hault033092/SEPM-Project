@@ -1,0 +1,26 @@
+userId: req.userId,
+// courseId: req.courseId,
+title: req.body.title,
+content: req.body.content,
+semeter: req.body.semester,
+year: req.body.year,
+like: req.body.year,
+
+///
+"title": "hello",
+    "content": "this is a 67th testing post",
+    "semester": "2022B"
+///
+
+"userName": "haule9298",
+
+"email" : "haule9298@gmail.com",
+"password": "haule929888"
+
+
+///
+
+"title": "hello",
+    "content": "This is a demo post",
+    "semeter": "2022A",
+    "year": 2022

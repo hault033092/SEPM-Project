@@ -2,11 +2,10 @@ const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema(
   {
-    // userId: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true,
-    // },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Profile',
+    },
 
     // courseId: {
     //   type: mongoose.Types.ObjectId,
@@ -34,15 +33,15 @@ const postSchema = new mongoose.Schema(
       min: 1,
     },
 
-    year: {
-      type: Number,
-      required: true,
-      min: 4,
-    },
+    // year: {
+    //   type: Number,
+    //   required: true,
+    //   min: 4,
+    // },
 
-    like: {
-      type: Number,
-    },
+    // like: {
+    //   type: Number,
+    // },
   },
   { timestamp: true }
 )
