@@ -34,34 +34,6 @@ const StyledText = styled.p`
 	margin: 0.5% 0 0.5% 0;
 `;
 
-/* Data */
-
-const majors = {
-	SSET: [
-		{ key: "BH073", value: "Electronic and Computer Systems Engineering" },
-		{ key: "BH120", value: "Software Engineering" },
-		{ key: "BH070", value: "Applied Science (Aviation)" },
-		{ key: "BH199", value: "Science (Food Technology and Nutrition)" },
-		{ key: "BH123", value: "Robotics and Mechatronics Engineering" },
-		{ key: "BH154", value: "Applied Science (Psychology)" },
-		{ key: "BH162", value: "Information Technology" },
-	],
-	SCD: [
-		{ key: "BP309", value: "Design (Digital Media)" },
-		{ key: "BP316", value: "Design Studies" },
-		{ key: "BP222", value: "Communication (Professional Communication)" },
-		{ key: "BP317", value: "Languages" },
-		{ key: "BP327", value: "Fashion (Enterprise)" },
-		{ key: "BP325", value: "Digital Film and Video" },
-		{ key: "BP214", value: "Design (Games)" },
-	],
-	SBM: [
-		{ key: "BP343", value: "Business" },
-		{ key: "BP312", value: "Tourism and Hospitality Management" },
-		{ key: "BP318", value: " Digital Marketing" },
-	],
-};
-
 const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/register",
 });
@@ -73,10 +45,6 @@ const CreateAccount = ({ studentEmail }) => {
 	const [username, setUserName] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [pwdConfirm, setPwdConfirm] = useState("");
-	const [major, setMajor] = useState(
-		"Electronic and Computer Systems Engineering"
-	);
-	const [bio, setBio] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
 
@@ -85,8 +53,8 @@ const CreateAccount = ({ studentEmail }) => {
 	const navigation = useNavigate();
 
 	useEffect(() => {
-		setIsValid(username && pwd && pwdConfirm && major && !errorMessage);
-	}, [username, pwd, pwdConfirm, major, errorMessage]);
+		setIsValid(username && pwd && pwdConfirm && !errorMessage);
+	}, [username, pwd, pwdConfirm, errorMessage]);
 
 	const registerUser = async userInfo => {
 		try {
@@ -146,16 +114,6 @@ const CreateAccount = ({ studentEmail }) => {
 		);
 	};
 
-	const _handleMajorChange = e => {
-		setErrorMessage("");
-		setMajor(e.target.value);
-	};
-
-	const _handleBioChange = e => {
-		setErrorMessage("");
-		setBio(e.target.value);
-	};
-
 	const _handleSubmit = async e => {
 		const accountInfo = {
 			userName: username,
@@ -192,7 +150,10 @@ const CreateAccount = ({ studentEmail }) => {
 						isRequired
 					/>
 					<StyledText>Username must be 6 - 255 characters</StyledText>
-					<Input
+
+				</SubWrapper>
+				<SubWrapper>
+				<Input
 						label={"Password"}
 						value={pwd}
 						placeholder={"Please enter your password"}
@@ -210,26 +171,6 @@ const CreateAccount = ({ studentEmail }) => {
 						onChange={_handlePwdConfirmChange}
 						isRequired
 						isPassword
-					/>
-				</SubWrapper>
-				<SubWrapper>
-					<SelectBox
-						label={"Major"}
-						value={major}
-						groups={majors}
-						onChange={_handleMajorChange}
-						isGrouped
-						style={{
-							labelColor: "#ffffff",
-						}}
-					/>
-					<Input
-						label={"Bio"}
-						value={bio}
-						maxLength={256}
-						onChange={_handleBioChange}
-						onKeyPress={_handleSubmit}
-						isMultipleLine
 					/>
 					{!isValid && <ValidationMessage message={errorMessage} />}
 
