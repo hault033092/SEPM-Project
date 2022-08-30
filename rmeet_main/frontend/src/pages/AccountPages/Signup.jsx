@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import AccPageTemplate from "../../components/AccPageTemplate"
-import Verification from "./Verification"
-import CreateAccount from "./CreateAccount"
+import AccPageTemplate from "../../components/AccPageTemplate";
+import Verification from "./Verification";
+import CreateAccount from "./CreateAccount";
 
 const Signup = () => {
-	const [confirmedEmail, setConfirmedEmail] = useState("s4444444@rmit.edu.vn");
+	const [confirmedEmail, setConfirmedEmail] = useState("");
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);

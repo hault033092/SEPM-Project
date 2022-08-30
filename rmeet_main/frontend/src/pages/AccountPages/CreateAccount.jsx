@@ -2,16 +2,14 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Components */
 import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
-import SelectBox from "../../components/SelectBox";
 import ProfileImg from "../../components/ProfileImg";
 import { FlexContainer } from "../../components/FlexContainer";
 import Input from "../../components/Input";
-import { removeWhitespace } from "../../util/accountValidation";
+import CenterModal from "../../components/CenterModal";
 
 /* Styled Components */
 const InputWrapper = styled(FlexContainer)`
@@ -28,12 +26,28 @@ const SubWrapper = styled(FlexContainer)`
 	align-items: flex-start;
 `;
 
+const VerificationWrapper = styled(FlexContainer)`
+	margin: 10% 0;
+	height: 1vw;
+
+	@media (max-width: 400px) {
+		margin: 25% 0;
+	}
+`;
+
 const StyledText = styled.p`
 	font-size: 0.8vw;
 	color: ${props => props.theme.fontColorWhite};
 	margin: 0.5% 0 0.5% 0;
 `;
 
+/* utility Function */
+const removeWhitespace = text => {
+	const regex = /\s/g;
+	return text.replace(regex, "");
+};
+
+/* Data */
 const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/register",
 });
@@ -48,8 +62,7 @@ const CreateAccount = ({ studentEmail }) => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
 
-	const { setCurrentUser } = useContext(CurrentUserContext);
-
+	const [isModalShow, setIsModalShow] = useState(false);
 	const navigation = useNavigate();
 
 	useEffect(() => {
@@ -61,12 +74,7 @@ const CreateAccount = ({ studentEmail }) => {
 			let response = await client
 				.post("", userInfo)
 				.then(response => {
-					const currentUser = {
-						uid: response.data,
-						token: "token!",
-					};
-					setCurrentUser(currentUser);
-					navigation("/");
+					setIsModalShow(true);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);
@@ -150,10 +158,9 @@ const CreateAccount = ({ studentEmail }) => {
 						isRequired
 					/>
 					<StyledText>Username must be 6 - 255 characters</StyledText>
-
 				</SubWrapper>
 				<SubWrapper>
-				<Input
+					<Input
 						label={"Password"}
 						value={pwd}
 						placeholder={"Please enter your password"}
@@ -172,8 +179,9 @@ const CreateAccount = ({ studentEmail }) => {
 						isRequired
 						isPassword
 					/>
-					{!isValid && <ValidationMessage message={errorMessage} />}
-
+					<VerificationWrapper>
+						{!isValid && <ValidationMessage message={errorMessage} />}
+					</VerificationWrapper>
 					<Button
 						title={"Create new account"}
 						onClick={_handleSubmit}
@@ -182,6 +190,16 @@ const CreateAccount = ({ studentEmail }) => {
 					/>
 				</SubWrapper>
 			</InputWrapper>
+			<CenterModal
+				header='Your sign up was successful.'
+				desc='Congratulations, your account has been successfully created.'
+				BtnName='Sign in'
+				BtnOnClick={() => {
+					navigation("/");
+				}}
+				isModalShow={isModalShow}
+				onHide={() => {}}
+			/>
 		</>
 	);
 };
