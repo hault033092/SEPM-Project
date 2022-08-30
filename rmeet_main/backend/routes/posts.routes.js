@@ -1,7 +1,10 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
 const Post = require('../model/post.model')
+const Profile = require('../model/profile.model')
 const { postValidate } = require('../validation')
+
+// Populate Post schema with User Schema
 
 // Get all post
 router.get('/getPosts', verify, async (req, res) => {
@@ -28,19 +31,25 @@ router.post('/createPost', verify, async (req, res) => {
   const { error } = postValidate(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
-  const post = new Post({
-    userId: req.userId,
-    // courseId: req.courseId,
+  // Populate
+  Profile.findOne({ _id: req.user._id })
+    .populate('posts')
+    .then((user) => res.json(user))
+
+  const newPost = new Post({
+    user: req.user._id,
+    // courseId: courseId,
     title: req.body.title,
     content: req.body.content,
     semester: req.body.semester,
     year: req.body.year,
-    // like: req.bodyyear,
+    // like: req.body.like,
   })
 
+  //
   try {
-    const savePost = await post.save()
-    res.send({ post: post.id })
+    await newPost.save()
+    res.send({ newPost: newPost._id })
   } catch (error) {
     res.status(400).send(error)
   }
