@@ -5,12 +5,10 @@ import axios from "axios";
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Components */
-import { Input, ValidationMessage, Button } from "../../components";
+import Input from "../../components/Input";
+import ValidationMessage from "../../components/ValidationMessage";
+import Button from "../../components/Button";
 import AccPageTemplate from "../../components/AccPageTemplate";
-import {
-	validateStudentEmail,
-	removeWhitespace,
-} from "../../util/accountValidation";
 
 /* Styled Components */
 const StyledText = styled.p`
@@ -24,6 +22,18 @@ const StyledText = styled.p`
 const StyledForm = styled.form`
 	width: 100%;
 `;
+
+/* utility Function */
+const removeWhitespace = text => {
+	const regex = /\s/g;
+	return text.replace(regex, "");
+};
+
+const validateStudentEmail = email => {
+	const regex = /^(\w+\d+)@rmit.edu.vn$/;
+	return regex.test(email);
+};
+
 
 /* Data */
 const client = axios.create({
@@ -50,7 +60,7 @@ const Signin = () => {
 				.post("", user)
 				.then(response => {
 					const currentUser = {
-						token: response.data,
+						uid: response.data,
 					};
 					setCurrentUser(currentUser);
 				})
@@ -86,8 +96,12 @@ const Signin = () => {
 	};
 
 	const _handleSignUp = e => {
-		navigation("/signup");
+		navigation("/signup", { state: { mode: "signUp" } });
 	};
+
+	const _handleForgatPassword = e => {
+		navigation("/forgotPassword", { state: { mode: "forgotPassword" } });
+	}
 
 	return (
 		<AccPageTemplate pageTitle='Sign In'>
@@ -110,13 +124,14 @@ const Signin = () => {
 				/>
 				<ValidationMessage message={errorMessage} />
 				<Button
-					title={"Log in"}
+					title={"Sign in"}
 					onClick={_handleSubmit}
 					disabled={!isValid}
 					hiddenHoverStyle={true}
 				/>
 			</StyledForm>
-			<StyledText onClick={_handleSignUp}>create new account</StyledText>
+			<StyledText onClick={_handleSignUp}>Create new account</StyledText>
+			<StyledText onClick={_handleForgatPassword}>Forgot password?</StyledText>
 		</AccPageTemplate>
 	);
 };

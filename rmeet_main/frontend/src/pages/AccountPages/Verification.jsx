@@ -2,18 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import emailjs from "@emailjs/browser";
 import OtpInput from "react-otp-input";
-import {
-	Input,
-	ValidationMessage,
-	Button,
-	FlexContainer,
-} from "../../components";
-import {
-	validateStudentEmail,
-	removeWhitespace,
-	generateRandomNum,
-} from "../../util/accountValidation";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
+/* Components */
+import Input from "../../components/Input";
+import ValidationMessage from "../../components/ValidationMessage";
+import Button from "../../components/Button";
+import { FlexContainer } from "../../components/FlexContainer";
+import CenterModal from "../../components/CenterModal";
+
+/* Styled Components */
 const LabelContainer = styled(FlexContainer)`
 	width: 100%;
 	height: auto;
@@ -37,6 +36,7 @@ const StyledText = styled.p`
 	font-weight: 600;
 `;
 
+/* Style */
 const InputStyle = {
 	width: "2.5vw",
 	height: "4vw",
@@ -44,6 +44,26 @@ const InputStyle = {
 	padding: "3%",
 	fontSize: "2vw",
 };
+
+/* utility Function */
+const removeWhitespace = text => {
+	const regex = /\s/g;
+	return text.replace(regex, "");
+};
+
+const generateRandomNum = (maxVal, minVal) => {
+	return Math.floor(Math.random() * (maxVal - minVal + 1) + minVal).toString();
+};
+
+const validateStudentEmail = email => {
+	const regex = /^(\w+\d+)@rmit.edu.vn$/;
+	return regex.test(email);
+};
+
+/* Data */
+const client = axios.create({
+	baseURL: "http://localhost:8080/api/user/register",
+});
 
 const Verification = ({ setConfirmedEmail }) => {
 	const [email, setEmail] = useState("");
@@ -54,8 +74,18 @@ const Verification = ({ setConfirmedEmail }) => {
 	const [isValidCodeInput, setIsValidCodeInput] = useState(false);
 	const [isSuccessSendEmail, setIsSuccessSendEmail] = useState(false);
 	const [disabledCodeInput, setDisabledCodeInput] = useState(true);
+	const [isModalShow, setIsModalShow] = useState(false);
 
 	const sysCode = useRef(null);
+	const modalConfig = useRef({
+		header: "",
+		desc: "",
+		btnName: "",
+		onSubmit: () => {},
+	});
+
+	const navigation = useNavigate();
+	const location = useLocation();
 
 	useEffect(() => {
 		setIsValidEmail(email && !emailErrorMessage);
@@ -103,15 +133,47 @@ const Verification = ({ setConfirmedEmail }) => {
 		setDisabledCodeInput(false);
 	};
 
-	const _handleSubmit = e => {
+	const _handleSubmit = async e => {
 		if (sysCode.current === code) {
-			setConfirmedEmail(email);
-			return;
+			// valid code
+			const res = await isRegisteredEmail().then(response => {
+				// check whether an email has not been registered on the system yet
+				if (response && location.state.mode === "forgotPassword") {
+					navigation("/resetPassword", { state: { email } });
+				} else if (!response && location.state.mode === "forgotPassword") {
+					setIsModalShow(true);
+					modalConfig.current = {
+						header: "This email has not been registered yet.",
+						desc: "Do you want to sign up on the system?",
+						btnName: "Sign up",
+						onSubmit: () => {
+							setConfirmedEmail(email);
+						},
+					};
+				} else if (response) {
+					setIsModalShow(true);
+					modalConfig.current = {
+						header: "This email has already been registered.",
+						desc: "Do you want to sign in to the system?",
+						btnName: "Sign in",
+						onSubmit: () => {
+							navigation("/");
+						},
+					};
+				} else {
+					setConfirmedEmail(email);
+				}
+			});
+		} else {
+			// invalid code
+			setIsValidCodeInput(false);
+			setCodeErrorMessage("Invalid code. Please try again.");
+			setCode("");
 		}
+	};
 
-		setIsValidCodeInput(false);
-		setCodeErrorMessage("Invalid code. Please try again.");
-		setCode("");
+	const isRegisteredEmail = async () => {
+		return false;
 	};
 
 	return (
@@ -136,7 +198,7 @@ const Verification = ({ setConfirmedEmail }) => {
 					message={
 						"We sent the email to your student email. Check your inbox to crate your account."
 					}
-					color='#005B09'
+					color='#7ad483'
 				/>
 			)}
 			<WrapperCont>
@@ -159,6 +221,14 @@ const Verification = ({ setConfirmedEmail }) => {
 					hiddenHoverStyle={true}
 				/>
 			</WrapperCont>
+			<CenterModal
+				header={modalConfig.current.header}
+				desc={modalConfig.current.desc}
+				BtnName={modalConfig.current.btnName}
+				BtnOnClick={modalConfig.current.onSubmit}
+				isModalShow={isModalShow}
+				onHide={() => setIsModalShow(false)}
+			/>
 		</>
 	);
 };

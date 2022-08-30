@@ -6,6 +6,7 @@ import { CurrentUserContext } from "../contexts/CurrentUser";
 /* Sign in & Sign up page */
 import Signin from "./AccountPages/Signin";
 import Signup from "./AccountPages/Signup";
+import ResetPassword from "./AccountPages/ResetPassword";
 
 /* Homepage */
 import Home from "./Home";
@@ -50,6 +51,8 @@ const MainNav = () => {
 				<Routes>
 					<Route path='/' element={<Signin />} />
 					<Route path='/signup' element={<Signup />} />
+					<Route path='/forgotPassword' element={<Signup />} />
+					<Route path='/resetPassword' element={<ResetPassword />} />
 				</Routes>
 			)}
 		</>

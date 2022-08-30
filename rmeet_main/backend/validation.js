@@ -30,7 +30,7 @@ const postValidate = (data) => {
     // userId: Joi.object().required(),
     title: Joi.string().min(1).max(64).required(),
     semester: Joi.string().min(1).required(),
-    year: Joi.number().min(4).required(),
+    // year: Joi.number().min(4).required(),
     content: Joi.string().min(6).max(2048).required(),
   })
   return schema.validate(data)
