@@ -17,7 +17,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
-	width: 100%;
+	width: 80%;
 	height: 100%;
 	flex-direction: column;
 	position: relative;
@@ -141,11 +141,11 @@ const BoardMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
+		const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": uid,
 			},
 		});
 

@@ -26,6 +26,7 @@ import MessageMain from "./MessagePages/MessageMain";
 
 /* Account Pages */
 import Account from "./Account";
+import UserProfile from "./UserProfile"
 
 const MainNav = () => {
 	const { currentUser } = useContext(CurrentUserContext);
@@ -45,6 +46,7 @@ const MainNav = () => {
 						<Route path='/review-course' element={<CourseReview />} />
 						<Route path='/message' element={<MessageMain />} />
 						<Route path='/account' element={<Account />} />
+						<Route path='/view-profile/:userId' element={<UserProfile />} />
 					</Routes>
 				</>
 			) : (

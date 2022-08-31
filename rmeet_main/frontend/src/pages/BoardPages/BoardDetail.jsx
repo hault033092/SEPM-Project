@@ -207,10 +207,14 @@ const Comment = ({ commentInfo, isCurrentUserComment, onDelete }) => {
 };
 
 const Screen = styled(FlexContainer)`
-	width: 100%;
+	width: 85%;
 	height: 100%;
 	flex-direction: column;
 	padding: 1%;
+`;
+
+const BoardWrapper = styled(FlexContainer)`
+	width: 85%;
 `;
 
 const CommentsWrapper = styled.div`
@@ -218,7 +222,7 @@ const CommentsWrapper = styled.div`
 	flex-direction: column;
 	overflow-y: scroll;
 	height: 50vh;
-	width: 100%;
+	width: 85%;
 	padding: 3%;
 `;
 
@@ -234,9 +238,9 @@ const InputWrapper = styled(FlexContainer)`
 `;
 
 const ScreenCommentCont = styled(FlexContainer)`
-	width: 100%;
+	width: 88%;
 	justify-content: space-between;
-	margin-bottom: 2%;
+	margin-bottom: 0.5%;
 `;
 
 const StyleTitle = styled.h1`
@@ -295,7 +299,7 @@ const BoardDetail = ({ match }) => {
 
 	const navigation = useNavigate();
 
-	const postId = useParams();
+	const {postId} = useParams();
 
 	useEffect(() => {
 		const client = getClient();
@@ -316,8 +320,9 @@ const BoardDetail = ({ match }) => {
 
 	const getPost = async client => {
 		try {
+			console.log(postId)
 			let response = await client
-				.get("/api/posts/getPosts")
+				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
 					console.log(response);
 				})
@@ -366,14 +371,14 @@ const BoardDetail = ({ match }) => {
 	return (
 		<Screen>
 			<StyleTitle>Board</StyleTitle>
-			<FlexContainer>
+			<BoardWrapper>
 				<SingleBoard
 					post={currentPost}
 					setModalShow={_onClickDeletePost}
 					isDetail
 					isNavHidden={true}
 				/>
-			</FlexContainer>
+			</BoardWrapper>
 			<CommentsWrapper>
 				{Object.values(currentPost.comments).map((item, index) => {
 					return (

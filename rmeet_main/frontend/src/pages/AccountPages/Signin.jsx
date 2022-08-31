@@ -9,6 +9,7 @@ import Input from "../../components/Input";
 import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import AccPageTemplate from "../../components/AccPageTemplate";
+import Spinner from "react-bootstrap/Spinner";
 
 /* Styled Components */
 const StyledText = styled.p`
@@ -23,6 +24,13 @@ const StyledForm = styled.form`
 	width: 100%;
 `;
 
+const SpinnerCont = styled.div`
+	width: 1rem;
+	height: 90%;
+	background-color: violet;
+	position: absolute;
+`;
+
 /* utility Function */
 const removeWhitespace = text => {
 	const regex = /\s/g;
@@ -33,7 +41,6 @@ const validateStudentEmail = email => {
 	const regex = /^(\w+\d+)@rmit.edu.vn$/;
 	return regex.test(email);
 };
-
 
 /* Data */
 const client = axios.create({
@@ -59,7 +66,6 @@ const Signin = () => {
 			let response = await client
 				.post("", user)
 				.then(response => {
-					console.log(response.data)
 					const currentUser = {
 						uid: response.data,
 					};
@@ -100,9 +106,9 @@ const Signin = () => {
 		navigation("/signup", { state: { mode: "signUp" } });
 	};
 
-	const _handleForgatPassword = e => {
+	const _handleForgotPassword = e => {
 		navigation("/forgotPassword", { state: { mode: "forgotPassword" } });
-	}
+	};
 
 	return (
 		<AccPageTemplate pageTitle='Sign In'>
@@ -132,7 +138,10 @@ const Signin = () => {
 				/>
 			</StyledForm>
 			<StyledText onClick={_handleSignUp}>Create new account</StyledText>
-			<StyledText onClick={_handleForgatPassword}>Forgot password?</StyledText>
+			<StyledText onClick={_handleForgotPassword}>Forgot password?</StyledText>
+			<SpinnerCont>
+				<Spinner animation='border' variant='primary' />
+			</SpinnerCont>
 		</AccPageTemplate>
 	);
 };
