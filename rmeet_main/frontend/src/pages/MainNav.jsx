@@ -32,7 +32,7 @@ const MainNav = () => {
 
 	return (
 		<>
-			{currentUser.token ? (
+			{currentUser.uid ? (
 				<>
 					<NavBar />
 					<Routes>

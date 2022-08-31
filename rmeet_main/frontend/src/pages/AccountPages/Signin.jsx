@@ -59,6 +59,7 @@ const Signin = () => {
 			let response = await client
 				.post("", user)
 				.then(response => {
+					console.log(response.data)
 					const currentUser = {
 						uid: response.data,
 					};

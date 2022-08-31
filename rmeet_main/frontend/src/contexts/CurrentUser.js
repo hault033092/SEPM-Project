@@ -7,8 +7,8 @@ const CurrentUserContext = createContext({
 
 const CurrentUserProvider = ({ children }) => {
 	const [currentUser, setCurrentUserInfo] = useState({});
-	const setCurrentUser = ({ token }) => {
-		setCurrentUserInfo({ token });
+	const setCurrentUser = ({ uid }) => {
+		setCurrentUserInfo({ uid });
 	};
 	const value = { currentUser, setCurrentUser };
 	return (
