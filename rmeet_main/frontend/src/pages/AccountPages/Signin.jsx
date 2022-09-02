@@ -34,7 +34,6 @@ const validateStudentEmail = email => {
 	return regex.test(email);
 };
 
-
 /* Data */
 const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/login",
@@ -45,6 +44,7 @@ const Signin = () => {
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const { setCurrentUser } = useContext(CurrentUserContext);
 
@@ -56,6 +56,7 @@ const Signin = () => {
 
 	const login = async user => {
 		try {
+			setIsSpinner(true);
 			let response = await client
 				.post("", user)
 				.then(response => {
@@ -70,6 +71,8 @@ const Signin = () => {
 		} catch (error) {
 			console.error(error);
 		}
+
+		setIsSpinner(false);
 	};
 
 	const _handleEmailChange = e => {
@@ -99,12 +102,12 @@ const Signin = () => {
 		navigation("/signup", { state: { mode: "signUp" } });
 	};
 
-	const _handleForgatPassword = e => {
+	const _handleForgotPassword = e => {
 		navigation("/forgotPassword", { state: { mode: "forgotPassword" } });
-	}
+	};
 
 	return (
-		<AccPageTemplate pageTitle='Sign In'>
+		<AccPageTemplate pageTitle='Sign In' isSpinnerVisible={isSpinner}>
 			<StyledForm>
 				<Input
 					label={"Email"}
@@ -131,7 +134,7 @@ const Signin = () => {
 				/>
 			</StyledForm>
 			<StyledText onClick={_handleSignUp}>Create new account</StyledText>
-			<StyledText onClick={_handleForgatPassword}>Forgot password?</StyledText>
+			<StyledText onClick={_handleForgotPassword}>Forgot password?</StyledText>
 		</AccPageTemplate>
 	);
 };

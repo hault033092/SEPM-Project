@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 /* Components */
 import Course from "../../components/Course";
@@ -9,9 +9,14 @@ import { FlexContainer } from "../../components";
 import Review from "../../components/Review";
 import Image from "../../components/Image";
 import CenterModal from "../../components/CenterModal";
+import Button from "../../components/Button";
 
 /* Data */
 import writeReview from "../../lib/img/icon/writeReview.svg";
+import PageNotFound from "../../lib/img/illustration/notFound.svg";
+
+/*Context */
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 const Screen = styled(FlexContainer)`
 	width: 100%;
@@ -83,10 +88,70 @@ const AddCourseCont = styled(FlexContainer)`
 	}
 `;
 
-const CourseDetail = ({ courseID }) => {
+const PageNotFoundCont = styled(FlexContainer)`
+	@media (max-width: 820px) {
+		flex-direction: column;
+	}
+`;
+
+const MsgWrapper = styled(FlexContainer)`
+	flex-direction: column;
+	align-items: flex-start;
+`;
+
+const StyledText = styled.p`
+	height: 100%;
+	margin: ${props => (props.margin ? props.margin : "0")};
+	text-decoration: ${props => (props.isUnderline ? "underline" : "none")};
+	font-size: ${props => props.fontSize}vw;
+	font-weight: ${props => (props.fontWeight ? props.fontWeight : "300")};
+
+	@media (max-width: 400px) {
+		font-size: ${props => props.fontSize - 0.4}vw;
+	}
+`;
+
+const CourseDetail = () => {
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedReview, setFocusedReview] = useState("");
+	const isPageNotFound = useRef(false);
+
+	const { currentUser } = useContext(CurrentUserContext);
 	const navigation = useNavigate();
+	const { courseId } = useParams();
+
+	useEffect(() => {
+		const client = getClient();
+		getPost(client);
+	}, []);
+
+	const getClient = () => {
+		const { uid } = currentUser; 
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": uid,
+			},
+		});
+
+		return client;
+	};
+
+	const getPost = async client => {
+		try {
+			console.log(courseId);
+			let response = await client
+				.get(`/api/posts/getPost/${courseId}`) //MEMO
+				.then(response => {
+					console.log(response);
+				})
+				.catch(error => {
+					isPageNotFound.current = true;
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const _handleCreateReview = () => {
 		navigation("/review-course");
@@ -105,55 +170,89 @@ const CourseDetail = ({ courseID }) => {
 	return (
 		<Screen>
 			<StyleTitle>Course</StyleTitle>
-			<ContentWrapper>
-				<Course
-					courseID={"111"}
-					courseName='Genre and Historical Movements'
-					LecturerName='Anas Sarwar'
-					rateValue={4.5}
-					isNavHidden={true}
-				/>
-				<ReviewCont>
-					<Review
-						courseInfo={{}}
-						setModalShow={setIsModalShow}
-						setFocusedReview={setFocusedReview}
+
+			{isPageNotFound ? (
+				<PageNotFoundCont>
+					<Image
+						src={PageNotFound}
+						alt={"Page not found "}
+						style={{ width: "35vw", height: "35vw" }}
 					/>
-					<Review
-						courseInfo={{}}
-						setModalShow={setIsModalShow}
-						setFocusedReview={setFocusedReview}
+					<MsgWrapper>
+						<StyledText fontSize={3} fontWeight='600'>
+							Whoops!
+						</StyledText>
+						<StyledText fontSize={1.5}>
+							Looks like this page went on vacation!
+						</StyledText>
+						<Button
+							title='Go Home'
+							onClick={() => {
+								navigation("/");
+							}}
+							style={{
+								width: "auto",
+								height: "auto",
+								padding: "1% 5%",
+								margin: "5% 0 0 0",
+								fontSize: "1.2vw",
+							}}
+						/>
+					</MsgWrapper>
+				</PageNotFoundCont>
+			) : (
+				<>
+					<ContentWrapper>
+						<Course
+							courseID={"111"}
+							courseName='Genre and Historical Movements'
+							LecturerName='Anas Sarwar'
+							rateValue={4.5}
+							isNavHidden={true}
+						/>
+						<ReviewCont>
+							<Review
+								courseInfo={{}}
+								setModalShow={setIsModalShow}
+								setFocusedReview={setFocusedReview}
+							/>
+							<Review
+								courseInfo={{}}
+								setModalShow={setIsModalShow}
+								setFocusedReview={setFocusedReview}
+							/>
+							<Review
+								courseInfo={{}}
+								setModalShow={setIsModalShow}
+								setFocusedReview={setFocusedReview}
+							/>
+							<Review
+								courseInfo={{}}
+								setModalShow={setIsModalShow}
+								setFocusedReview={setFocusedReview}
+							/>
+						</ReviewCont>
+					</ContentWrapper>
+					<AddCourseCont onClick={_handleCreateReview}>
+						<Image
+							src={writeReview}
+							alt={"Feather icon. Click here to write a review of the course"}
+							style={{
+								width: "100%",
+								height: "100%",
+							}}
+						/>
+					</AddCourseCont>
+					<CenterModal
+						header='Are you sure?'
+						desc='Do you want to delete this review?'
+						BtnName='Delete'
+						BtnOnClick={_onDeleteReview}
+						isModalShow={isModalShow}
+						onHide={_onHideModal}
 					/>
-					<Review
-						courseInfo={{}}
-						setModalShow={setIsModalShow}
-						setFocusedReview={setFocusedReview}
-					/>
-					<Review
-						courseInfo={{}}
-						setModalShow={setIsModalShow}
-						setFocusedReview={setFocusedReview}
-					/>
-				</ReviewCont>
-			</ContentWrapper>
-			<AddCourseCont onClick={_handleCreateReview}>
-				<Image
-					src={writeReview}
-					alt={"Feather icon. Click here to write a review of the course"}
-					style={{
-						width: "100%",
-						height: "100%",
-					}}
-				/>
-			</AddCourseCont>
-			<CenterModal
-				header='Are you sure?'
-				desc='Do you want to delete this review?'
-				BtnName='Delete'
-				BtnOnClick={_onDeleteReview}
-				isModalShow={isModalShow}
-				onHide={_onHideModal}
-			/>
+				</>
+			)}
 		</Screen>
 	);
 };

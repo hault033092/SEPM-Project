@@ -11,13 +11,14 @@ import Button from "../../components/Button";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
 import CenterModal from "../../components/CenterModal";
+import Spinner from "../../components/Spinner";
 
 /*Context */
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
-	width: 100%;
+	width: 80%;
 	height: 100%;
 	flex-direction: column;
 	position: relative;
@@ -129,6 +130,7 @@ const BoardMain = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedPost, setFocusedPost] = useState("");
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const { currentUser } = useContext(CurrentUserContext);
 	const theme = useContext(ThemeContext);
@@ -141,11 +143,11 @@ const BoardMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
+		const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": uid,
 			},
 		});
 
@@ -153,6 +155,7 @@ const BoardMain = () => {
 	};
 
 	const getPosts = async client => {
+		setIsSpinner(true);
 		try {
 			let response = await client
 				.get("/api/posts/getPosts")
@@ -165,6 +168,7 @@ const BoardMain = () => {
 		} catch (error) {
 			console.error(error);
 		}
+		setIsSpinner(false);
 	};
 
 	const _onSearchValChange = e => {
@@ -182,7 +186,6 @@ const BoardMain = () => {
 
 	const _onDeletePost = async () => {
 		const client = getClient();
-
 		try {
 			let response = await client
 				.delete(`/api/posts/${focusedPost}`)
@@ -275,16 +278,20 @@ const BoardMain = () => {
 					/>
 				</SearchBtnWrapper>
 			</SearchBarCont>
-			<BoardCont>
-				{Object.values(postList).map((post, index) => (
-					<SingleBoard
-						key={index}
-						post={post}
-						setModalShow={setIsModalShow}
-						setFocusedPost={setFocusedPost}
-					/>
-				))}
-			</BoardCont>
+			{isSpinner ? (
+				<Spinner isVisible={isSpinner} />
+			) : (
+				<BoardCont>
+					{Object.values(postList).map((post, index) => (
+						<SingleBoard
+							key={index}
+							post={post}
+							setModalShow={setIsModalShow}
+							setFocusedPost={setFocusedPost}
+						/>
+					))}
+				</BoardCont>
+			)}
 			<CenterModal
 				header='Are you sure?'
 				desc='Do you want to delete this post?'

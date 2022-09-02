@@ -44,6 +44,7 @@ const ResetPassword = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
 	const [isModalShow, setIsModalShow] = useState(false);
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const navigation = useNavigate();
 	const location = useLocation();
@@ -59,6 +60,7 @@ const ResetPassword = () => {
 	}, [pwd, pwdConfirm, errorMessage]);
 
 	const resetPassword = async userInfo => {
+		// setIsSpinner(true)
 		// try {
 		// 	let response = await client
 		// 		.post("", userInfo)
@@ -71,7 +73,7 @@ const ResetPassword = () => {
 		// } catch (error) {
 		// 	console.error(error);
 		// }
-
+		// 	setIsSpinner(false)
 		setIsModalShow(true);
 	};
 
@@ -101,7 +103,7 @@ const ResetPassword = () => {
 	};
 
 	return (
-		<AccPageTemplate pageTitle='Reset Password'>
+		<AccPageTemplate pageTitle='Reset Password' isSpinnerVisible={isSpinner}>
 			<SubWrapper>
 				<Input
 					label={"Password"}
