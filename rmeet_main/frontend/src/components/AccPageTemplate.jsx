@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+
+/* Components */
 import { FlexContainer } from "./FlexContainer";
 import AutoSlideshow from "./AutoSlideshow";
 import MainLogo from "./MainLogo";
+import Spinner from "./Spinner";
 
 /* Data */
 import logoNoTitle from "../lib/img/illustration/logoNoTitle.svg";
@@ -57,7 +60,12 @@ const imagesData = [
 	},
 ];
 
-const AccPageTemplate = ({ children, pageTitle, isCreateAccount }) => {
+const AccPageTemplate = ({
+	children,
+	pageTitle,
+	isCreateAccount,
+	isSpinnerVisible,
+}) => {
 	return (
 		<MainCont>
 			<SideCont>
@@ -68,6 +76,7 @@ const AccPageTemplate = ({ children, pageTitle, isCreateAccount }) => {
 				<StyledTitle>{pageTitle}</StyledTitle>
 				{children}
 			</InputCont>
+			<Spinner isVisible={isSpinnerVisible} isFullSize/>
 		</MainCont>
 	);
 };
@@ -75,6 +84,7 @@ const AccPageTemplate = ({ children, pageTitle, isCreateAccount }) => {
 AccPageTemplate.propTypes = {
 	pageTitle: PropTypes.string.isRequired,
 	isCreateAccount: PropTypes.bool,
+	isSpinnerVisible: PropTypes.bool,
 };
 
 export default AccPageTemplate;

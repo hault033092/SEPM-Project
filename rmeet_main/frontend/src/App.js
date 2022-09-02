@@ -23,6 +23,7 @@ function App() {
 				<CurrentUserProvider>
 					<AppContainer>
 						<MainNav />
+
 					</AppContainer>
 				</CurrentUserProvider>
 			</ThemeProvider>

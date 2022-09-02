@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -52,17 +52,16 @@ const client = axios.create({
 	baseURL: "http://localhost:8080/api/user/register",
 });
 
-const CreateAccount = ({ studentEmail }) => {
+const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 	const email = useRef(studentEmail);
-
 	const [profileImg, setProfileImg] = useState("");
 	const [username, setUserName] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [pwdConfirm, setPwdConfirm] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
-
 	const [isModalShow, setIsModalShow] = useState(false);
+
 	const navigation = useNavigate();
 
 	useEffect(() => {
@@ -70,6 +69,7 @@ const CreateAccount = ({ studentEmail }) => {
 	}, [username, pwd, pwdConfirm, errorMessage]);
 
 	const registerUser = async userInfo => {
+		setIsSpinner(true);
 		try {
 			let response = await client
 				.post("", userInfo)
@@ -82,6 +82,7 @@ const CreateAccount = ({ studentEmail }) => {
 		} catch (error) {
 			console.error(error);
 		}
+		setIsSpinner(false);
 	};
 
 	const _handleProfileImgChange = e => {
