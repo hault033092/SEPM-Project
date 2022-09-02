@@ -5,6 +5,7 @@ import CreateAccount from "./CreateAccount";
 
 const Signup = () => {
 	const [confirmedEmail, setConfirmedEmail] = useState("");
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);
@@ -13,9 +14,13 @@ const Signup = () => {
 	return (
 		<AccPageTemplate
 			pageTitle={confirmedEmail !== "" ? "Create an account" : "Verification"}
+			isSpinnerVisible={isSpinner}
 			isCreateAccount={confirmedEmail !== ""}>
 			{confirmedEmail !== "" ? (
-				<CreateAccount studentEmail={confirmedEmail} />
+				<CreateAccount
+					studentEmail={confirmedEmail}
+					setIsSpinner={setIsSpinner}
+				/>
 			) : (
 				<Verification setConfirmedEmail={_handleConfirmedEmail} />
 			)}

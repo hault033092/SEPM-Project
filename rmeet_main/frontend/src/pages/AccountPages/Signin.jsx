@@ -9,7 +9,6 @@ import Input from "../../components/Input";
 import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import AccPageTemplate from "../../components/AccPageTemplate";
-import Spinner from "react-bootstrap/Spinner";
 
 /* Styled Components */
 const StyledText = styled.p`
@@ -22,13 +21,6 @@ const StyledText = styled.p`
 
 const StyledForm = styled.form`
 	width: 100%;
-`;
-
-const SpinnerCont = styled.div`
-	width: 1rem;
-	height: 90%;
-	background-color: violet;
-	position: absolute;
 `;
 
 /* utility Function */
@@ -52,6 +44,7 @@ const Signin = () => {
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isValid, setIsValid] = useState(false);
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const { setCurrentUser } = useContext(CurrentUserContext);
 
@@ -63,6 +56,7 @@ const Signin = () => {
 
 	const login = async user => {
 		try {
+			setIsSpinner(true);
 			let response = await client
 				.post("", user)
 				.then(response => {
@@ -77,6 +71,8 @@ const Signin = () => {
 		} catch (error) {
 			console.error(error);
 		}
+
+		setIsSpinner(false);
 	};
 
 	const _handleEmailChange = e => {
@@ -111,7 +107,7 @@ const Signin = () => {
 	};
 
 	return (
-		<AccPageTemplate pageTitle='Sign In'>
+		<AccPageTemplate pageTitle='Sign In' isSpinnerVisible={isSpinner}>
 			<StyledForm>
 				<Input
 					label={"Email"}
@@ -139,9 +135,6 @@ const Signin = () => {
 			</StyledForm>
 			<StyledText onClick={_handleSignUp}>Create new account</StyledText>
 			<StyledText onClick={_handleForgotPassword}>Forgot password?</StyledText>
-			<SpinnerCont>
-				<Spinner animation='border' variant='primary' />
-			</SpinnerCont>
 		</AccPageTemplate>
 	);
 };

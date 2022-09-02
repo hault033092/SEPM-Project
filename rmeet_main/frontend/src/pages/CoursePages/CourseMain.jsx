@@ -9,12 +9,10 @@ import Button from "../../components/Button";
 import Course from "../../components/Course";
 import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components";
+import Spinner from "../../components/Spinner";
 
 /*Context */
 import { CurrentUserContext } from "../../contexts/CurrentUser";
-
-/*Sample Data */
-import { sampleCourseList } from "../../lib/data/data";
 
 /* Styled Component */
 const Screen = styled(FlexContainer)`
@@ -78,11 +76,11 @@ const CourseMain = () => {
 	const [courseList, setCourseList] = useState([]);
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const [isSpinner, setIsSpinner] = useState(false);
 
-	const { currentUser } = useContext(CurrentUserContext);
-
-	const navigation = useNavigate();
 	const theme = useContext(ThemeContext);
+	const { currentUser } = useContext(CurrentUserContext);
+	const navigation = useNavigate();
 
 	useEffect(() => {
 		const client = getClient();
@@ -90,11 +88,11 @@ const CourseMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
+		const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": uid,
 			},
 		});
 
@@ -102,6 +100,7 @@ const CourseMain = () => {
 	};
 
 	const getCourses = async client => {
+		setIsSpinner(true);
 		try {
 			let response = await client
 				.get("/api/course/getCourses")
@@ -114,6 +113,7 @@ const CourseMain = () => {
 		} catch (error) {
 			console.error(error);
 		}
+		setIsSpinner(false);
 	};
 
 	const _onSearchValChange = e => {
@@ -158,7 +158,7 @@ const CourseMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						valuesList={sampleCourseList}
+						valuesList={{}}
 					/>
 					<ErrMsgWrapper>
 						<ValidationMessage message={errorMessage} />
@@ -176,17 +176,22 @@ const CourseMain = () => {
 					}}
 				/>
 			</SearchBarCont>
-			<CourseCont>
-				{Object.values(courseList).map((course, index) => (
-					<Course
-						key={index}
-						courseID={course._id}
-						courseName={course.courseName}
-						LecturerName={course.lecturerName}
-						rateValue={course.__v}
-					/>
-				))}
-			</CourseCont>
+
+			{isSpinner ? (
+				<Spinner isVisible={isSpinner} />
+			) : (
+				<CourseCont>
+					{Object.values(courseList).map((course, index) => (
+						<Course
+							key={index}
+							courseID={course._id}
+							courseName={course.courseName}
+							LecturerName={course.lecturerName}
+							rateValue={course.__v}
+						/>
+					))}
+				</CourseCont>
+			)}
 		</Screen>
 	);
 };

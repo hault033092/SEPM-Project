@@ -11,6 +11,8 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";
 import CenterModal from "../../components/CenterModal";
+import Image from "../../components/Image";
+import PageNotFound from "../../lib/img/illustration/notFound.svg";
 
 /*Context */
 import { CurrentUserContext } from "../../contexts/CurrentUser";
@@ -257,6 +259,17 @@ const StyleTitle = styled.h1`
 	}
 `;
 
+const PageNotFoundCont = styled(FlexContainer)`
+	@media (max-width: 820px) {
+		flex-direction: column;
+	}
+`;
+
+const MsgWrapper = styled(FlexContainer)`
+	flex-direction: column;
+	align-items: flex-start;
+`;
+
 /* Data */
 const currentPost = {
 	postID: "111",
@@ -290,16 +303,15 @@ const currentPost = {
 	createdAt: "07-08-2022",
 };
 
-const BoardDetail = ({ match }) => {
+const BoardDetail = () => {
 	const [newComment, setNewComment] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [deleteTarget, setDeleteTarget] = useState("");
+	const isPageNotFound = useRef(false);
 
 	const { currentUser } = useContext(CurrentUserContext);
-
 	const navigation = useNavigate();
-
-	const {postId} = useParams();
+	const { postId } = useParams();
 
 	useEffect(() => {
 		const client = getClient();
@@ -307,11 +319,11 @@ const BoardDetail = ({ match }) => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
+		const { uid } = currentUser;
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": uid,
 			},
 		});
 
@@ -320,14 +332,17 @@ const BoardDetail = ({ match }) => {
 
 	const getPost = async client => {
 		try {
-			console.log(postId)
+			console.log(postId);
 			let response = await client
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
-					console.log(response);
+					console.log(response.data);
+					if (response.data === null) {
+						isPageNotFound.current = true;
+					}
 				})
 				.catch(error => {
-					console.log(error);
+					isPageNotFound.current = true;
 				});
 		} catch (error) {
 			console.error(error);
@@ -371,67 +386,100 @@ const BoardDetail = ({ match }) => {
 	return (
 		<Screen>
 			<StyleTitle>Board</StyleTitle>
-			<BoardWrapper>
-				<SingleBoard
-					post={currentPost}
-					setModalShow={_onClickDeletePost}
-					isDetail
-					isNavHidden={true}
-				/>
-			</BoardWrapper>
-			<CommentsWrapper>
-				{Object.values(currentPost.comments).map((item, index) => {
-					return (
-						<Comment
-							key={index}
-							commentInfo={item}
-							isCurrentUserComment={true /* MEMO */}
-							onDelete={_onClickDeleteComment}
-						/>
-					);
-				})}
-			</CommentsWrapper>
-			<ScreenCommentCont>
-				<InputWrapper>
-					<Input
-						value={newComment}
-						placeholder='Create a new comment!'
-						maxLenght={256}
-						onChange={_handleNewComment}
-						onKeyPress={_handleCreateCmt}
-						isLabelHidden
-						isMultipleLine
-						style={{
-							padding: "0 0.5%",
-							fontSize: "1.3vw",
-							width: "100%",
-							height: "auto",
-							borderWidth: "0",
-							borderRadius: "0",
-							margin: "0",
-						}}
+			{isPageNotFound ? (
+				<PageNotFoundCont>
+					<Image
+						src={PageNotFound}
+						alt={"Page not found "}
+						style={{ width: "35vw", height: "35vw" }}
 					/>
-				</InputWrapper>
-				<Button
-					title='SEND'
-					onClick={_handleCreateCmt}
-					style={{
-						width: "auto",
-						height: "auto",
-						padding: "1% 5%",
-						margin: "0 0 0 2%",
-						fontSize: "1.2vw",
-					}}
-				/>
-			</ScreenCommentCont>
-			<CenterModal
-				header='Are you sure?'
-				desc={`Are you sure you want to delete this ${deleteTarget}?`}
-				BtnName='Delete'
-				BtnOnClick={_onDelete}
-				isModalShow={isModalShow}
-				onHide={() => setIsModalShow(false)}
-			/>
+					<MsgWrapper>
+						<StyledText fontSize={3} fontWeight='600'>
+							Whoops!
+						</StyledText>
+						<StyledText fontSize={1.5}>
+							Looks like this page went on vacation!
+						</StyledText>
+						<Button
+							title='Go Home'
+							onClick={() => {
+								navigation("/");
+							}}
+							style={{
+								width: "auto",
+								height: "auto",
+								padding: "1% 5%",
+								margin: "5% 0 0 0",
+								fontSize: "1.2vw",
+							}}
+						/>
+					</MsgWrapper>
+				</PageNotFoundCont>
+			) : (
+				<>
+					<BoardWrapper>
+						<SingleBoard
+							post={currentPost}
+							setModalShow={_onClickDeletePost}
+							isDetail
+							isNavHidden={true}
+						/>
+					</BoardWrapper>
+					<CommentsWrapper>
+						{Object.values(currentPost.comments).map((item, index) => {
+							return (
+								<Comment
+									key={index}
+									commentInfo={item}
+									isCurrentUserComment={true /* MEMO */}
+									onDelete={_onClickDeleteComment}
+								/>
+							);
+						})}
+					</CommentsWrapper>
+					<ScreenCommentCont>
+						<InputWrapper>
+							<Input
+								value={newComment}
+								placeholder='Create a new comment!'
+								maxLenght={256}
+								onChange={_handleNewComment}
+								onKeyPress={_handleCreateCmt}
+								isLabelHidden
+								isMultipleLine
+								style={{
+									padding: "0 0.5%",
+									fontSize: "1.3vw",
+									width: "100%",
+									height: "auto",
+									borderWidth: "0",
+									borderRadius: "0",
+									margin: "0",
+								}}
+							/>
+						</InputWrapper>
+						<Button
+							title='SEND'
+							onClick={_handleCreateCmt}
+							style={{
+								width: "auto",
+								height: "auto",
+								padding: "1% 5%",
+								margin: "0 0 0 2%",
+								fontSize: "1.2vw",
+							}}
+						/>
+					</ScreenCommentCont>
+					<CenterModal
+						header='Are you sure?'
+						desc={`Are you sure you want to delete this ${deleteTarget}?`}
+						BtnName='Delete'
+						BtnOnClick={_onDelete}
+						isModalShow={isModalShow}
+						onHide={() => setIsModalShow(false)}
+					/>
+				</>
+			)}
 		</Screen>
 	);
 };

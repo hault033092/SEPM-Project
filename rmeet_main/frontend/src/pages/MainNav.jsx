@@ -42,7 +42,7 @@ const MainNav = () => {
 						<Route path='/board/:postId' element={<BoardDetail />} />
 						<Route path='/board/create-post' element={<CreatePost />} />
 						<Route exact path='/course' element={<CourseMain />} />
-						<Route exact path='/course/detail' element={<CourseDetail />} />
+						<Route exact path='/course/:courseId' element={<CourseDetail />} />
 						<Route path='/review-course' element={<CourseReview />} />
 						<Route path='/message' element={<MessageMain />} />
 						<Route path='/account' element={<Account />} />
