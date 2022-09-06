@@ -78,11 +78,13 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);
+				})
+				.finally(() => {
+					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-		setIsSpinner(false);
 	};
 
 	const _handleProfileImgChange = e => {
@@ -177,6 +179,7 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 						placeholder={"Please confirm your password"}
 						maxLength={20}
 						onChange={_handlePwdConfirmChange}
+						onKeyPress={_handleSubmit}
 						isRequired
 						isPassword
 					/>

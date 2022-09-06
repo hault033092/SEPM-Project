@@ -15,7 +15,7 @@ import Image from "../../components/Image";
 import PageNotFound from "../../lib/img/illustration/notFound.svg";
 
 /*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
+// import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 const EditCommentWrapper = styled(FlexContainer)`
 	flex-direction: column;
@@ -309,7 +309,7 @@ const BoardDetail = () => {
 	const [deleteTarget, setDeleteTarget] = useState("");
 	const isPageNotFound = useRef(false);
 
-	const { currentUser } = useContext(CurrentUserContext);
+	// const { currentUser } = useContext(CurrentUserContext);
 	const navigation = useNavigate();
 	const { postId } = useParams();
 
@@ -319,11 +319,11 @@ const BoardDetail = () => {
 	}, []);
 
 	const getClient = () => {
-		const { uid } = currentUser;
+		// const { uid } = currentUser;
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": uid,
+				"auth-token": window.sessionStorage.getItem("uid"),
 			},
 		});
 

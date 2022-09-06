@@ -12,7 +12,7 @@ import { FlexContainer } from "../../components";
 import Spinner from "../../components/Spinner";
 
 /*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
+// import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Component */
 const Screen = styled(FlexContainer)`
@@ -79,7 +79,7 @@ const CourseMain = () => {
 	const [isSpinner, setIsSpinner] = useState(false);
 
 	const theme = useContext(ThemeContext);
-	const { currentUser } = useContext(CurrentUserContext);
+	// const { currentUser } = useContext(CurrentUserContext);
 	const navigation = useNavigate();
 
 	useEffect(() => {
@@ -88,11 +88,11 @@ const CourseMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { uid } = currentUser; // get current user's token
+		// const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": uid,
+				"auth-token": window.sessionStorage.getItem("uid"),
 			},
 		});
 
@@ -109,11 +109,13 @@ const CourseMain = () => {
 				})
 				.catch(error => {
 					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-		setIsSpinner(false);
 	};
 
 	const _onSearchValChange = e => {

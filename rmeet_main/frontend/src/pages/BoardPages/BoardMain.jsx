@@ -14,7 +14,7 @@ import CenterModal from "../../components/CenterModal";
 import Spinner from "../../components/Spinner";
 
 /*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
+// import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
@@ -132,7 +132,7 @@ const BoardMain = () => {
 	const [focusedPost, setFocusedPost] = useState("");
 	const [isSpinner, setIsSpinner] = useState(false);
 
-	const { currentUser } = useContext(CurrentUserContext);
+	// const { currentUser } = useContext(CurrentUserContext);
 	const theme = useContext(ThemeContext);
 
 	const navigation = useNavigate();
@@ -143,11 +143,11 @@ const BoardMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { uid } = currentUser; // get current user's token
+		// const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": uid,
+				"auth-token": window.sessionStorage.getItem("uid"),
 			},
 		});
 
@@ -164,11 +164,13 @@ const BoardMain = () => {
 				})
 				.catch(error => {
 					console.log(error);
+				}).finally(()=>{
+					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-		setIsSpinner(false);
+
 	};
 
 	const _onSearchValChange = e => {
