@@ -64,15 +64,18 @@ const Signin = () => {
 						uid: response.data,
 					};
 					setCurrentUser(currentUser);
+					window.sessionStorage.setItem("isLogin", true);
+					window.sessionStorage.setItem("uid", response.data);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);
+				})
+				.finally(() => {
+					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-
-		setIsSpinner(false);
 	};
 
 	const _handleEmailChange = e => {
