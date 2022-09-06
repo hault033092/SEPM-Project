@@ -69,7 +69,9 @@ const ResetPassword = () => {
 		// 		})
 		// 		.catch(error => {
 		// 			console.error(error);
-		// 		});
+		// 		}).finally(()=>{
+		// 			setIsSpinner(false);
+		// });
 		// } catch (error) {
 		// 	console.error(error);
 		// }

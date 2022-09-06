@@ -173,7 +173,7 @@ const Verification = ({ setConfirmedEmail }) => {
 	};
 
 	const isRegisteredEmail = async () => {
-		return false;
+		return true;
 	};
 
 	return (
