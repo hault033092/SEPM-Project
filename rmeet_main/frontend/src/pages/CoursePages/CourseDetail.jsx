@@ -5,7 +5,7 @@ import axios from "axios";
 
 /* Components */
 import Course from "../../components/Course";
-import { FlexContainer } from "../../components";
+import { FlexContainer } from "../../components/FlexContainer";
 import Review from "../../components/Review";
 import Image from "../../components/Image";
 import CenterModal from "../../components/CenterModal";

@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import MainLogo from "../components/MainLogo"
 import Clock from "../components/Clock"
 import LiveDate from "../components/LiveDate"
 import Image from "../components/Image"
@@ -9,13 +8,21 @@ import Canvas from "../lib/img/study.png"
 import OES from "../lib/img/online-course.png"
 import Allocate from "../lib/img/allocate.png"
 import Library from "../lib/img/library.png"
+import MainLogoSrc from "../lib/img/logo.svg";
 
 const Home = () => {
     return (
         <HomeContainer>
             <HomeContent>
                 <LogoWrapper>
-                    <MainLogo width="8rem" height="8rem"/>
+                <Image
+					src={MainLogoSrc}
+					alt={"RMEET main logo image"}
+					style={{
+						width: "8rem",
+						height: "8rem",
+					}}
+				/>
                 </LogoWrapper>
                 <Heading>Greetings RMIT student, today is:</Heading>
                 <DateTimeContainer>

@@ -8,10 +8,10 @@ import SingleBoard from "../../components/SingleBoard";
 import SearchBar from "../../components/SearchBar";
 import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
-import ValidationMessage from "../../components/ValidationMessage";
-import { FlexContainer } from "../../components";
+import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
 import Spinner from "../../components/Spinner";
+
 
 /*Context */
 // import { CurrentUserContext } from "../../contexts/CurrentUser";
@@ -94,6 +94,15 @@ const SelectBoxStyle = {
 	labelContMargin: "0",
 	selectContBorder: "3px solid #000056",
 };
+
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
+`;
 
 /* Data */
 const semesterInfo = [
@@ -264,7 +273,7 @@ const BoardMain = () => {
 							valuesList={sampleCourseList}
 						/>
 						<ErrMsgWrapper>
-							<ValidationMessage message={errorMessage} />
+						<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
 						</ErrMsgWrapper>
 					</SearchBarWrapper>
 					<Button

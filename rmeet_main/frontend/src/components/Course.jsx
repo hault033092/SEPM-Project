@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 /*Components */
-import { FlexContainer } from "../components";
+import { FlexContainer } from "./FlexContainer";
 import Image from "./Image";
 import detailArrow from "../lib/img/icon/detailArrow.svg";
 import Rating from "@mui/material/Rating";

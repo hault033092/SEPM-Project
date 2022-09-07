@@ -10,9 +10,3 @@ export const sampleCourseList = [
 	{ key: "MATH2081", value: "Mathematics for Computing" },
 	{ key: "COSC2769", value: "Further Web Programming" },
 ];
-
-export const sampleCurrentUser = {
-	userID: "000000",
-	userProfileImg: "https://picsum.photos/200",
-};
-

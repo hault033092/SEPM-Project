@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 /* Components */
 import Input from "../../components/Input";
-import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
@@ -36,6 +35,15 @@ const StyledText = styled.p`
 	font-weight: 600;
 `;
 
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
+`;
+
 /* Style */
 const InputStyle = {
 	width: "2.5vw",
@@ -60,10 +68,7 @@ const validateStudentEmail = email => {
 	return regex.test(email);
 };
 
-/* Data */
-const client = axios.create({
-	baseURL: "http://localhost:8080/api/user/register",
-});
+
 
 const Verification = ({ setConfirmedEmail }) => {
 	const [email, setEmail] = useState("");
@@ -186,7 +191,7 @@ const Verification = ({ setConfirmedEmail }) => {
 				onChange={_handleEmailChange}
 				onKeyPress={_sendCode}
 			/>
-			{!isValidEmail && <ValidationMessage message={emailErrorMessage} />}
+			{!isValidEmail && <ValidationMessage color="#E60028">errorMessage</ValidationMessage> }
 			<Button
 				title={"Send code"}
 				onClick={_sendCode}
@@ -194,12 +199,7 @@ const Verification = ({ setConfirmedEmail }) => {
 				hiddenHoverStyle={true}
 			/>
 			{isSuccessSendEmail && (
-				<ValidationMessage
-					message={
-						"We sent the email to your student email. Check your inbox to crate your account."
-					}
-					color='#7ad483'
-				/>
+				<ValidationMessage color='#7ad483'>We sent the email to your student email. Check your inbox to crate your account.</ValidationMessage>
 			)}
 			<WrapperCont>
 				<LabelContainer>
@@ -213,7 +213,7 @@ const Verification = ({ setConfirmedEmail }) => {
 					isDisabled={disabledCodeInput}
 					inputStyle={InputStyle}
 				/>
-				{!isValidCodeInput && <ValidationMessage message={codeErrorMessage} />}
+				{!isValidCodeInput &&  <ValidationMessage color="#E60028">{codeErrorMessage}</ValidationMessage>}
 				<Button
 					title={"Verify"}
 					onClick={_handleSubmit}

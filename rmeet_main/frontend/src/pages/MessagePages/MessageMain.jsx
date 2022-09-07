@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 /*Components */
 import SearchBar from "../../components/SearchBar";
-import ValidationMessage from "../../components/ValidationMessage";
 import { FlexContainer } from "../../components/FlexContainer";
 import Message from "../../components/Message";
 
@@ -61,6 +60,16 @@ const MessageCont = styled.div`
 	overflow-y: scroll;
 `;
 
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
+`;
+
+
 /* Data */
 const errMsg = "Please enter the username.";
 
@@ -110,7 +119,7 @@ const MessageMain = () => {
 					valuesList={sampleCourseList}
 				/>
 				<ErrMsgWrapper>
-					<ValidationMessage message={errorMessage} />
+					<ValidationMessage color='#E60028'>{errorMessage}</ValidationMessage>
 				</ErrMsgWrapper>
 			</SearchBarWrapper>
 

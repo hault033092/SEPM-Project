@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 /* Components */
-import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import Input from "../../components/Input";
@@ -24,6 +23,15 @@ const StyledText = styled.p`
 	font-size: 0.8vw;
 	color: ${props => props.theme.fontColorWhite};
 	margin: 0.5% 0 0.5% 0;
+`;
+
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
 `;
 
 /* utility Function */
@@ -126,7 +134,7 @@ const ResetPassword = () => {
 					isRequired
 					isPassword
 				/>
-				{!isValid && <ValidationMessage message={errorMessage} />}
+				{!isValid && <ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>}
 
 				<Button
 					title={"Reset Password"}

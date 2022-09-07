@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 /* Components */
-import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import ProfileImg from "../../components/ProfileImg";
 import { FlexContainer } from "../../components/FlexContainer";
@@ -39,6 +38,15 @@ const StyledText = styled.p`
 	font-size: 0.8vw;
 	color: ${props => props.theme.fontColorWhite};
 	margin: 0.5% 0 0.5% 0;
+`;
+
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
 `;
 
 /* utility Function */
@@ -184,7 +192,7 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 						isPassword
 					/>
 					<VerificationWrapper>
-						{!isValid && <ValidationMessage message={errorMessage} />}
+						{!isValid && <ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>}
 					</VerificationWrapper>
 					<Button
 						title={"Create new account"}

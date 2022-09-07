@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 /*Components */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FlexContainer } from "../components";
+import { FlexContainer } from "../components/FlexContainer";
 import ProfileImg from "../components/ProfileImg";
 import DropBox from "./DropBox";
 
@@ -121,7 +121,7 @@ const SingleBoard = ({
 
 	useEffect(() => {
 		// check whether the post was written by the curren user
-		isMyPost.current = true; // post.writerId === currentUser.uid //MEMO
+		isMyPost.current = post.user === window.sessionStorage.getItem("uid"); 
 		writerInfo.current = { uid: post.user };
 	}, []);
 
