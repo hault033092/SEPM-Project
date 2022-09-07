@@ -80,7 +80,6 @@ const SlideShowDot = styled.div`
 	border-radius: 50%;
 	cursor: pointer;
 	margin: 0 5px;
-
 	background-color: ${props =>
 		props.isCurrentSlide ? props.theme.mainBlue : props.theme.darkGrey};
 `;

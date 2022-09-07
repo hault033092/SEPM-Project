@@ -16,7 +16,6 @@ const CenterModal = ({
 			onHide={onHide}
 			aria-labelledby='contained-modal-title-vcenter'
 			centered
-			backdrop="static"
 			dialogClassName="modal-50w">
 			<Modal.Header closeButton>
 				<Modal.Title id='contained-modal-title-vcenter'>{header}</Modal.Title>

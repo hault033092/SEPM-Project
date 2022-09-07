@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Types.ObjectId,
-      ref: 'Profile',
+      ref: 'User',
     },
 
     // courseId: {
@@ -16,21 +16,16 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      max: 64,
-      min: 1,
     },
 
     content: {
       type: String,
       required: true,
-      max: 2048,
-      min: 6,
     },
 
     semester: {
       type: String,
       required: true,
-      min: 1,
     },
 
     // year: {
@@ -39,9 +34,9 @@ const postSchema = new mongoose.Schema(
     //   min: 4,
     // },
 
-    // like: {
-    //   type: Number,
-    // },
+    like: {
+      type: Number,
+    },
   },
   { timestamp: true }
 )

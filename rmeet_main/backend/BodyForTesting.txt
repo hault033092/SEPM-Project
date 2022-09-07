@@ -13,7 +13,6 @@ like: req.body.year,
 ///
 
 "userName": "haule9298",
-
 "email" : "haule9298@gmail.com",
 "password": "haule929888"
 
@@ -24,3 +23,8 @@ like: req.body.year,
     "content": "This is a demo post",
     "semeter": "2022A",
     "year": 2022
+
+//
+"userName": "Le Trung Hau",
+    "gender": "64bits",
+    "bio": "just a demo"

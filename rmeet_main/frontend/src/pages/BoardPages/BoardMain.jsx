@@ -10,15 +10,14 @@ import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
-import Spinner from "../../components/Spinner";
 
 
 /*Context */
-// import { CurrentUserContext } from "../../contexts/CurrentUser";
+import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
-	width: 80%;
+	width: 100%;
 	height: 100%;
 	flex-direction: column;
 	position: relative;
@@ -139,9 +138,8 @@ const BoardMain = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedPost, setFocusedPost] = useState("");
-	const [isSpinner, setIsSpinner] = useState(false);
 
-	// const { currentUser } = useContext(CurrentUserContext);
+	const { currentUser } = useContext(CurrentUserContext);
 	const theme = useContext(ThemeContext);
 
 	const navigation = useNavigate();
@@ -152,11 +150,11 @@ const BoardMain = () => {
 	}, []);
 
 	const getClient = () => {
-		// const { uid } = currentUser; // get current user's token
+		const { token } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": window.sessionStorage.getItem("uid"),
+				"auth-token": token,
 			},
 		});
 
@@ -164,7 +162,6 @@ const BoardMain = () => {
 	};
 
 	const getPosts = async client => {
-		setIsSpinner(true);
 		try {
 			let response = await client
 				.get("/api/posts/getPosts")
@@ -173,13 +170,10 @@ const BoardMain = () => {
 				})
 				.catch(error => {
 					console.log(error);
-				}).finally(()=>{
-					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-
 	};
 
 	const _onSearchValChange = e => {
@@ -197,6 +191,7 @@ const BoardMain = () => {
 
 	const _onDeletePost = async () => {
 		const client = getClient();
+
 		try {
 			let response = await client
 				.delete(`/api/posts/${focusedPost}`)
@@ -289,20 +284,16 @@ const BoardMain = () => {
 					/>
 				</SearchBtnWrapper>
 			</SearchBarCont>
-			{isSpinner ? (
-				<Spinner isVisible={isSpinner} />
-			) : (
-				<BoardCont>
-					{Object.values(postList).map((post, index) => (
-						<SingleBoard
-							key={index}
-							post={post}
-							setModalShow={setIsModalShow}
-							setFocusedPost={setFocusedPost}
-						/>
-					))}
-				</BoardCont>
-			)}
+			<BoardCont>
+				{Object.values(postList).map((post, index) => (
+					<SingleBoard
+						key={index}
+						post={post}
+						setModalShow={setIsModalShow}
+						setFocusedPost={setFocusedPost}
+					/>
+				))}
+			</BoardCont>
 			<CenterModal
 				header='Are you sure?'
 				desc='Do you want to delete this post?'
