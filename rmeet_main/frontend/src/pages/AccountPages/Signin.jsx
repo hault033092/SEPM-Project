@@ -6,7 +6,6 @@ import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 /* Components */
 import Input from "../../components/Input";
-import ValidationMessage from "../../components/ValidationMessage";
 import Button from "../../components/Button";
 import AccPageTemplate from "../../components/AccPageTemplate";
 
@@ -21,6 +20,15 @@ const StyledText = styled.p`
 
 const StyledForm = styled.form`
 	width: 100%;
+`;
+
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
 `;
 
 /* utility Function */
@@ -128,7 +136,7 @@ const Signin = () => {
 					onKeyPress={_handleSubmit}
 					isPassword={true}
 				/>
-				<ValidationMessage message={errorMessage} />
+				<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
 				<Button
 					title={"Sign in"}
 					onClick={_handleSubmit}

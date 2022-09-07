@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,7 @@ import axios from "axios";
 /*Components */
 import SingleBoard from "../../components/SingleBoard";
 import ProfileImg from "../../components/ProfileImg";
-import { FlexContainer } from "../../components";
+import { FlexContainer } from "../../components/FlexContainer";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";

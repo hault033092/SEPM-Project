@@ -7,8 +7,7 @@ import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import Button from "../../components/Button";
 import Course from "../../components/Course";
-import ValidationMessage from "../../components/ValidationMessage";
-import { FlexContainer } from "../../components";
+import { FlexContainer } from "../../components/FlexContainer";
 import Spinner from "../../components/Spinner";
 
 /*Context */
@@ -67,6 +66,15 @@ const CourseCont = styled.div`
 	height: 70vh;
 	overflow-y: scroll;
 	width: 100%;
+`;
+
+const ValidationMessage = styled.p`
+	align-items: flex-start;
+	width: 100%;
+	font-size: 1vw;
+	font-weight: 400;
+	margin: 5px;
+	color: ${props => props.color};
 `;
 
 /* Data */
@@ -163,7 +171,7 @@ const CourseMain = () => {
 						valuesList={{}}
 					/>
 					<ErrMsgWrapper>
-						<ValidationMessage message={errorMessage} />
+					<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
 					</ErrMsgWrapper>
 				</SearchBarWrapper>
 				<Button

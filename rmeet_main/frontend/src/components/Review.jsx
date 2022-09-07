@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 /*Components */
-import { FlexContainer } from ".";
+import { FlexContainer } from "./FlexContainer";
 import ProfileImg from "./ProfileImg";
 import DropBox from "./DropBox";
 import Image from "./Image";
