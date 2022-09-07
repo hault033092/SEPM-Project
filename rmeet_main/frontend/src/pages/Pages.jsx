@@ -4,6 +4,7 @@ import Home from "./Home"
 import Account from "./Account"
 import CourseReview from "./CourseReview"
 import CreatePost from "./CreatePost"
+import MessageBox from "./MessageBox"
 
 const Pages = () => {
   return (
@@ -12,6 +13,7 @@ const Pages = () => {
             <Route path="/account" element={<Account />} />
             <Route path="/review-course" element={<CourseReview />}></Route>
             <Route path="/board/create-post" element={<CreatePost />}></Route>
+            <Route path="/message-box" element={<MessageBox />}></Route>
         </Routes>
   )
 }

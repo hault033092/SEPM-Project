@@ -1,9 +1,15 @@
-import React from 'react'
+import { React, useState } from "react"
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
 
 const CourseReview = () => {
     const navigate = useNavigate();
+
+    const [isEnabled, setIsEnabled] = useState("false");
+
+    const toggleOverlayDiv = () => {
+        setIsEnabled(!isEnabled);
+    }
 
     return (
         <ReviewContainer>
@@ -13,118 +19,121 @@ const CourseReview = () => {
                 <ReviewInputField id="courseName" type="text" value="" placeholder="Enter course name" required></ReviewInputField>
                 <ReviewToggle>
                     <Text>Please write a review to help other students:</Text>
-                    <ReviewInputField id="skipReview" type="radio" value="Skip" name="choice" style={{width: "auto",}}></ReviewInputField>
+                    <ReviewInputField onClick={toggleOverlayDiv} id="skipReview" type="checkbox" value="Skip" name="choice" style={{width: "auto",}}></ReviewInputField>
                     <Label htmlFor="skipReview">Skip for now!</Label>
-                    <ReviewInputField id="doReview" type="radio" value="Review" name="choice" style={{width: "auto",}}></ReviewInputField>
-                    <Label htmlFor="doReview">Leave a review!</Label>
+                    {/* <ReviewInputField onClick={toggleOverlayDiv} id="doReview" type="radio" value="Review" name="choice" style={{width: "auto",}}></ReviewInputField>
+                    <Label htmlFor="doReview">Leave a review!</Label> */}
                 </ReviewToggle>
-                <MainReview>
-                    <ReviewSection>
-                        <Title>Overall Review</Title>
-                        <ReviewField>
-                            <Label htmlFor="courseNameReview">Course:</Label>
-                            <ReviewInputField id="courseNameReview" type="text" value="" placeholder="Enter course name"></ReviewInputField>
-                        </ReviewField>
-                        <ReviewField>
-                            <Label htmlFor="rating">Rating (1-5):</Label>
-                        </ReviewField>
-                        <SelectField>
-                            <SelectGroup>
-                                <Label htmlFor="semester">Semester:</Label>
-                                <SelectBox id="semester">
+                <ReviewWrapper>
+                    <Overlay className={isEnabled ? "hidden" : ""}></Overlay>
+                    <MainReview>
+                        <ReviewSection>
+                            <Title>Overall Review</Title>
+                            <ReviewField>
+                                <Label htmlFor="courseNameReview">Course:</Label>
+                                <ReviewInputField id="courseNameReview" type="text" value="" placeholder="Enter course name"></ReviewInputField>
+                            </ReviewField>
+                            <ReviewField>
+                                <Label htmlFor="rating">Rating (1-5):</Label>
+                            </ReviewField>
+                            <SelectField>
+                                <SelectGroup>
+                                    <Label htmlFor="semester">Semester:</Label>
+                                    <SelectBox id="semester">
+                                        <Option value=""></Option>
+                                        <Option value="october">October</Option>
+                                        <Option value="june">June</Option>
+                                        <Option value="february">February</Option>
+                                    </SelectBox>
+                                </SelectGroup>
+                                <SelectGroup>
+                                    <Label htmlFor="year">Year:</Label>
+                                    <SelectBox id="year">
+                                        <Option value=""></Option>
+                                        <Option value="2022">2022B</Option>
+                                        <Option value="2022">2022A</Option>
+                                        <Option value="2021">2021C</Option>
+                                    </SelectBox>
+                                </SelectGroup>
+                            </SelectField>
+                            <ReviewField>
+                                <Label htmlFor="lecturerName">Lecturer:</Label>
+                                <ReviewInputField id="lecturerName" type="text" value="" placeholder="Enter lecturer name"></ReviewInputField>
+                            </ReviewField>
+                                <Label htmlFor="review">Detailed review:</Label>
+                                <Area id="review" type="textarea" rows="3" spellcheck="false" value=""></Area>
+                        </ReviewSection>
+                        <AssignmentSection>
+                            <Title>Assignments</Title>
+                            <ReviewField>
+                                <Label htmlFor="type">Assignment type:</Label>
+                                <SelectBox id="type">
                                     <Option value=""></Option>
-                                    <Option value="october">October</Option>
-                                    <Option value="june">June</Option>
-                                    <Option value="february">February</Option>
+                                    <Option value="quiz">Quiz</Option>
+                                    <Option value="team">Team</Option>
+                                    <Option value="individual">Individual</Option>
                                 </SelectBox>
-                            </SelectGroup>
-                            <SelectGroup>
-                                <Label htmlFor="year">Year:</Label>
-                                <SelectBox id="year">
-                                    <Option value=""></Option>
-                                    <Option value="2022">2022B</Option>
-                                    <Option value="2022">2022A</Option>
-                                    <Option value="2021">2021C</Option>
-                                </SelectBox>
-                            </SelectGroup>
-                        </SelectField>
-                        <ReviewField>
-                            <Label htmlFor="lecturerName">Lecturer:</Label>
-                            <ReviewInputField id="lecturerName" type="text" value="" placeholder="Enter lecturer name"></ReviewInputField>
-                        </ReviewField>
-                            <Label htmlFor="review">Detailed review:</Label>
-                            <Area id="review" type="textarea" rows="3" spellcheck="false" value=""></Area>
-                    </ReviewSection>
-                    <AssignmentSection>
-                        <Title>Assignments</Title>
-                        <ReviewField>
-                            <Label htmlFor="type">Assignment type:</Label>
-                            <SelectBox id="type">
-                                <Option value=""></Option>
-                                <Option value="quiz">Quiz</Option>
-                                <Option value="team">Team</Option>
-                                <Option value="individual">Individual</Option>
-                            </SelectBox>
-                        </ReviewField>
-                        <ReviewField>
-                            <Label htmlFor="quantity">Quantity:</Label>
-                            <ReviewInputField id="quantity" type="number" value=""></ReviewInputField>
-                        </ReviewField>
-                        <AddButton>+ Add assignment</AddButton>
-                    </AssignmentSection>
-                </MainReview>
-                <CourseInfo>
-                    <Title>Course Information</Title>
-                    <CourseInfoField>
-                        <Text>Study mode:</Text>
-                        <RadioGroup>
-                            <ReviewInputField id="mode1" type="radio" value="Offline" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="mode1">Offline</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="mode2" type="radio" value="Online" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="mode2">Online</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="mode3" type="radio" value="Hybrid" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="mode3">Hybrid</Label>
-                        </RadioGroup>
-                    </CourseInfoField>
-                    <CourseInfoField>
-                        <Text>Course type:</Text>
-                        <RadioGroup>
-                            <ReviewInputField id="type1" type="radio" value="Lecture" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="type1">Lecture only</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="type2" type="radio" value="Tutorial" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="type2">Tutorial only</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="type3" type="radio" value="Both" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="type3">Hybrid</Label>
-                        </RadioGroup>
-                    </CourseInfoField>
-                    <CourseInfoField>
-                        <Text>Recommended:</Text>
-                        <RadioGroup>
-                            <ReviewInputField id="first" type="radio" value="1st" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="first">1st year</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="second" type="radio" value="2nd" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="second">2nd year</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="third" type="radio" value="3rd" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="third">3rd year</Label>
-                        </RadioGroup>
-                        <RadioGroup>
-                            <ReviewInputField id="any" type="radio" value="all" name="option" style={{width: "auto",}}></ReviewInputField>
-                            <Label htmlFor="any">Anyone</Label>
-                        </RadioGroup>
-                    </CourseInfoField>
-                </CourseInfo>
+                            </ReviewField>
+                            <ReviewField>
+                                <Label htmlFor="quantity">Quantity:</Label>
+                                <ReviewInputField id="quantity" type="number" value=""></ReviewInputField>
+                            </ReviewField>
+                            <AddButton>+ Add assignment</AddButton>
+                        </AssignmentSection>
+                    </MainReview>
+                    <CourseInfo>
+                        <Title>Course Information</Title>
+                        <CourseInfoField>
+                            <Text>Study mode:</Text>
+                            <RadioGroup>
+                                <ReviewInputField id="mode1" type="radio" value="Offline" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="mode1">Offline</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="mode2" type="radio" value="Online" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="mode2">Online</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="mode3" type="radio" value="Hybrid" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="mode3">Hybrid</Label>
+                            </RadioGroup>
+                        </CourseInfoField>
+                        <CourseInfoField>
+                            <Text>Course type:</Text>
+                            <RadioGroup>
+                                <ReviewInputField id="type1" type="radio" value="Lecture" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="type1">Lecture only</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="type2" type="radio" value="Tutorial" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="type2">Tutorial only</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="type3" type="radio" value="Both" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="type3">Hybrid</Label>
+                            </RadioGroup>
+                        </CourseInfoField>
+                        <CourseInfoField>
+                            <Text>Recommended:</Text>
+                            <RadioGroup>
+                                <ReviewInputField id="first" type="radio" value="1st" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="first">1st year</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="second" type="radio" value="2nd" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="second">2nd year</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="third" type="radio" value="3rd" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="third">3rd year</Label>
+                            </RadioGroup>
+                            <RadioGroup>
+                                <ReviewInputField id="any" type="radio" value="all" name="option" style={{width: "auto",}}></ReviewInputField>
+                                <Label htmlFor="any">Anyone</Label>
+                            </RadioGroup>
+                        </CourseInfoField>
+                    </CourseInfo>
+                </ReviewWrapper>
                 <SubmitField>
                     <CancelButton onClick={() => {navigate("/account")}}>Cancel</CancelButton>
                     <SaveButton>Save course</SaveButton>
@@ -205,9 +214,19 @@ const CourseInfoField = styled(ReviewField)`
     }
 `
 
+const ReviewWrapper = styled.div`
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+`
+
 const MainReview = styled.div`
     width: 100%;
-    height: 55%;
+    height: 65%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -215,6 +234,18 @@ const MainReview = styled.div`
 
     @media screen and (max-width: 1199px) {
         flex-direction: column;
+    }
+`
+
+const Overlay = styled.div`
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    opacity: 0.75;
+    border-radius: 1rem;
+
+    &.hidden {
+        display: none;
     }
 `
 
@@ -255,7 +286,7 @@ const AssignmentSection = styled.div`
 `
 
 const CourseInfo = styled.div`
-    height: 25%;
+    height: 30%;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -281,7 +312,7 @@ const Label = styled.label`
     font-weight: 700;
     color: #000054;
     margin-right: 1rem;
-    width: 7rem;
+    width: 7.5rem;
     display: flex;
     align-items: center;
 `
@@ -322,6 +353,7 @@ const Area = styled.textarea`
 const ReviewToggle = styled.div`
     width: 100%;
     display: flex;
+    align-items: center;
 `
 
 const Text = styled.p`
