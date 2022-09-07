@@ -28,7 +28,6 @@ const StyledContainer = styled.div`
 const IconMainCont = styled(FlexContainer)`
 	width: 20%;
 	justify-content: flex-end;
-
 	@media (max-width: 820px) {
 		width: 30%;
 	}
@@ -43,7 +42,6 @@ const MainCont = styled(FlexContainer)`
 	padding: 1.5%;
 	margin-top: 2%;
 	transition: all 0.3s ease;
-
 	&:hover {
 		box-shadow: ${props =>
 			props.isNavHidden ? "0" : "10px 10px 5px 0px rgba(0, 0, 0, 0.2)"};
@@ -54,7 +52,6 @@ const MainCont = styled(FlexContainer)`
 		background-color: ${props =>
 			props.isNavHidden ? props.theme.screenBg : "rgba(0, 0, 82, 0.09)"};
 	}
-
 	@media (max-width: 400px) {
 		border: 0.5vw solid ${props => props.theme.mainBlue};
 		border-radius: 3vw;

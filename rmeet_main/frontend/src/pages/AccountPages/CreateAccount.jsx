@@ -28,7 +28,6 @@ const SubWrapper = styled(FlexContainer)`
 const VerificationWrapper = styled(FlexContainer)`
 	margin: 10% 0;
 	height: 1vw;
-
 	@media (max-width: 400px) {
 		margin: 25% 0;
 	}

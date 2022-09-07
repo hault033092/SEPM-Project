@@ -39,15 +39,15 @@ const Account = () => {
                     />
                     <Field>
                         <Label htmlFor="email">Email:</Label>
-                        <InputField id="email" type="email" defaultValue="s1234567@rmit.edu.vn"></InputField>
+                        <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
                     </Field>
                     <Field>
                         <Label htmlFor="username">Username:</Label>
-                        <InputField id="username" type="text" defaultValue="John Doe"></InputField>
+                        <InputField id="username" type="text" value="John Doe"></InputField>
                     </Field>
                     <Field>
                         <Label htmlFor="password">Password:</Label>
-                        <InputField id="password" type="password" defaultValue="123456789"></InputField>
+                        <InputField id="password" type="password" value="123456789"></InputField>
                     </Field>
                     <Button>Sign out</Button>
                     <Button>Delete Account</Button>
@@ -56,11 +56,11 @@ const Account = () => {
                     <Title>Academic Info</Title>
                     <Field>
                         <Label htmlFor="major">Major:</Label>
-                        <InputField id="major" type="text" defaultValue="Information Technology"></InputField>
+                        <InputField id="major" type="text" value="Information Technology"></InputField>
                     </Field>
                     <Field>
                         <Label htmlFor="bio">Your Bio:</Label>
-                        <Area id="bio" type="textarea" rows="5" spellcheck="false" defaultValue="Pop culture fanatic. Incurable food specialist. Beer buff. Baconaholic. Twitter enthusiast. Music fan."></Area>
+                        <Area id="bio" type="textarea" rows="5" spellcheck="false" value="Pop culture fanatic. Incurable food specialist. Beer buff. Baconaholic. Twitter enthusiast. Music fan."></Area>
                     </Field>
                     <Field>
                         <Label htmlFor="courses">Completed course(s):</Label>

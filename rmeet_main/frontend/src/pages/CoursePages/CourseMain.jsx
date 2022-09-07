@@ -28,7 +28,6 @@ const SearchBarCont = styled(FlexContainer)`
 	justify-content: space-between;
 	align-items: flex-start;
 	padding: 2% 0;
-
 	@media (max-width: 400px) {
 		margin-bottom: 3vh;
 	}
@@ -38,7 +37,6 @@ const SearchBarWrapper = styled(FlexContainer)`
 	flex-direction: column;
 	align-items: flex-start;
 	width: 100%;
-
 	@media (max-width: 820px) {
 		margin: 0;
 	}
@@ -55,7 +53,6 @@ const StyleTitle = styled.h1`
 		font-size: 5vh;
 		font-weight: 600;
 	}
-
 	@media (max-width: 400px) {
 		font-size: 3vh;
 		font-weight: 600;

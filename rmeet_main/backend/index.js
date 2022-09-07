@@ -2,9 +2,13 @@ const express = require('express')
 const PORT = 8080
 const app = express()
 const mongoose = require('mongoose')
+
+// const upload = require('./config/upload')
 // const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv/config')
+
+//
 
 //Import route
 const authRoute = require('./routes/users.routes')
@@ -15,10 +19,11 @@ const profileRoute = require('./routes/profile.routes')
 //Middlewares
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use('/api/user', authRoute)
 app.use('/api/posts', postRoute)
 app.use('/api/course', courseRoute)
-app.use('/api/user/profile', profileRoute)
+app.use('/api/userProfile', profileRoute)
 
 //Connect to db
 mongoose.connect(process.env.DB_CONNECTION, () => console.log('DB connected!'))
