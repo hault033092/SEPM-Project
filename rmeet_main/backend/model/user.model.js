@@ -25,18 +25,7 @@ const userSchema = new mongoose.Schema(
       ref: 'Profile',
     },
 
-    posts: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: 'Post',
-      },
-    ],
-    comments: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: 'Comment',
-      },
-    ],
+    
   },
   { timestamp: true }
 )
