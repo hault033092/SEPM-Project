@@ -2,11 +2,8 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-      max: 255,
-      min: 6,
+    _id: {
+      type: mongoose.Types.ObjectId,
     },
 
     email: {
@@ -22,6 +19,24 @@ const userSchema = new mongoose.Schema(
       max: 1024,
       min: 6,
     },
+
+    userProfile: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Profile',
+    },
+
+    posts: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   { timestamp: true }
 )
