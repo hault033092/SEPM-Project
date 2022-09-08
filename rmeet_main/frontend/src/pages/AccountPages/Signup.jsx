@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import AccPageTemplate from "../../components/AccPageTemplate"
-import Verification from "./Verification"
-import CreateAccount from "./CreateAccount"
+import AccPageTemplate from "../../components/AccPageTemplate";
+import Verification from "./Verification";
+import CreateAccount from "./CreateAccount";
 
 const Signup = () => {
-	const [confirmedEmail, setConfirmedEmail] = useState("s4444444@rmit.edu.vn");
+	const [confirmedEmail, setConfirmedEmail] = useState("s01260126@rmit.edu.vn");
+	const [isVisible, setIsVisible] = useState(false);
 
 	const _handleConfirmedEmail = confirmedEmail => {
 		setConfirmedEmail(confirmedEmail);
@@ -13,11 +14,12 @@ const Signup = () => {
 	return (
 		<AccPageTemplate
 			pageTitle={confirmedEmail !== "" ? "Create an account" : "Verification"}
-			isCreateAccount={confirmedEmail !== ""}>
+			isCreateAccount={confirmedEmail !== ""}
+			isSpinnerVisible={isVisible}>
 			{confirmedEmail !== "" ? (
-				<CreateAccount studentEmail={confirmedEmail} />
+				<CreateAccount studentEmail={confirmedEmail} setIsSpinner={setIsVisible} />
 			) : (
-				<Verification setConfirmedEmail={_handleConfirmedEmail} />
+				<Verification setConfirmedEmail={_handleConfirmedEmail} setIsSpinner={setIsVisible} />
 			)}
 		</AccPageTemplate>
 	);

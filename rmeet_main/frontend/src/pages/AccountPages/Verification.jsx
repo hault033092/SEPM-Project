@@ -191,7 +191,7 @@ const Verification = ({ setConfirmedEmail }) => {
 				onChange={_handleEmailChange}
 				onKeyPress={_sendCode}
 			/>
-			{!isValidEmail && <ValidationMessage color="#E60028">errorMessage</ValidationMessage> }
+			{!isValidEmail && <ValidationMessage color="#E60028">{emailErrorMessage}</ValidationMessage> }
 			<Button
 				title={"Send code"}
 				onClick={_sendCode}
