@@ -126,23 +126,8 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 	};
 
 	const _handleUploadPic = async e => {
-		try {
-			const reader = new FileReader();
-			const selectedFile = e.target.files[0];
-			reader.readAsDataURL(selectedFile);
-			reader.onloadend = () => {
-				getImgLink(reader.result, selectedFile);
-			};
-			reader.onerror = () => {
-				setErrorMessage("Fail to upload file on the DB!");
-			};
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const getImgLink = async (imgData, theFile) => {
-		console.log(imgData);
+		setIsSpinner(true);
+		const selectedFile = e.target.files[0];
 		try {
 			const config = {
 				headers: {
@@ -152,19 +137,22 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 				},
 			};
 			let fd = new FormData();
-			fd.append("picture", theFile);
+			fd.append("picture", selectedFile);
 			return axios
 				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
 				.then(response => {
-					console.log(response);
+					console.log(response.data);
+					setIsSpinner(false);
+					return response.data;
 				})
 				.catch(error => {
 					console.log(error);
-					// setErrorMessage(error);
+					setErrorMessage(error.response.data);
 				});
 		} catch (error) {
 			console.error(error);
 		}
+		setIsSpinner(false);
 	};
 
 	return (
