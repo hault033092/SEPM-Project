@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import qs from "qs";
 
 /* Components */
 import Button from "../../components/Button";
@@ -54,14 +55,9 @@ const removeWhitespace = text => {
 	return text.replace(regex, "");
 };
 
-/* Data */
-const client = axios.create({
-	baseURL: "http://localhost:8080/api/user/register",
-});
-
 const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 	const email = useRef(studentEmail);
-	const [profileImg, setProfileImg] = useState("");
+	const [pfImg, setPfImg] = useState("");
 	const [username, setUserName] = useState("");
 	const [pwd, setPwd] = useState("");
 	const [pwdConfirm, setPwdConfirm] = useState("");
@@ -76,6 +72,10 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 	}, [username, pwd, pwdConfirm, errorMessage]);
 
 	const registerUser = async userInfo => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080/api/user/register",
+		});
+
 		setIsSpinner(true);
 		try {
 			let response = await client
@@ -92,22 +92,6 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 		} catch (error) {
 			console.error(error);
 		}
-	};
-
-	const _handleProfileImgChange = e => {
-		const {
-			target: { files },
-		} = e;
-
-		const theFile = files[0];
-		const reader = new FileReader();
-		reader.onloadend = readDataCompleted => {
-			const {
-				currentTarget: { result },
-			} = readDataCompleted;
-			setProfileImg(result);
-		};
-		reader.readAsDataURL(theFile);
 	};
 
 	const _handleUsernameChange = e => {
@@ -141,14 +125,40 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 		registerUser(accountInfo);
 	};
 
+	const _handleUploadPic = async e => {
+		setIsSpinner(true);
+		const selectedFile = e.target.files[0];
+		try {
+			const config = {
+				headers: {
+					"content-type": "application/x-www-form-urlencoded",
+					"auth-token":
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzMzkwMjY1MDBhZWJjZTFkOTlmOTMiLCJpYXQiOjE2NjE1MzA2NDh9.brEWTDLemp8ctjTcxZBW3uLTICgMvFVdUx-9yNdgFHI",
+				},
+			};
+			let fd = new FormData();
+			fd.append("picture", selectedFile);
+			return axios
+				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
+				.then(response => {
+					console.log(response.data);
+					setIsSpinner(false);
+					return response.data;
+				})
+				.catch(error => {
+					console.log(error);
+					setErrorMessage(error.response.data);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+		setIsSpinner(false);
+	};
+
 	return (
-		<>
+		<form>
 			<FlexContainer>
-				<ProfileImg
-					src={profileImg}
-					onChangePhoto={_handleProfileImgChange}
-					isShowButton
-				/>
+				<ProfileImg src={pfImg} onUploadPhoto={_handleUploadPic} isShowButton />
 			</FlexContainer>
 			<InputWrapper>
 				<SubWrapper>
@@ -191,7 +201,11 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 						isPassword
 					/>
 					<VerificationWrapper>
-						{!isValid && <ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>}
+						{!isValid && (
+							<ValidationMessage color='#E60028'>
+								{errorMessage}
+							</ValidationMessage>
+						)}
 					</VerificationWrapper>
 					<Button
 						title={"Create new account"}
@@ -211,7 +225,7 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 				isModalShow={isModalShow}
 				onHide={() => {}}
 			/>
-		</>
+		</form>
 	);
 };
 

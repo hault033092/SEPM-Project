@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import camera from "../lib/img/icon/camera.svg";
-import user from "../lib/img/icon/user.svg";
+import userDefault from "../lib/img/icon/user.svg";
 import Image from "./Image";
 import { FlexContainer } from "./FlexContainer";
+import { useEffect } from "react";
 
 const Container = styled(FlexContainer)`
 	width: ${props => props.width};
@@ -46,7 +47,26 @@ const StyledInput = styled.input.attrs(() => ({
 	display: none;
 `;
 
-const PhotoButton = ({ onChange, width, height }) => {
+const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
+	const _onUploadPhoto = async e => {
+		const {
+			target: { files },
+		} = e;
+
+		const theFile = files[0];
+		const reader = new FileReader();
+
+		reader.onloadend = readDataCompleted => {
+			const {
+				currentTarget: { result },
+			} = readDataCompleted;
+			setImgSrc(result);
+		};
+		reader.readAsDataURL(theFile);
+
+		const res = await onUploadPhoto(e);
+	};
+
 	return (
 		<>
 			<StyledLabel htmlFor='uploadInput'>
@@ -58,7 +78,7 @@ const PhotoButton = ({ onChange, width, height }) => {
 					/>
 				</BtnContainer>
 			</StyledLabel>
-			<StyledInput onChange={onChange} />
+			<StyledInput onChange={_onUploadPhoto} />
 		</>
 	);
 };
@@ -67,12 +87,17 @@ const ProfileImg = ({
 	src,
 	width,
 	height,
-	onChangePhoto,
+	onUploadPhoto,
 	isShowButton,
 	isShowProfile,
 	onShowProfile,
 }) => {
 	const [isHover, setIsHover] = useState(false);
+	const [imgSrc, setImgSrc] = useState("");
+
+	useEffect(() => {
+		setImgSrc(src === "" ? userDefault : src);
+	}, []);
 
 	const _handleOnMouseEnter = () => {
 		if (!isShowProfile) {
@@ -104,7 +129,7 @@ const ProfileImg = ({
 			onMouseEnter={_handleOnMouseEnter}
 			onMouseLeave={_handleMouseLeave}>
 			<Image
-				src={src === "" ? user : src}
+				src={imgSrc}
 				alt={"Profile Image"}
 				style={{
 					width: "100%",
@@ -114,7 +139,12 @@ const ProfileImg = ({
 				}}
 			/>
 			{isShowButton && (
-				<PhotoButton onChange={onChangePhoto} width={width} height={height} />
+				<PhotoButton
+					onUploadPhoto={onUploadPhoto}
+					setImgSrc={setImgSrc}
+					width={width}
+					height={height}
+				/>
 			)}
 		</Container>
 	);
@@ -124,19 +154,19 @@ ProfileImg.propTypes = {
 	src: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
-	onChangePhoto: PropTypes.func,
+	onUploadPhoto: PropTypes.func,
 	isShowButton: PropTypes.bool,
 	isShowProfile: PropTypes.bool,
 	onShowProfile: PropTypes.func,
 };
 
 ProfileImg.defaultProps = {
-	src: user,
+	src: userDefault,
 	isShowButton: false,
 	isShowProfile: false,
 	width: "6vw",
 	height: "6vw",
-	onChangePhoto: () => {},
+	onUploadPhoto: () => {},
 	onShowProfile: () => {},
 };
 

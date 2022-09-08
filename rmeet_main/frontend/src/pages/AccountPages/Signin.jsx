@@ -74,6 +74,7 @@ const Signin = () => {
 					setCurrentUser(currentUser);
 					window.sessionStorage.setItem("isLogin", true);
 					window.sessionStorage.setItem("uid", response.data);
+					console.log(response)
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);
