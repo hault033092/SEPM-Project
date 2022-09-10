@@ -69,12 +69,13 @@ const Signin = () => {
 				.post("", user)
 				.then(response => {
 					const currentUser = {
-						uid: response.data,
+						uid: "630339026500aebce1d99f93",
+						token: response.data,
 					};
 					setCurrentUser(currentUser);
-					window.sessionStorage.setItem("isLogin", true);
-					window.sessionStorage.setItem("uid", response.data);
-					console.log(response)
+					window.sessionStorage.setItem("uid", "630339026500aebce1d99f93");
+					window.sessionStorage.setItem("token", response.data);
+					console.log(response);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);
@@ -137,7 +138,7 @@ const Signin = () => {
 					onKeyPress={_handleSubmit}
 					isPassword={true}
 				/>
-				<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
+				<ValidationMessage color='#E60028'>{errorMessage}</ValidationMessage>
 				<Button
 					title={"Sign in"}
 					onClick={_handleSubmit}
