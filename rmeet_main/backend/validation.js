@@ -27,11 +27,11 @@ const passwordValidate = (data) => {
 
 const postValidate = (data) => {
   const schema = Joi.object({
-    // userId: Joi.object().required(),
     title: Joi.string().min(1).max(64).required(),
-    semester: Joi.string().min(1).required(),
-    // year: Joi.number().min(4).required(),
     content: Joi.string().min(6).max(2048).required(),
+    semester: Joi.string().min(1).required(),
+    year: Joi.number().required(),
+    like: Joi.number(),
   })
   return schema.validate(data)
 }

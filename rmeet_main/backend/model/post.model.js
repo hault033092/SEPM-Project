@@ -7,6 +7,10 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
 
+    // postId: {
+    //   type: mongoose.Types.ObjectId,
+    // },
+
     // courseId: {
     //   type: mongoose.Types.ObjectId,
     //   ref: 'Course',
@@ -28,11 +32,10 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
 
-    // year: {
-    //   type: Number,
-    //   required: true,
-    //   min: 4,
-    // },
+    year: {
+      type: Number,
+      required: true,
+    },
 
     like: {
       type: Number,

@@ -3,7 +3,7 @@ const verify = require('../routes/verifyToken')
 const Profile = require('../model/profile.model')
 const User = require('../model/user.model')
 const upload = require('../config/upload')
-const ProfilePic = require('../model/profilePic.model')
+const ProfileImg = require('../model/profileImg.model')
 
 // // Populate profile into user
 // User.findOne({ _id: User._id })
@@ -22,16 +22,16 @@ router.get('/getProfile/:profileId', verify, async (req, res) => {
 
 // Upload profile image to cloudinary
 router.post(
-  '/uploadPicture',
+  '/uploadImage',
   verify,
-  upload.single('picture'),
+  upload.single('image'),
   async (req, res) => {
-    const newProfilePic = new ProfilePic({
+    const newProfileImg = new ProfileImg({
       profilePicUrl: req.file.path,
     })
 
     try {
-      await newProfilePic.save()
+      await newProfileImg.save()
       res.send(req.file.path)
     } catch (error) {
       res.status(400).send(error)
@@ -41,18 +41,18 @@ router.post(
 
 // Update profile picture
 router.patch(
-  'updatePicture',
+  '/updateImage',
   verify,
-  upload.single('picture'),
+  upload.single('image'),
   async (req, res) => {
     try {
-      await ProfilePic.updateOne(
+      await ProfileImg.updateOne(
         {
           _id: req.params._id,
         },
         {
           $set: {
-            profilePicUrl: req.file.path,
+            profileImgUrl: req.file.path,
           },
         }
       )
