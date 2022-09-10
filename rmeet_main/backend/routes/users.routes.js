@@ -50,6 +50,7 @@ router.post('/login', async (req, res) => {
     foundUser.password
   )
   if (!validPassword) return res.status(400).send('Invalid password!')
+  res.json({ userId: foundUser._id })
 
   //Create token
   const token = jwt.sign(
