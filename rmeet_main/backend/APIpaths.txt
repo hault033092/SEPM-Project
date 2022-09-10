@@ -1,0 +1,28 @@
+/// User
+localhost:8080/api/user/getUsers (Method: GET)
+localhost:8080/api/user/:userId (Method: GET, get user by id)
+localhost:8080/api/user/register (Method: GET)
+localhost:8080/api/user/login (Method: GET)
+localhost:8080/api/user/:userId (Method: DELETE, delete a user by id )
+localhost:8080/api/user/:userId (Method: PATCH, update a user by id)
+
+
+/// User Profile
+localhost:8080/api/userProfile/getProfile/:profileId
+localhost:8080/api/userProfile/uploadPicture
+localhost:8080/api/userProfile/updatePicture
+localhost:8080/api/userProfile/createProfile
+localhost:8080/api/userProfile/updateProfile/:profileId
+
+/// Posts
+localhost:8080/api/posts/getPosts
+localhost:8080/api/user/getPost/:postId
+localhost:8080/api/user/createPost
+localhost:8080/api/user/deletePost/:postId
+localhost:8080/api/user/updatePost/:postId
+
+/// Course
+localhost:8080/api/course/getCourses
+localhost:8080/api/course/createCourse
+localhost:8080/api/course/deleteCourse/:courseId
+localhost:8080/api/course/updateCourse/:courseId
