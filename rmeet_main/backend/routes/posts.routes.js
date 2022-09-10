@@ -54,7 +54,7 @@ router.post('/createPost', verify, async (req, res) => {
 })
 
 // Delete post
-router.delete('/:postId', verify, async (req, res) => {
+router.delete('/deletePost/:postId', verify, async (req, res) => {
   try {
     const removedPost = await Post.deleteOne({
       _id: req.params.postId,
@@ -66,7 +66,7 @@ router.delete('/:postId', verify, async (req, res) => {
 })
 
 // Update post
-router.patch('/:postId', verify, async (req, res) => {
+router.patch('/updatePost/:postId', verify, async (req, res) => {
   try {
     const updatedPost = await Post.updateOne(
       {
