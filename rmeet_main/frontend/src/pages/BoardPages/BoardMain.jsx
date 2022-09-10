@@ -11,7 +11,6 @@ import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
 
-
 /*Context */
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 
@@ -105,9 +104,9 @@ const ValidationMessage = styled.p`
 
 /* Data */
 const semesterInfo = [
-	{ key: "1", value: "semester 1" },
-	{ key: "2", value: "semester 2" },
-	{ key: "3", value: "semester 3" },
+	{ key: "A", value: "A" },
+	{ key: "B", value: "B" },
+	{ key: "C", value: "C" },
 ];
 
 const yearInfo = [
@@ -132,7 +131,7 @@ const errMsg = "Please enter the course name.";
 
 const BoardMain = () => {
 	const [postList, setPostList] = useState([]);
-	const [semester, setSemester] = useState("semester1");
+	const [semester, setSemester] = useState("A");
 	const [year, setYear] = useState("2020");
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -150,11 +149,10 @@ const BoardMain = () => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": window.sessionStorage.getItem("token"),
 			},
 		});
 
@@ -268,7 +266,9 @@ const BoardMain = () => {
 							valuesList={sampleCourseList}
 						/>
 						<ErrMsgWrapper>
-						<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
+							<ValidationMessage color='#E60028'>
+								{errorMessage}
+							</ValidationMessage>
 						</ErrMsgWrapper>
 					</SearchBarWrapper>
 					<Button

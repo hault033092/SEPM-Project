@@ -32,7 +32,7 @@ const MainNav = () => {
 
 	return (
 		<>
-			{currentUser.uid || window.sessionStorage.getItem("isLogin") ? (
+			{currentUser.token || window.sessionStorage.getItem("token") ? (
 				<>
 					<NavBar />
 					<Routes>

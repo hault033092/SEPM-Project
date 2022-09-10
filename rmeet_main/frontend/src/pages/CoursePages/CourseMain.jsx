@@ -84,7 +84,6 @@ const CourseMain = () => {
 	const [isSpinner, setIsSpinner] = useState(false);
 
 	const theme = useContext(ThemeContext);
-	// const { currentUser } = useContext(CurrentUserContext);
 	const navigation = useNavigate();
 
 	useEffect(() => {
@@ -93,11 +92,10 @@ const CourseMain = () => {
 	}, []);
 
 	const getClient = () => {
-		// const { uid } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": window.sessionStorage.getItem("uid"),
+				"auth-token": window.sessionStorage.getItem("token"),
 			},
 		});
 
