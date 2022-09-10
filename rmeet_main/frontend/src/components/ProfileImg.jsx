@@ -77,7 +77,7 @@ const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
 			let fd = new FormData();
 			fd.append("picture", selectedFile);
 			return axios
-				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
+				.post("http://localhost:8080/api/userProfile/uploadImage", fd, config)
 				.then(response => {
 					console.log(response.data);
 					setImgSrc(response.data);
