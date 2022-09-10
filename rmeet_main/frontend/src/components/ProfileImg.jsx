@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import axios from "axios";
+
+/* Components */
 import camera from "../lib/img/icon/camera.svg";
 import userDefault from "../lib/img/icon/user.svg";
 import Image from "./Image";
 import { FlexContainer } from "./FlexContainer";
-import { useEffect } from "react";
 
 const Container = styled(FlexContainer)`
 	width: ${props => props.width};
@@ -49,20 +51,44 @@ const StyledInput = styled.input.attrs(() => ({
 
 const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
 	const _onUploadPhoto = async e => {
-		const {
-			target: { files },
-		} = e;
+		// const {
+		// 	target: { files },
+		// } = e;
 
-		const theFile = files[0];
-		const reader = new FileReader();
+		// const theFile = files[0];
+		// const reader = new FileReader();
 
-		reader.onloadend = readDataCompleted => {
-			const {
-				currentTarget: { result },
-			} = readDataCompleted;
-			setImgSrc(result);
-		};
-		reader.readAsDataURL(theFile);
+		// reader.onloadend = readDataCompleted => {
+		// 	const {
+		// 		currentTarget: { result },
+		// 	} = readDataCompleted;
+		// 	setImgSrc(result);
+		// };
+		// reader.readAsDataURL(theFile);
+		const selectedFile = e.target.files[0];
+		try {
+			const config = {
+				headers: {
+					"content-type": "application/x-www-form-urlencoded",
+					"auth-token":
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzMzkwMjY1MDBhZWJjZTFkOTlmOTMiLCJpYXQiOjE2NjE1MzA2NDh9.brEWTDLemp8ctjTcxZBW3uLTICgMvFVdUx-9yNdgFHI",
+				},
+			};
+			let fd = new FormData();
+			fd.append("picture", selectedFile);
+			return axios
+				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
+				.then(response => {
+					console.log(response.data);
+					setImgSrc(response.data);
+					return response.data;
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 
 		const res = await onUploadPhoto(e);
 	};
