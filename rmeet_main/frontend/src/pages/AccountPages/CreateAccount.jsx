@@ -73,7 +73,7 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 
 	const registerUser = async userInfo => {
 		const client = axios.create({
-			baseURL: "http://localhost:8080/api/user/register",
+			baseURL: "http://localhost:8080/api/user/registration",
 		});
 
 		setIsSpinner(true);
