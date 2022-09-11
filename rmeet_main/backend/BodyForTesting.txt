@@ -1,5 +1,7 @@
 userId: req.userId,
 // courseId: req.courseId,
+
+////////////
 title: req.body.title,
 content: req.body.content,
 semeter: req.body.semester,
@@ -7,9 +9,11 @@ year: req.body.year,
 like: req.body.year,
 
 ///
-"title": "hello",
-    "content": "this is a 67th testing post",
-    "semester": "2022B"
+    "title": "hello",
+    "content": "this is a 69th testing post",
+    "semester": "B",
+    "year": 2022,
+    "like": 1,
 ///
 
 "userName": "haule9298",

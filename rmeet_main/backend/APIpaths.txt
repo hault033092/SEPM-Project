@@ -16,10 +16,10 @@ localhost:8080/api/userProfile/updateProfile/:profileId
 
 /// Posts
 localhost:8080/api/posts/getPosts
-localhost:8080/api/user/getPost/:postId
-localhost:8080/api/user/createPost
-localhost:8080/api/user/deletePost/:postId
-localhost:8080/api/user/updatePost/:postId
+localhost:8080/api/posts/getPost/:postId
+localhost:8080/api/posts/createPost
+localhost:8080/api/posts/deletePost/:postId
+localhost:8080/api/posts/updatePost/:postId
 
 /// Course
 localhost:8080/api/course/getCourses
