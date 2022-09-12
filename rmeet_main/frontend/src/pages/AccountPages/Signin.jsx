@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CurrentUserContext } from "../../contexts/CurrentUser";
+import jwt from "jwt-decode";
 
 /* Components */
 import Input from "../../components/Input";
@@ -68,14 +69,14 @@ const Signin = () => {
 			let response = await client
 				.post("", user)
 				.then(response => {
+					const decodeToken = jwt(response.data);
 					const currentUser = {
-						uid: "630339026500aebce1d99f93",
+						uid: decodeToken._id,
 						token: response.data,
 					};
 					setCurrentUser(currentUser);
-					window.sessionStorage.setItem("uid", "630339026500aebce1d99f93");
+					window.sessionStorage.setItem("uid", decodeToken._id);
 					window.sessionStorage.setItem("token", response.data);
-					console.log(response);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);

@@ -1,5 +1,5 @@
 
-const majors = {
+majors = {
 	SSET: [
 		{ key: "BH073", value: "Electronic and Computer Systems Engineering" },
 		{ key: "BH120", value: "Software Engineering" },
