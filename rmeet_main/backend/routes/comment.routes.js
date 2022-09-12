@@ -1,86 +1,73 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
-const Post = require('../model/post.model')
+const Comment = require('../model/comment.model')
 const { postValidate } = require('../validation')
 
 // Get all post
-router.get('/getPosts', verify, async (req, res) => {
+router.get('/getComments', verify, async (req, res) => {
   try {
-    const getPosts = await Post.find()
-    res.json(getPosts)
+    const gotComments = await Comment.find()
+    res.json(gotComments)
   } catch (err) {
     res.json({ message: err })
   }
 })
 
 // Get post by id
-router.get('/getPost/:postId', verify, async (req, res) => {
+router.get('/getComment/:commentId', verify, async (req, res) => {
   try {
-    const getPosts = await Post.findOne({ _id: req.params.postId })
-    res.json(getPosts)
+    const gotComments = await Comment.findOne({ _id: req.params.commentId })
+    res.json(gotComments)
   } catch (error) {
     res.json({ message: error })
   }
 })
 
 // Create post
-router.post('/createPost', verify, async (req, res) => {
-  const { error } = postValidate(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+router.post('/createComment', verify, async (req, res) => {
+  // const { error } = postValidate(req.body)
+  // if (error) return res.status(400).send(error.details[0].message)
 
-  console.log(verify)
-
-  const newPost = new Post({
+  const newComment = new Comment({
     userId: req.user._id,
-    // courseId: courseId,
-    title: req.body.title,
     content: req.body.content,
-    semester: req.body.semester,
-    year: req.body.year,
-    like: req.body.like,
   })
 
   //
   try {
-    await newPost.save()
-    res.send({ newPost: newPost._id })
+    await newComment.save()
+    res.send({ newComment: newComment._id })
   } catch (error) {
     res.status(400).send(error)
   }
-
-  // Populate
-  Post.findOne({ newPost: newPost._id }).populate('userProfile')
 })
 
 // Delete post
-router.delete('/deletePost/:postId', verify, async (req, res) => {
+router.delete('/deleteComment/:commentId', verify, async (req, res) => {
   try {
-    const removedPost = await Post.deleteOne({
-      _id: req.params.postId,
+    const removedComment = await Comment.deleteOne({
+      _id: req.params.commentId,
     })
-    res.json(removedPost)
+    res.json(removedComment)
   } catch (error) {
     res.json({ message: error })
   }
 })
 
 // Update post
-router.patch('/updatePost/:postId', verify, async (req, res) => {
+router.patch('/updateComment/:commentId', verify, async (req, res) => {
   try {
-    const updatedPost = await Post.updateOne(
+    const updatedComment = await Comment.updateOne(
       {
-        _id: req.params.postId,
+        _id: req.params.commentId,
       },
       {
         $set: {
-          title: req.body.title,
           content: req.body.content,
-          semester: req.body.semester,
-          year: req.body.year,
         },
       }
     )
-    res.json(updatedPost)
+    res.send('Comment Updated!')
   } catch (error) {
     res.json({ message: error })
   }
