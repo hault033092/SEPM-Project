@@ -48,7 +48,7 @@ router.delete('/deleteComment/:commentId', verify, async (req, res) => {
     const removedComment = await Comment.deleteOne({
       _id: req.params.commentId,
     })
-    res.json(removedComment)
+    res.send('Comment Removed!')
   } catch (error) {
     res.json({ message: error })
   }
