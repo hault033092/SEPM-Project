@@ -16,12 +16,21 @@ const UserProfile = () => {
                     height= "8rem"
                 />
                 <Field>
-                    <Label htmlFor="email">Email:</Label>
-                    <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
-                </Field>
-                <Field>
                     <Label htmlFor="username">Username:</Label>
                     <InputField id="username" type="text" value="John Doe"></InputField>
+                </Field>
+                <Field>
+                    <Label htmlFor="gender">Gender:</Label>
+                    <SelectBox id="gender">
+                        <Option value=""></Option>
+                        <Option value="male">Male</Option>
+                        <Option value="female">Female</Option>
+                        <Option value="unspecified">Unspecified</Option>
+                    </SelectBox>
+                </Field>
+                <Field>
+                    <Label htmlFor="email">Email:</Label>
+                    <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
                 </Field>
                 <Field>
                     <Label htmlFor="password">Password:</Label>
@@ -165,6 +174,18 @@ const InputField = styled.input`
         transform: scale(1.05, 1.05);
         background-color: lightskyblue;
     }
+`
+
+const SelectBox = styled.select`
+    width: 100%;
+    border-radius: 1rem;
+    border: none;
+    text-align: center;
+    display: flex;
+`
+
+const Option = styled.option`
+    color: #000054;
 `
 
 const Area = styled.textarea`

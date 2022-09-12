@@ -1,4 +1,3 @@
-
 import { React, useState } from "react"
 import styled from "styled-components"
 import SideLogo from "../components/SideLogo"
@@ -33,7 +32,7 @@ const NavBar = () => {
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/">Home</NavbarItems>
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/board">Board</NavbarItems>
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/course">Course</NavbarItems>
-        <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/message">Message</NavbarItems>
+        <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/message-box">Message</NavbarItems>
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/account">Account</NavbarItems>
       </NavbarWrapper>
     </Navbar>

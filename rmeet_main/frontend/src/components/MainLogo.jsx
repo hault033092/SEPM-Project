@@ -1,12 +1,12 @@
 import Image from "./Image";
 import PropTypes from "prop-types";
-import SideLogoSrc from "../lib/img/logo.png";
+import MainLogoSrc from "../lib/img/logo.svg";
 
-const SideLogo = ({ width, height }) => {
+const MainLogo = ({ width, height }) => {
 	return (
 		<Image
-			src={SideLogoSrc}
-			alt={"RMEET side logo image"}
+			src={MainLogoSrc}
+			alt={"RMEET main logo image"}
 			style={{
 				width,
 				height,
@@ -14,9 +14,9 @@ const SideLogo = ({ width, height }) => {
 		/>
 	);
 };
-SideLogo.propTypes = {
+MainLogo.propTypes = {
 	width: PropTypes.string,
 	height: PropTypes.string,
 };
 
-export default SideLogo;
+export default MainLogo;
