@@ -9,6 +9,7 @@ localhost:8080/api/user/:userId (Method: PATCH, update a user by id)
 
 /// User Profile
 localhost:8080/api/userProfile/getProfile/:profileId
+localhost:8080/api/userProfile/getProfileByUser/:userId
 localhost:8080/api/userProfile/uploadImage
 localhost:8080/api/userProfile/updateImage
 localhost:8080/api/userProfile/createProfile
@@ -26,3 +27,11 @@ localhost:8080/api/course/getCourses
 localhost:8080/api/course/createCourse
 localhost:8080/api/course/deleteCourse/:courseId
 localhost:8080/api/course/updateCourse/:courseId
+
+/// Comment
+localhost:8080/api/comment/getComments
+localhost:8080/api/comment/getComments/:commentId
+localhost:8080/api/comment/createComment
+localhost:8080/api/comment/deleteComment/:commentId
+localhost:8080/api/comment/updateComment/:commentId
+
