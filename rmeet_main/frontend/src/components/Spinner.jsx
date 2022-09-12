@@ -16,7 +16,7 @@ const SpinnerCont = styled(FlexContainer)`
 `;
 
 const LoadingMsg = styled.p`
-	color: #2a8244;
+	color: #454545;
 	font-weight: 600;
 	font-size: 2vw;
 	margin: 2vw;
@@ -28,7 +28,6 @@ const Spinner = ({ isVisible, isFullSize }) => {
 			<BootSpinner
 				animation='border'
 				role='status'
-				variant='success'
 				style={{
 					width: "3rem",
 					height: "3rem",

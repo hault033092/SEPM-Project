@@ -10,9 +10,6 @@ import Course from "../../components/Course";
 import { FlexContainer } from "../../components/FlexContainer";
 import Spinner from "../../components/Spinner";
 
-/*Context */
-// import { CurrentUserContext } from "../../contexts/CurrentUser";
-
 /* Styled Component */
 const Screen = styled(FlexContainer)`
 	width: 100%;
@@ -82,6 +79,7 @@ const CourseMain = () => {
 	const [course, setCourse] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isSpinner, setIsSpinner] = useState(false);
+	const [searchCourses, setSearchCourses] = useState([]);
 
 	const theme = useContext(ThemeContext);
 	const navigation = useNavigate();
@@ -89,6 +87,7 @@ const CourseMain = () => {
 	useEffect(() => {
 		const client = getClient();
 		getCourses(client);
+		getRecommendedCourses(client);
 	}, []);
 
 	const getClient = () => {
@@ -120,6 +119,27 @@ const CourseMain = () => {
 			console.error(error);
 		}
 	};
+
+	const getRecommendedCourses = async client => {
+		try {
+			let response = await client
+				.get("/api/course/getCourses")
+				.then(response => {
+					let res = [];
+					for (const course of response.data) {
+						const c = { key: course.courseId, value: course.courseName };
+						res.push(c);
+					}
+					setSearchCourses(res);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 
 	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
@@ -163,7 +183,7 @@ const CourseMain = () => {
 						onSubmit={_handleSearch}
 						onDelete={_handleDelete}
 						setValue={_handleCourseEvent}
-						valuesList={{}}
+						valuesList={searchCourses}
 					/>
 					<ErrMsgWrapper>
 					<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
