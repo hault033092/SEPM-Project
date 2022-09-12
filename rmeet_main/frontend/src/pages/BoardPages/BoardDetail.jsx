@@ -315,9 +315,10 @@ const BoardDetail = ({ match }) => {
 	};
 
 	const getPost = async client => {
+		console.log(postId)
 		try {
 			let response = await client
-				.get("/api/posts/getPosts")
+				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
 					console.log(response);
 				})
