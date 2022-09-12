@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -11,9 +11,6 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import DropBox from "../../components/DropBox";
 import CenterModal from "../../components/CenterModal";
-
-/*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
 
 const EditCommentWrapper = styled(FlexContainer)`
 	flex-direction: column;
@@ -253,49 +250,29 @@ const StyleTitle = styled.h1`
 	}
 `;
 
-/* Data */
-const currentPost = {
-	postID: "111",
-	writerID: "000000",
-	title: "Looking for 1 more team member",
-	content:
-		"Hi guys, my name is Giang Nhat Khanh (s3878182) and on behalf of my ISYS2101 group, I would like to post this discussion to find the last member to complete our roster. As of right now, we have 3 team members including myself who are all familiar with the primary concepts of frontend/backend development, writing technical report documents as well as being keen communicators. Therefore, we would expect our potential teammate to fulfill these requirements in order to collaborate smoothly throughout the project. We would be grateful that someone could reply to this post and hopefully we can work together to ace this course! ",
-	comments: [
-		{
-			writerID: "000000",
-			content:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut eros bibendum dolor ultrices facilisis quis sed lacus. Sed eu eros vitae nulla auctor pellentesque. Pellentesque mi nisi, fermentum et cursus sed, suscipit ut enim. Ut pretium, tellus egestas fringilla rhoncus, metus purus imperdiet nisi, sit amet tincidunt dolor sem ac turpis. Suspendisse potenti. ",
-			createdAt: "2020-01-01",
-		},
-		{ writerID: "000000", content: "hello", createdAt: "2020-01-01" },
-		{
-			writerID: "111111",
-			content:
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut eros bibendum dolor ultrices facilisis quis sed lacus. Sed eu eros vitae nulla auctor pellentesque. Pellentesque mi nisi, fermentum et cursus sed, suscipit ut enim. Ut pretium, tellus egestas fringilla rhoncus, metus purus imperdiet nisi, sit amet tincidunt dolor sem ac turpis. Suspendisse potenti. ",
-			createdAt: "2020-01-01",
-		},
-		{ writerID: "000000", content: "it's me", createdAt: "2020-01-01" },
-		{ writerID: "000000", content: "hello", createdAt: "2020-01-01" },
-		{ writerID: "111111", content: "hello", createdAt: "2020-01-01" },
-		{ writerID: "222222", content: "it's me", createdAt: "2020-01-01" },
-		{ writerID: "000000", content: "hello", createdAt: "2020-01-01" },
-		{ writerID: "111111", content: "hello", createdAt: "2020-01-01" },
-	],
-	numOfComment: "9",
-	numOfLike: "46",
-	createdAt: "07-08-2022",
-};
+const BoardCont = styled.div`
+	width: 100%;
+	height: 100%;
+`;
 
-const BoardDetail = ({ match }) => {
+const BoardDetail = () => {
 	const [newComment, setNewComment] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [deleteTarget, setDeleteTarget] = useState("");
-
-	const { currentUser } = useContext(CurrentUserContext);
+	const [currentPost, setCurrentPost] = useState({
+		postID: "",
+		writerID: "",
+		title: "",
+		content: "",
+		comments: "",
+		numOfComment: "",
+		numOfLike: "",
+		createdAt: "dd-mm-yyyy",
+	});
 
 	const navigation = useNavigate();
 
-	const postId = useParams();
+	const { postId } = useParams();
 
 	useEffect(() => {
 		const client = getClient();
@@ -303,11 +280,10 @@ const BoardDetail = ({ match }) => {
 	}, []);
 
 	const getClient = () => {
-		const { token } = currentUser; // get current user's token
 		const client = axios.create({
 			baseURL: "http://localhost:8080",
 			headers: {
-				"auth-token": token,
+				"auth-token": window.sessionStorage.getItem("token"),
 			},
 		});
 
@@ -315,12 +291,22 @@ const BoardDetail = ({ match }) => {
 	};
 
 	const getPost = async client => {
-		console.log(postId)
 		try {
 			let response = await client
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
-					console.log(response);
+					const commentsArr = [];
+					const add = {
+						comments: commentsArr,
+						numOfComment: commentsArr.length,
+						createdAt: "dd-mm-yyyy",
+					};
+					const post = { ...add, ...response.data };
+					if (post.like === undefined) {
+						post.like = 0;
+					}
+					setCurrentPost(post);
+					console.log("post : ", post);
 				})
 				.catch(error => {
 					console.log(error);
@@ -367,14 +353,14 @@ const BoardDetail = ({ match }) => {
 	return (
 		<Screen>
 			<StyleTitle>Board</StyleTitle>
-			<FlexContainer>
+			<BoardCont>
 				<SingleBoard
 					post={currentPost}
 					setModalShow={_onClickDeletePost}
 					isDetail
 					isNavHidden={true}
 				/>
-			</FlexContainer>
+			</BoardCont>
 			<CommentsWrapper>
 				{Object.values(currentPost.comments).map((item, index) => {
 					return (
