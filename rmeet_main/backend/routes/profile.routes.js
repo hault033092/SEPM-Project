@@ -70,7 +70,7 @@ router.post('/createProfile', verify, async (req, res) => {
 
   const newProfile = new Profile({
     user: req.user,
-    // userProfilePic: req.profile,
+    // userProfilePic: req.,
     userName: req.body.userName,
     gender: req.body.gender,
     bio: req.body.bio,
@@ -78,9 +78,11 @@ router.post('/createProfile', verify, async (req, res) => {
 
   try {
     await newProfile.save().then((result) => {
-      Profile.populate(newProfile, { path: 'user' }).then((p) => res.send(p))
+      Profile.populate(newProfile, { path: 'user' }).then((p) =>
+        res.json({ message: 'Profile created!', p })
+      )
     })
-    // res.send(newProfile)
+    // res.send({ user: User._id })
   } catch (error) {
     res.status(400).send(error)
   }
