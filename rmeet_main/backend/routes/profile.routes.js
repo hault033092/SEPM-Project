@@ -13,8 +13,18 @@ const ProfileImg = require('../model/profileImg.model')
 // Get a user profile by id
 router.get('/getProfile/:profileId', verify, async (req, res) => {
   try {
-    const getProfile = await Profile.findOne({ _id: req.body.profileId })
-    res.json(getProfile)
+    const gotProfile = await Profile.findOne({ _id: req.params.profileId })
+    res.json(gotProfile)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+// Get a user profile by user id
+router.get('/getProfileByUser/:userId', verify, async (req, res) => {
+  try {
+    const gotProfile = await Profile.findOne({ user: req.params.userId })
+    res.json(gotProfile)
   } catch (error) {
     res.json({ message: error })
   }
@@ -70,7 +80,7 @@ router.post('/createProfile', verify, async (req, res) => {
 
   const newProfile = new Profile({
     user: req.user,
-    // userProfilePic: req.,
+    userProfilePic: req.userProfilePic,
     userName: req.body.userName,
     gender: req.body.gender,
     bio: req.body.bio,

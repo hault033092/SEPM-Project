@@ -36,7 +36,7 @@ router.post('/createComment', verify, async (req, res) => {
   //
   try {
     await newComment.save()
-    res.send({ newComment: newComment._id })
+    res.send({ newComment })
   } catch (error) {
     res.status(400).send(error)
   }
