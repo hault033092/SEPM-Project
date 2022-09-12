@@ -10,6 +10,7 @@ import SelectBox from "../../components/SelectBox";
 import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
+import Spinner from "../../components/Spinner";
 
 /* Styled Components */
 const Screen = styled(FlexContainer)`
@@ -112,18 +113,6 @@ const yearInfo = [
 	{ key: "2022", value: "2022" },
 ];
 
-const sampleCourseList = [
-	{
-		key: "COSC2539",
-		value: "Security in Computing and Information Technology",
-	},
-	{ key: "COSC2503", value: "Programming Project 2" },
-	{ key: "COSC2740", value: "Flagship Internship (IT)" },
-	{ key: "COSC2638", value: "Cloud Computing" },
-	{ key: "MATH2081", value: "Mathematics for Computing" },
-	{ key: "COSC2769", value: "Further Web Programming" },
-];
-
 const errMsg = "Please enter the course name.";
 
 const BoardMain = () => {
@@ -134,6 +123,8 @@ const BoardMain = () => {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedPost, setFocusedPost] = useState("");
+	const [searchCourses, setSearchCourses] = useState([]);
+	const [isSpinner, setIsSpinner] = useState(false);
 
 	const theme = useContext(ThemeContext);
 
@@ -142,6 +133,7 @@ const BoardMain = () => {
 	useEffect(() => {
 		const client = getClient();
 		getPosts(client);
+		getRecommendedCourses(client);
 	}, []);
 
 	const getClient = () => {
@@ -156,11 +148,35 @@ const BoardMain = () => {
 	};
 
 	const getPosts = async client => {
+		setIsSpinner(true);
 		try {
 			let response = await client
 				.get("/api/posts/getPosts")
 				.then(response => {
 					setPostList(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getRecommendedCourses = async client => {
+		try {
+			let response = await client
+				.get("/api/course/getCourses")
+				.then(response => {
+					let res = [];
+					for (const course of response.data) {
+						const c = { key: course.courseId, value: course.courseName };
+						res.push(c);
+					}
+					setSearchCourses(res);
 				})
 				.catch(error => {
 					console.log(error);
@@ -259,7 +275,7 @@ const BoardMain = () => {
 							onSubmit={_handleSearch}
 							onDelete={_handleDelete}
 							setValue={_handleCourseEvent}
-							valuesList={sampleCourseList}
+							valuesList={searchCourses}
 						/>
 						<ErrMsgWrapper>
 							<ValidationMessage color='#E60028'>
@@ -312,6 +328,7 @@ const BoardMain = () => {
 				isModalShow={isModalShow}
 				onHide={_onHideModal}
 			/>
+			<Spinner isVisible={isSpinner} />
 		</Screen>
 	);
 };
