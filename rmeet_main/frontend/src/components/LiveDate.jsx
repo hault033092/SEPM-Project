@@ -81,5 +81,4 @@ const DateElement = styled.h2`
         width: clamp(8rem, 10rem, 12rem);
     }
 `
-
 export default LiveDate;

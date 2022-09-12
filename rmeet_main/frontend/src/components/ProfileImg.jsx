@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import axios from "axios";
+
+/* Components */
 import camera from "../lib/img/icon/camera.svg";
-import user from "../lib/img/icon/user.svg";
+import userDefault from "../lib/img/icon/user.svg";
 import Image from "./Image";
 import { FlexContainer } from "./FlexContainer";
 
@@ -11,7 +14,7 @@ const Container = styled(FlexContainer)`
 	height: ${props => props.height};
 	border-radius: 50%;
 	position: relative;
-	background-color: ${props => props.theme.lightGrey};
+	background: ${props => props.theme.slideMsg};
 	filter: ${props => (props.isHover ? "brightness(60%)" : "brightness(100%)")};
 	cursor: pointer;
 `;
@@ -21,9 +24,9 @@ const BtnContainer = styled(Container)`
 	height: 2vw;
 	padding: 5%;
 	position: absolute;
-	background-color: ${props => props.theme.slideMsg};
 	bottom: 0;
 	right: 0;
+
 	@media (max-width: 400px) {
 		width: 2.5vw;
 		height: 2.5vw;
@@ -46,7 +49,50 @@ const StyledInput = styled.input.attrs(() => ({
 	display: none;
 `;
 
-const PhotoButton = ({ onChange, width, height }) => {
+const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
+	const _onUploadPhoto = async e => {
+		// const {
+		// 	target: { files },
+		// } = e;
+
+		// const theFile = files[0];
+		// const reader = new FileReader();
+
+		// reader.onloadend = readDataCompleted => {
+		// 	const {
+		// 		currentTarget: { result },
+		// 	} = readDataCompleted;
+		// 	setImgSrc(result);
+		// };
+		// reader.readAsDataURL(theFile);
+		const selectedFile = e.target.files[0];
+		try {
+			const config = {
+				headers: {
+					"content-type": "application/x-www-form-urlencoded",
+					"auth-token":
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzMzkwMjY1MDBhZWJjZTFkOTlmOTMiLCJpYXQiOjE2NjE1MzA2NDh9.brEWTDLemp8ctjTcxZBW3uLTICgMvFVdUx-9yNdgFHI",
+				},
+			};
+			let fd = new FormData();
+			fd.append("picture", selectedFile);
+			return axios
+				.post("http://localhost:8080/api/userProfile/uploadImage", fd, config)
+				.then(response => {
+					console.log(response.data);
+					setImgSrc(response.data);
+					return response.data;
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+
+		const res = await onUploadPhoto(e);
+	};
+
 	return (
 		<>
 			<StyledLabel htmlFor='uploadInput'>
@@ -58,7 +104,7 @@ const PhotoButton = ({ onChange, width, height }) => {
 					/>
 				</BtnContainer>
 			</StyledLabel>
-			<StyledInput onChange={onChange} />
+			<StyledInput onChange={_onUploadPhoto} />
 		</>
 	);
 };
@@ -67,12 +113,17 @@ const ProfileImg = ({
 	src,
 	width,
 	height,
-	onChangePhoto,
+	onUploadPhoto,
 	isShowButton,
 	isShowProfile,
 	onShowProfile,
 }) => {
 	const [isHover, setIsHover] = useState(false);
+	const [imgSrc, setImgSrc] = useState("");
+
+	useEffect(() => {
+		setImgSrc(src === "" ? userDefault : src);
+	}, []);
 
 	const _handleOnMouseEnter = () => {
 		if (!isShowProfile) {
@@ -104,17 +155,22 @@ const ProfileImg = ({
 			onMouseEnter={_handleOnMouseEnter}
 			onMouseLeave={_handleMouseLeave}>
 			<Image
-				src={src === "" ? user : src}
+				src={imgSrc}
 				alt={"Profile Image"}
 				style={{
-					width: "90%",
-					height: "90%",
+					width: "100%",
+					height: "100%",
 					borderRadius: "50%",
 					padding: "5%",
 				}}
 			/>
 			{isShowButton && (
-				<PhotoButton onChange={onChangePhoto} width={width} height={height} />
+				<PhotoButton
+					onUploadPhoto={onUploadPhoto}
+					setImgSrc={setImgSrc}
+					width={width}
+					height={height}
+				/>
 			)}
 		</Container>
 	);
@@ -124,19 +180,19 @@ ProfileImg.propTypes = {
 	src: PropTypes.string,
 	width: PropTypes.string,
 	height: PropTypes.string,
-	onChangePhoto: PropTypes.func,
+	onUploadPhoto: PropTypes.func,
 	isShowButton: PropTypes.bool,
 	isShowProfile: PropTypes.bool,
 	onShowProfile: PropTypes.func,
 };
 
 ProfileImg.defaultProps = {
-	src: user,
+	src: userDefault,
 	isShowButton: false,
 	isShowProfile: false,
 	width: "6vw",
 	height: "6vw",
-	onChangePhoto: () => {},
+	onUploadPhoto: () => {},
 	onShowProfile: () => {},
 };
 

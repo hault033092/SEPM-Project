@@ -28,9 +28,19 @@ const StyledInput = styled.input.attrs(({ isPassword, disabled }) => ({
 	width: ${props => props.style.width};
 	padding: ${props => props.style.padding};
 	font-size: ${props => props.style.fontSize};
-	border-radius: 10px;
-	border-width: 2px;
+	border-radius: ${props =>
+		props.style.borderRadius ? props.style.borderRadius : "10px"};
+	border-width: ${props =>
+		props.style.borderWidth ? props.style.borderWidth : "2px"};
 	background-color: ${props => (props.disabled ? "#d7d7d7" : "#fff")};
+
+	&:focus {
+		outline: none;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 0.2vw;
+	}
 `;
 
 const StyledTextarea = styled.textarea`
@@ -42,6 +52,13 @@ const StyledTextarea = styled.textarea`
 	border-width: 2px;
 	resize: none;
 	background-color: #fff;
+	&:focus {
+		outline: none;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 0.2vw;
+	}
 `;
 
 const Input = ({
@@ -51,6 +68,7 @@ const Input = ({
 	maxLength,
 	onChange,
 	onKeyPress,
+	onKeyUp,
 	isPassword,
 	isLabelHidden,
 	isRequired,
@@ -91,10 +109,12 @@ const Input = ({
 					placeholder={placeholder}
 					onChange={onChange}
 					onKeyPress={_onKeyPress}
+					onKeyUp={onKeyUp}
 					maxLength={maxLength}
 					style={style}
 					isPassword={isPassword}
 					disabled={disabled}
+					autoComplete='on'
 				/>
 			)}
 		</Container>
@@ -108,6 +128,7 @@ Input.propTypes = {
 	maxLength: PropTypes.number,
 	onChange: PropTypes.func.isRequired,
 	onKeyPress: PropTypes.func,
+	onKeyUp: PropTypes.func,
 	style: PropTypes.object,
 	isPassword: PropTypes.bool,
 	isLabelHidden: PropTypes.bool,
@@ -118,6 +139,7 @@ Input.propTypes = {
 Input.defaultProps = {
 	onKeyPress: () => {},
 	onChange: () => {},
+	onKeyUp: () => {},
 	style: { width: "100%", padding: "0.8vh 1vw", fontSize: "1vw" },
 };
 

@@ -268,5 +268,4 @@ const CancelButton = styled(Button)`
 const SaveButton = styled(Button)`
     width: 8rem;
 `
-
 export default Account;
