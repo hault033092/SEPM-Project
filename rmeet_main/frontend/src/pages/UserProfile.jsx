@@ -199,3 +199,4 @@ const Area = styled.textarea`
 `;
 
 export default UserProfile;
+

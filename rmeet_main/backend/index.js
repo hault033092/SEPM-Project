@@ -8,8 +8,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv/config')
 
-//
-
 //Import route
 const authRoute = require('./routes/users.routes')
 const postRoute = require('./routes/posts.routes')

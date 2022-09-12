@@ -18,7 +18,7 @@ router.get('/getPosts', verify, async (req, res) => {
 // Get post by id
 router.get('/getPost/:postId', verify, async (req, res) => {
   try {
-    const getPosts = await Post.findOne({ _id: req.body.postId })
+    const getPosts = await Post.findOne({ _id: req.params.postId })
     res.json(getPosts)
   } catch (error) {
     res.json({ message: error })
@@ -38,7 +38,8 @@ router.post('/createPost', verify, async (req, res) => {
     title: req.body.title,
     content: req.body.content,
     semester: req.body.semester,
-    // like: req.body.like,
+    year: req.body.year,
+    like: req.body.like,
   })
 
   //
@@ -54,7 +55,7 @@ router.post('/createPost', verify, async (req, res) => {
 })
 
 // Delete post
-router.delete('/:postId', verify, async (req, res) => {
+router.delete('/deletePost/:postId', verify, async (req, res) => {
   try {
     const removedPost = await Post.deleteOne({
       _id: req.params.postId,
@@ -66,7 +67,7 @@ router.delete('/:postId', verify, async (req, res) => {
 })
 
 // Update post
-router.patch('/:postId', verify, async (req, res) => {
+router.patch('/updatePost/:postId', verify, async (req, res) => {
   try {
     const updatedPost = await Post.updateOne(
       {

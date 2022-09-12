@@ -1,30 +1,16 @@
-userId: req.userId,
-// courseId: req.courseId,
-title: req.body.title,
-content: req.body.content,
-semeter: req.body.semester,
-year: req.body.year,
-like: req.body.year,
+///////// Post
+    "title": "hello",
+    "content": "this is a 69th testing post",
+    "semester": "B",
+    "year": 2022,
+    "like": 1,
 
-///
-"title": "hello",
-    "content": "this is a 67th testing post",
-    "semester": "2022B"
-///
+///////// User
+    "userName": "haule9298",
+    "email" : "haule9298@gmail.com",
+    "password": "haule929888"
 
-"userName": "haule9298",
-"email" : "haule9298@gmail.com",
-"password": "haule929888"
-
-
-///
-
-"title": "hello",
-    "content": "This is a demo post",
-    "semeter": "2022A",
-    "year": 2022
-
-//
-"userName": "Le Trung Hau",
+///////// Profile
+    "userName": "Le Trung Hau",
     "gender": "64bits",
     "bio": "just a demo"

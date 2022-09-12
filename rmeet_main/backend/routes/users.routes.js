@@ -70,9 +70,9 @@ router.get('/getUsers', async (req, res) => {
 })
 
 //Get user by a specific ID
-router.get('/:userID', async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
-    const user = await User.findById(req.params.userID)
+    const user = await User.findById(req.params.userId)
     res.json(user)
   } catch (error) {
     res.json({ message: error })
@@ -90,7 +90,7 @@ router.delete('/:userId', async (req, res) => {
 })
 
 //Find user by ID and update said user's attributes
-router.patch('/:userID', async (req, res) => {
+router.patch('/updateProfile/:userID', async (req, res) => {
   try {
     const userID = req.params.userID
     const updatedData = req.body

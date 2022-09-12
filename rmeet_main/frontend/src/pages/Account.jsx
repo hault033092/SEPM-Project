@@ -38,12 +38,21 @@ const Account = () => {
 					isShowButton 
                     />
                     <Field>
-                        <Label htmlFor="email">Email:</Label>
-                        <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
-                    </Field>
-                    <Field>
                         <Label htmlFor="username">Username:</Label>
                         <InputField id="username" type="text" value="John Doe"></InputField>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="gender">Gender:</Label>
+                        <SelectBox id="gender">
+                            <Option value=""></Option>
+                            <Option value="male">Male</Option>
+                            <Option value="female">Female</Option>
+                            <Option value="unspecified">Unspecified</Option>
+                        </SelectBox>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="email">Email:</Label>
+                        <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
                     </Field>
                     <Field>
                         <Label htmlFor="password">Password:</Label>
@@ -64,7 +73,7 @@ const Account = () => {
                     </Field>
                     <Field>
                         <Label htmlFor="courses">Completed course(s):</Label>
-                        <Area id="courses" type="textarea" rows="10" spellcheck="false" value=""></Area>
+                        <Area id="courses" type="textarea" rows="7" spellcheck="false" value=""></Area>
                         <AddButton onClick={() => {navigate("/review-course")}}>+ Add Course</AddButton>
                     </Field>
                     <SubmitField>
@@ -131,7 +140,7 @@ const PersonalInfo = styled.div`
     padding: 1.2rem 1.2rem;
 
     @media screen and (max-width: 1199px) {
-        height: 80vh;
+        height: 100vh;
         width: 90%;
         border-top-right-radius: 1rem;
         border-bottom-left-radius: 0;
@@ -154,7 +163,7 @@ const AcademicInfo = styled.div`
     padding: 1.2rem 1.2rem;
 
     @media screen and (max-width: 1199px) {
-        height: 80vh;
+        height: 100vh;
         width: 90%;
         border-bottom-left-radius: 1rem;
         border-top-right-radius: 0;
@@ -194,6 +203,18 @@ const InputField = styled.input`
         transform: scale(1.05, 1.05);
         background-color: lightskyblue;
     }
+`
+
+const SelectBox = styled.select`
+    width: 100%;
+    border-radius: 1rem;
+    border: none;
+    text-align: center;
+    display: flex;
+`
+
+const Option = styled.option`
+    color: #000054;
 `
 
 const Area = styled.textarea`
