@@ -21,4 +21,5 @@ npm install @mui/material @emotion/react @emotion/styled
 5. modal screen:
 npm install react-bootstrap bootstrap
 
-
+6.
+npm i jwt-decode
