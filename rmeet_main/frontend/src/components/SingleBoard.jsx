@@ -108,19 +108,19 @@ const SingleBoard = ({
 	setFocusedPost,
 }) => {
 	const isMyPost = useRef(null);
-	const writerInfo = useRef(null);
+	const profileImg = useRef(null);
 	const theme = useContext(ThemeContext);
 	const [isLikePost, setIsLikePost] = useState(false);
-
-	const { currentUser } = useContext(CurrentUserContext);
 
 	const navigation = useNavigate();
 
 	useEffect(() => {
 		// check whether the post was written by the curren user
-		isMyPost.current = post.user === window.sessionStorage.getItem("uid"); 
-		writerInfo.current = { uid: post.user };
+		isMyPost.current = post.userId === window.sessionStorage.getItem("uid");
+		profileImg.current = getImage();
 	}, []);
+
+	const getImage = () => {};
 
 	const _updateNumOfLike = () => {
 		setIsLikePost(prev => !prev);
@@ -213,7 +213,7 @@ const SingleBoard = ({
 							)}
 						</IconWrapper>
 						<StyledText weight={700} size='1vw' color={theme.heartPink}>
-							{post.numOfLike}
+							{post.like}
 						</StyledText>
 					</IconSubCont>
 				</IconMainCont>

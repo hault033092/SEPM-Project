@@ -11,9 +11,6 @@ import Button from "../../components/Button";
 import { FlexContainer } from "../../components/FlexContainer";
 import CenterModal from "../../components/CenterModal";
 
-/*Context */
-import { CurrentUserContext } from "../../contexts/CurrentUser";
-
 /* Styled Components */
 const Screen = styled(FlexContainer)`
 	width: 100%;
@@ -104,9 +101,9 @@ const ValidationMessage = styled.p`
 
 /* Data */
 const semesterInfo = [
-	{ key: "A", value: "A" },
-	{ key: "B", value: "B" },
-	{ key: "C", value: "C" },
+	{ key: "A", value: "semester A" },
+	{ key: "B", value: "semester B" },
+	{ key: "C", value: "semester C" },
 ];
 
 const yearInfo = [
@@ -138,7 +135,6 @@ const BoardMain = () => {
 	const [isModalShow, setIsModalShow] = useState(false);
 	const [focusedPost, setFocusedPost] = useState("");
 
-	const { currentUser } = useContext(CurrentUserContext);
 	const theme = useContext(ThemeContext);
 
 	const navigation = useNavigate();
@@ -285,14 +281,28 @@ const BoardMain = () => {
 				</SearchBtnWrapper>
 			</SearchBarCont>
 			<BoardCont>
-				{Object.values(postList).map((post, index) => (
-					<SingleBoard
-						key={index}
-						post={post}
-						setModalShow={setIsModalShow}
-						setFocusedPost={setFocusedPost}
-					/>
-				))}
+				{Object.values(postList).map((post, index) => {
+					if (post.like === undefined) {
+						post.like = 0;
+					}
+					const commentsArr = [];
+					const add = {
+						comments: commentsArr,
+						numOfComment: commentsArr.length,
+						createdAt: "dd-mm-yyyy",
+					};
+
+					const res = { ...post, ...add };
+
+					return (
+						<SingleBoard
+							key={index}
+							post={res}
+							setModalShow={setIsModalShow}
+							setFocusedPost={setFocusedPost}
+						/>
+					);
+				})}
 			</BoardCont>
 			<CenterModal
 				header='Are you sure?'
