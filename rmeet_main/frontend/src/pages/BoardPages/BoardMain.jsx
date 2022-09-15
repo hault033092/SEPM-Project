@@ -186,6 +186,18 @@ const BoardMain = () => {
 		}
 	};
 
+	const getSearchResult = () => {
+		const semesterKeyword = year + semester;
+		const res = postList.filter(post => {
+			if (post.semester === semesterKeyword) {
+				return true;
+			}
+		});
+
+		console.log("res", res);
+		setPostList(res);
+	};
+
 	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
@@ -204,7 +216,7 @@ const BoardMain = () => {
 
 		try {
 			let response = await client
-				.delete(`/api/posts/${focusedPost}`)
+				.delete(`/api/posts/deletePost/${focusedPost}`)
 				.then(response => {
 					getPosts(client);
 				})
@@ -227,13 +239,13 @@ const BoardMain = () => {
 			setErrorMessage(errMsg);
 			return;
 		}
-
-		console.log("search processing runs!!");
-		console.log("search for ", semester, year, course);
+		getSearchResult();
 	};
 
-	const _handleDelete = () => {
+	const _handleDelete = async () => {
 		setCourse("");
+		const client = getClient();
+		await getPosts(client);
 	};
 
 	const _handleCourseEvent = value => {
@@ -241,7 +253,8 @@ const BoardMain = () => {
 	};
 
 	const _handleSemesterChange = e => {
-		setSemester(e.target.value);
+		const res = e.target.value;
+		setSemester(res.charAt(res.length - 1)); // store the last char of the str
 	};
 
 	const _handleYearChange = e => {

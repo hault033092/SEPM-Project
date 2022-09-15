@@ -140,6 +140,20 @@ const CourseMain = () => {
 		}
 	};
 
+	const getSearchResult = () => {
+		console.log(course)
+		const client = getClient();
+		getCourses(client);
+		const res = courseList.filter(c => {
+			console.log(c.courseName)
+			if (c.courseName.includes(course)) {
+				return true;
+			}
+		});
+
+		console.log("res", res);
+		setCourseList(res);
+	};
 
 	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
@@ -159,12 +173,13 @@ const CourseMain = () => {
 			return;
 		}
 
-		console.log("search processing runs!!");
-		console.log("search for ", course);
+		getSearchResult();
 	};
 
-	const _handleDelete = () => {
+	const _handleDelete = async () => {
 		setCourse("");
+		const client = getClient();
+		await getCourses(client);
 	};
 
 	const _handleCourseEvent = value => {
@@ -186,7 +201,9 @@ const CourseMain = () => {
 						valuesList={searchCourses}
 					/>
 					<ErrMsgWrapper>
-					<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
+						<ValidationMessage color='#E60028'>
+							{errorMessage}
+						</ValidationMessage>
 					</ErrMsgWrapper>
 				</SearchBarWrapper>
 				<Button
