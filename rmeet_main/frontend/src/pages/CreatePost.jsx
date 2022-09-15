@@ -1,58 +1,240 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
+/*Components */
+import SearchBar from "../components/SearchBar";
+import { FlexContainer } from "../components/FlexContainer";
+import Spinner from "../components/Spinner";
+
 const CreatePost = () => {
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
+	const [semester, setSemester] = useState("A");
+	const [year, setYear] = useState("2022");
+	const [course, setCourse] = useState("");
+	const [courses, setCourses] = useState([]);
+	const [isSpinner, setIsSpinner] = useState(false);
+
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	console.log(location.state);
+	useEffect(() => {
+		getCourses();
+		if (location.state.mode === "update") {
+			getPostInfo(location.state.postId);
+		}
+	}, []);
+
+	const _onTitleChange = e => {
+		setTitle(e.target.value);
+	};
+
+	const _onContentChange = e => {
+		setContent(e.target.value);
+	};
+
+	const _onSemesterChange = e => {
+		setSemester(e.target.value);
+	};
+
+	const _onYearChange = e => {
+		setYear(e.target.value);
+	};
+
+	const _onCourseChange = e => {
+		setCourse(e.target.value);
+	};
+
+	const getClient = () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		return client;
+	};
+
+	const getPostInfo = async postId => {
+		setIsSpinner(true);
+		const client = getClient();
+
+		try {
+			let response = await client
+				.get(`/api/posts/getPost/${postId}`)
+				.then(response => {
+					console.log(response.data);
+					setTitle(response.data.title);
+					setContent(response.data.content);
+					setSemester(response.data.semester);
+					setYear(response.data.year);
+				})
+				.catch(error => {
+					console.error(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getCourses = async () => {
+		const client = getClient();
+
+		try {
+			let response = await client
+				.get("/api/course/getCourses")
+				.then(response => {
+					let res = [];
+					for (const course of response.data) {
+						let c = { courseName: course.courseName };
+						res.push(c);
+					}
+
+					setCourses(res);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const createPost = async postInfo => {
+		setIsSpinner(true);
+		const client = getClient();
+
+		try {
+			let response = await client
+				.post("/api/posts/createPost", postInfo)
+				.then(response => {
+					navigate(`/board/${response.data.newPost}`);
+				})
+				.catch(error => {
+					console.error(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const updatePost = async postInfo => {
+		setIsSpinner(true);
+		const client = getClient();
+
+		try {
+			let response = await client
+				.patch(`/api/posts/updatePost/${location.state.postId}`, postInfo)
+				.then(response => {
+					navigate(`/board/${location.state.postId}`);
+				})
+				.catch(error => {
+					console.error(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const onSubmit = () => {
+		const postInfo = {
+			title: title === "" ? "No Title" : title,
+			content: content === "" ? "No Content" : content,
+			semester: semester,
+			year: year,
+		};
+
+		if (location.state.mode === "create") {
+			postInfo.like = "0";
+			createPost(postInfo);
+		} else {
+			updatePost(postInfo);
+		}
+	};
 
 	return (
-		<PostContainer>
-			<Heading>Board</Heading>
-			<PostContent>
-				<Field>
-					<TitleInput
-						type='text'
-						placeholder='Enter title here...'></TitleInput>
-				</Field>
-				<Field>
-					<Area
-						id='bio'
-						type='textarea'
-						rows='15'
-						spellcheck='false'
-						value='Your content goes here...'></Area>
-				</Field>
-				<Field>
-					<SelectGroup>
-						<Label htmlFor='semester'>Semester:</Label>
-						<SelectBox id='semester'>
-							<Option value=''></Option>
-							<Option value='october'>October</Option>
-							<Option value='june'>June</Option>
-							<Option value='february'>February</Option>
-						</SelectBox>
-					</SelectGroup>
-				</Field>
-				<Field>
-					<SelectGroup>
-						<Label htmlFor='year'>Year:</Label>
-						<SelectBox id='year'>
-							<Option value=''></Option>
-							<Option value='2022'>2022</Option>
-							<Option value='2021'>2021</Option>
-							<Option value='2020'>2020</Option>
-						</SelectBox>
-					</SelectGroup>
-				</Field>
-				<SubmitField>
-					<CancelButton onClick={() => navigate("/board")}>Return</CancelButton>
-					<SaveButton>Post</SaveButton>
-				</SubmitField>
-			</PostContent>
-		</PostContainer>
+		<>
+			<PostContainer>
+				<Heading>Board</Heading>
+				<PostContent>
+					<Field>
+						<TitleInput
+							type='text'
+							placeholder='Enter title here...'
+							onChange={_onTitleChange}
+							value={title}
+						/>
+					</Field>
+					<Field>
+						<Area
+							id='content'
+							type='textarea'
+							rows='15'
+							spellcheck='false'
+							value={content}
+							onChange={_onContentChange}
+						/>
+					</Field>
+					<Field>
+						<SelectGroup>
+							<Label htmlFor='semester'>Semester:</Label>
+							<SelectBox id='semester' onChange={_onSemesterChange}>
+								<Option value='A' selected>
+									Semester A
+								</Option>
+								<Option value='B'>Semester B</Option>
+								<Option value='C'>Semester C</Option>
+							</SelectBox>
+						</SelectGroup>
+					</Field>
+					<Field>
+						<SelectGroup>
+							<Label htmlFor='year'>Year:</Label>
+							<SelectBox id='year' onChange={_onYearChange}>
+								<Option value='2022' selected>
+									2022
+								</Option>
+								<Option value='2021'>2021</Option>
+								<Option value='2020'>2020</Option>
+							</SelectBox>
+						</SelectGroup>
+					</Field>
+					<Field>
+						<SelectGroup>
+							<Label htmlFor='course'>Course:</Label>
+							<SelectBox id='course' onChange={_onCourseChange}>
+								{Object.values(courses).map(course => {
+									return (
+										<Option value={course.courseName}>
+											{course.courseName}
+										</Option>
+									);
+								})}
+							</SelectBox>
+						</SelectGroup>
+					</Field>
+					<SubmitField>
+						<CancelButton onClick={() => navigate("/board")}>
+							Return
+						</CancelButton>
+						<SaveButton onClick={onSubmit}>Post</SaveButton>
+					</SubmitField>
+				</PostContent>
+			</PostContainer>
+			<Spinner isVisible={isSpinner} isFullSize />
+		</>
 	);
 };
 
@@ -136,7 +318,6 @@ const Area = styled.textarea`
 
 	&:focus {
 		transform: scaleX(1.05);
-		background-color: lightskyblue;
 	}
 `;
 
@@ -155,7 +336,7 @@ const Label = styled.label`
 `;
 
 const SelectBox = styled.select`
-	width: 6rem;
+	width: 10rem;
 	border-radius: 1rem;
 	border: none;
 	text-align: center;

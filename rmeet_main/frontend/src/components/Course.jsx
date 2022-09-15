@@ -92,7 +92,9 @@ const Course = ({
 					/>
 					<StyledText fontWeight={600}>{rateValue}</StyledText>
 				</RateCont>
-				<StyledText>{LecturerName}</StyledText>
+				<StyledText>
+					{LecturerName !== undefined ? LecturerName : ""}
+				</StyledText>
 			</ContentCont>
 			{isNavHidden || (
 				<DetailIconWrapper>
