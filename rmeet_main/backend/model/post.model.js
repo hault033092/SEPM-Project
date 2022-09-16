@@ -7,16 +7,6 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
 
-    // postId: {
-    //   type: mongoose.Types.ObjectId,
-    // },
-
-    // courseId: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: 'Course',
-    //   required: true,
-    // },
-
     title: {
       type: String,
       required: true,
@@ -41,7 +31,7 @@ const postSchema = new mongoose.Schema(
       type: Number,
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 )
 
 module.exports = mongoose.model('Post', postSchema)
