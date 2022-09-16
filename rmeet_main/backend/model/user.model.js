@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Types.ObjectId,
-    },
-
     email: {
       type: String,
       required: true,
@@ -20,12 +16,35 @@ const userSchema = new mongoose.Schema(
       min: 6,
     },
 
-    userProfile: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Profile',
+    userProfilePic: { type: String },
+
+    userName: { type: String },
+
+    gender: { type: String },
+
+    bio: {
+      type: String,
     },
+
+    major: {
+      type: String,
+    },
+
+    posts: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
+
+    comments: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
-  { timestamp: true }
+  { timestamps: true }
 )
 
 module.exports = mongoose.model('User', userSchema)

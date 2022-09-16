@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
 const Course = require('../model/course.model')
-const { postValidate } = require('../validation')
 
 // Get all course
 router.get('/getCourses', verify, async (req, res) => {
@@ -25,16 +24,13 @@ router.get('/getCourse/:courseId', verify, async (req, res) => {
 
 // Create course
 router.post('/createCourse', verify, async (req, res) => {
-  //   const { error } = postValidate(req.body)
-  //   if (error) return res.status(400).send(error.details[0].message)
-
   const course = new Course({
     courseId: req.body.courseId,
     courseName: req.body.courseName,
   })
 
   try {
-    const savePost = await course.save()
+    const saveCourse = await course.save()
     res.send('Course created successfully!')
   } catch (error) {
     res.status(400).send(error)
@@ -56,7 +52,7 @@ router.delete('/deleteCourse/:courseId', verify, async (req, res) => {
 // Update course
 router.patch('/updateCourse/:courseId', verify, async (req, res) => {
   try {
-    const updatedPost = await Post.updateOne(
+    const updatedCourse = await Post.updateOne(
       {
         courseId: req.params.courseId,
       },
