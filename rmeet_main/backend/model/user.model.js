@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       min: 6,
     },
 
-    profileImg: { type: String },
+    profileImg: { type: mongoose.Types.ObjectId, ref: 'ProfileImg' },
 
     userName: { type: String },
 

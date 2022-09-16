@@ -1,16 +1,15 @@
-// const router = require('express').Router()
-// const verify = require('../routes/verifyToken')
-// const Profile = require('../model/profile.model')
-// const User = require('../model/user.model')
-// const upload = require('../config/upload')
-// const ProfileImg = require('../model/profileImg.model')
+const router = require('express').Router()
+const verify = require('./verifyToken')
+const User = require('../model/user.model')
+const upload = require('../config/upload')
+const ProfileImg = require('../model/profileImg.model')
 
-// // Populate profile into user
+// Populate profile into user
 // User.findOne({ _id: User._id })
 //   .populate('userProfile')
 //   .then((user) => console.log(user))
 
-// // Get a user profile by id
+// Get a user profile by id
 // router.get('/getProfile/:profileId', verify, async (req, res) => {
 //   try {
 //     const gotProfile = await Profile.findOne({ _id: req.params.profileId })
@@ -20,7 +19,7 @@
 //   }
 // })
 
-// // Get a user profile by user id
+// Get a user profile by user id
 // router.get('/getProfileByUser/:userId', verify, async (req, res) => {
 //   try {
 //     const gotProfile = await Profile.findOne({ user: req.params.userId })
@@ -30,50 +29,50 @@
 //   }
 // })
 
-// // Upload profile image to cloudinary
-// router.post(
-//   '/uploadImage',
-//   verify,
-//   upload.single('image'),
-//   async (req, res) => {
-//     const newProfileImg = new ProfileImg({
-//       profilePicUrl: req.file.path,
-//     })
+// Upload profile image to cloudinary
+router.post(
+  '/uploadImage',
+  verify,
+  upload.single('image'),
+  async (req, res) => {
+    const newProfileImg = new ProfileImg({
+      profilePicUrl: req.file.path,
+    })
 
-//     try {
-//       await newProfileImg.save()
-//       res.send(req.file.path)
-//     } catch (error) {
-//       res.status(400).send(error)
-//     }
-//   }
-// )
+    try {
+      await newProfileImg.save()
+      res.send({ profilePicUrl: req.file.path })
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
+)
 
-// // Update profile picture
-// router.patch(
-//   '/updateImage',
-//   verify,
-//   upload.single('image'),
-//   async (req, res) => {
-//     try {
-//       await ProfileImg.updateOne(
-//         {
-//           _id: req.params._id,
-//         },
-//         {
-//           $set: {
-//             profileImgUrl: req.file.path,
-//           },
-//         }
-//       )
-//       res.send(req.file.path)
-//     } catch (error) {
-//       res.json({ message: error })
-//     }
-//   }
-// )
+// Update profile picture
+router.patch(
+  '/updateImage',
+  verify,
+  upload.single('image'),
+  async (req, res) => {
+    try {
+      await ProfileImg.updateOne(
+        {
+          _id: req.params._id,
+        },
+        {
+          $set: {
+            profileImgUrl: req.file.path,
+          },
+        }
+      )
+      res.send(req.file.path)
+    } catch (error) {
+      res.json({ message: error })
+    }
+  }
+)
 
-// // Create a user profile
+// Create a user profile
 // router.post('/createProfile', verify, async (req, res) => {
 //   //   const { error } = postValidate(req.body)
 //   //   if (error) return res.status(400).send(error.details[0].message)
@@ -98,7 +97,7 @@
 //   }
 // })
 
-// // Update a profile
+// Update a profile
 // router.patch('/:profileId', verify, async (req, res) => {
 //   try {
 //     const updatedProfile = await Profile.updateOne(
@@ -115,4 +114,4 @@
 //   }
 // })
 
-// module.exports = router
+module.exports = router
