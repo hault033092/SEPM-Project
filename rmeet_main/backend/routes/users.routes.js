@@ -36,7 +36,7 @@ router.post('/register', upload.single('image'), async (req, res) => {
 
   try {
     await user.save()
-    res.send({ user: user._id })
+    res.send({ user: user._id, profileImg: req.file.path })
   } catch (err) {
     res.status(400).send(err)
   }
