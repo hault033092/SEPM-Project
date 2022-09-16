@@ -31,6 +31,7 @@ router.post('/register', upload.single('image'), async (req, res) => {
     gender: req.body.gender,
     bio: req.body.bio,
     major: req.body.major,
+    profileImg: req.file.path,
   })
 
   try {

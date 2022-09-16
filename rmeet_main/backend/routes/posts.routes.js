@@ -25,6 +25,8 @@ router.get('/getPost/:postId', verify, async (req, res) => {
   }
 })
 
+// Get
+
 // Create post
 router.post('/createPost', verify, async (req, res) => {
   const { error } = postValidate(req.body)
