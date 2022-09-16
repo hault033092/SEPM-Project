@@ -3,7 +3,6 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 /* Components */
 import Button from "../../components/Button";
 import ProfileImg from "../../components/ProfileImg";
@@ -121,6 +120,7 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 			userName: username,
 			email: email.current,
 			password: pwd,
+			path: pfImg,
 		};
 		registerUser(accountInfo);
 	};
@@ -141,9 +141,8 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 			return axios
 				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
 				.then(response => {
-					console.log(response.data);
 					setIsSpinner(false);
-					return response.data;
+					setPfImg(response.data);
 				})
 				.catch(error => {
 					console.log(error);
