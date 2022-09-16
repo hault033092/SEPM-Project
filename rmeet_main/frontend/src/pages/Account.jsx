@@ -1,145 +1,118 @@
-import { React, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { user } from '../lib/img/icon'
-import ProfileImg from '../components/ProfileImg'
-import axios from 'axios'
-import { useEffect } from 'react'
+import { React, useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom";
+import styled from "styled-components"
+import { user } from "../lib/img/icon"
+import axios from "axios"
+
+import ProfileImg from "../components/ProfileImg"
 
 const Account = () => {
-  const [profile, setProfile] = useState({})
-  const navigate = useNavigate()
-  const [profileImg, setProfileImg] = useState(user)
+    const { userId } = useParams();
+    console.log("userId: ", userId)
 
-  const _handleProfileImgChange = (e) => {
-    const {
-      target: { files },
-    } = e
+    const [userProfile, setUserProfile] = useState([]);
+    const navigate = useNavigate();
+    const [profileImg, setProfileImg] = useState(user);
 
-    const theFile = files[0]
-    const reader = new FileReader()
-    reader.onloadend = (readDataCompleted) => {
-      const {
-        currentTarget: { result },
-      } = readDataCompleted
-      setProfileImg(result)
+    const _handleProfileImgChange = (e) => {
+        const {
+        target: { files },
+        } = e
+
+        const theFile = files[0]
+        const reader = new FileReader()
+        reader.onloadend = (readDataCompleted) => {
+        const {
+            currentTarget: { result },
+        } = readDataCompleted
+        setProfileImg(result)
+        }
+        reader.readAsDataURL(theFile)
     }
-    reader.readAsDataURL(theFile)
-  }
 
-  const config = {
-    headers: {
-      'auth-token':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmY5YzRmOWFiM2Y2NTNhM2Y4NWUwYjkiLCJpYXQiOjE2NjA1MzY2NjV9.7hIsloOEB1AwY0BjDhn3U5LsThFmQQnm_uPgrOt-i6s',
-    },
-  }
+    const config = {
+        headers: {
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmY5YzRmOWFiM2Y2NTNhM2Y4NWUwYjkiLCJpYXQiOjE2NjA1MzY2NjV9.7hIsloOEB1AwY0BjDhn3U5LsThFmQQnm_uPgrOt-i6s",
+        },
+        params: {
+            "userId": "62f9c4f9ab3f653a3f85e0b9"
+        }
+      }
+    
+      useEffect(() => {
+        axios
+          .get(
+            `http://localhost:8080/api/userProfile/getProfileByUser/62f9c4f9ab3f653a3f85e0b9`,
+            config
+          )
+          .then((response) => {
+            setUserProfile(response.data)
+          })
+      }, [])
+      console.log(userProfile)
 
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost:8080/api/userProfile/getProfile/631f0676e666eba616a75903`,
-        config
-      )
-      .then((response) => {
-        setProfile(response.data)
-      })
-  }, [])
-  console.log(profile)
-
-  return (
-    <AccountContainer>
-      <Heading>Account Details</Heading>
-      <h1>{profile.userName}</h1>
-      <h1>{profile.gender}</h1>
-      <h1></h1>
-      <h1></h1>
-      <AccountContent>
-        <PersonalInfo>
-          <Title>Personal Info</Title>
-          <ProfileImg
-            src={profileImg}
-            width='8rem'
-            height='8rem'
-            onChangePhoto={_handleProfileImgChange}
-            isShowButton
-          />
-          <Field>
-            <Label htmlFor='username'>Username:</Label>
-            <InputField id='username' type='text' value='John Doe'></InputField>
-          </Field>
-          <Field>
-            <Label htmlFor='gender'>Gender:</Label>
-            <SelectBox id='gender'>
-              <Option value=''></Option>
-              <Option value='male'>Male</Option>
-              <Option value='female'>Female</Option>
-              <Option value='unspecified'>Unspecified</Option>
-            </SelectBox>
-          </Field>
-          <Field>
-            <Label htmlFor='email'>Email:</Label>
-            <InputField
-              id='email'
-              type='email'
-              value='s1234567@rmit.edu.vn'
-            ></InputField>
-          </Field>
-          <Field>
-            <Label htmlFor='password'>Password:</Label>
-            <InputField
-              id='password'
-              type='password'
-              value='123456789'
-            ></InputField>
-          </Field>
-          <Button>Sign out</Button>
-          <Button>Delete Account</Button>
-        </PersonalInfo>
-        <AcademicInfo>
-          <Title>Academic Info</Title>
-          <Field>
-            <Label htmlFor='major'>Major:</Label>
-            <InputField
-              id='major'
-              type='text'
-              value='Information Technology'
-            ></InputField>
-          </Field>
-          <Field>
-            <Label htmlFor='bio'>Your Bio:</Label>
-            <Area
-              id='bio'
-              type='textarea'
-              rows='5'
-              spellcheck='false'
-              value='Pop culture fanatic. Incurable food specialist. Beer buff. Baconaholic. Twitter enthusiast. Music fan.'
-            ></Area>
-          </Field>
-          <Field>
-            <Label htmlFor='courses'>Completed course(s):</Label>
-            <Area
-              id='courses'
-              type='textarea'
-              rows='7'
-              spellcheck='false'
-              value=''
-            ></Area>
-            <AddButton
-              onClick={() => {
-                navigate('/review-course')
-              }}
-            >
-              + Add Course
-            </AddButton>
-          </Field>
-          <SubmitField>
-            <CancelButton>Cancel Changes</CancelButton>
-            <SaveButton>Save Changes</SaveButton>
-          </SubmitField>
-        </AcademicInfo>
-      </AccountContent>
-    </AccountContainer>
-  )
+    return (
+        <AccountContainer>
+            <Heading>Account Details</Heading>
+            <AccountContent>
+                <PersonalInfo>
+                    <Title>Personal Info</Title>
+                    <ProfileImg
+					src={profileImg}
+                    width= "8rem"
+                    height= "8rem"
+					onChangePhoto={_handleProfileImgChange}
+					isShowButton 
+                    />
+                    <Field>
+                        <Label htmlFor="username">Username:</Label>
+                        <InputField id="username" type="text" value={userProfile.userName}></InputField>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="gender">Gender:</Label>
+                        <SelectBox id="gender">
+                            <Option value="">{userProfile.gender}</Option>
+                            <Option value="male">Male</Option>
+                            <Option value="female">Female</Option>
+                            <Option value="unspecified">Unspecified</Option>
+                        </SelectBox>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="email">Email:</Label>
+                        <InputField id="email" type="email" value="s1234567@rmit.edu.vn"></InputField>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="password">Password:</Label>
+                        <InputField id="password" type="password" value="123456789"></InputField>
+                    </Field>
+                    <Button>Sign out</Button>
+                    <Button>Delete Account</Button>
+                </PersonalInfo>
+                <AcademicInfo>
+                    <Title>Academic Info</Title>
+                    <Field>
+                        <Label htmlFor="major">Major:</Label>
+                        <InputField id="major" type="text" value="Information Technology"></InputField>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="bio">Your Bio:</Label>
+                        <Area id="bio" type="textarea" rows="5" spellcheck="false" value={userProfile.bio}></Area>
+                    </Field>
+                    <Field>
+                        <Label htmlFor="courses">Completed course(s):</Label>
+                        <Area id="courses" type="textarea" rows="7" spellcheck="false" value=""></Area>
+                        <AddButton onClick={() => {navigate("/review-course")}}>+ Add Course</AddButton>
+                    </Field>
+                    <SubmitField>
+                        <CancelButton>Cancel Changes</CancelButton>
+                        <SaveButton>Save Changes</SaveButton>                
+                    </SubmitField>
+                </AcademicInfo>
+            </AccountContent>
+        </AccountContainer>
+    )
 }
 
 const AccountContainer = styled.div`

@@ -12,7 +12,7 @@ require('dotenv/config')
 const authRoute = require('./routes/users.routes')
 const postRoute = require('./routes/posts.routes')
 const courseRoute = require('./routes/course.routes')
-const profileRoute = require('./routes/profile.routes')
+// const profileRoute = require('./routes/profile.routes')
 const commentRoute = require('./routes/comment.routes')
 
 //Middlewares
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/user', authRoute)
 app.use('/api/posts', postRoute)
 app.use('/api/course', courseRoute)
-app.use('/api/userProfile', profileRoute)
+// app.use('/api/userProfile', profileRoute)
 app.use('/api/comment', commentRoute)
 
 //Connect to db

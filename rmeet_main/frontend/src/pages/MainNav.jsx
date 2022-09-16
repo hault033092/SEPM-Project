@@ -45,8 +45,9 @@ const MainNav = () => {
 						<Route exact path='/course/detail' element={<CourseDetail />} />
 						<Route path='/review-course' element={<CourseReview />} />
 						<Route path='/message' element={<MessageMain />} />
-						<Route path='/account' element={<Account />} />
+						<Route path='/my-profile/:userId' element={<UserProfile />} />
 						<Route path='/view-profile/:userId' element={<UserProfile />} />
+						<Route path='/update-account/:userId' element={< Account />} />
 					</Routes>
 				</>
 			) : (

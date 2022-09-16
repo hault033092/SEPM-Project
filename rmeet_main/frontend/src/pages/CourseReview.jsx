@@ -21,8 +21,6 @@ const CourseReview = () => {
                     <Text>Please write a review to help other students:</Text>
                     <ReviewInputField onClick={toggleOverlayDiv} id="skipReview" type="checkbox" value="Skip" name="choice" style={{width: "auto",}}></ReviewInputField>
                     <Label htmlFor="skipReview">Skip for now!</Label>
-                    {/* <ReviewInputField onClick={toggleOverlayDiv} id="doReview" type="radio" value="Review" name="choice" style={{width: "auto",}}></ReviewInputField>
-                    <Label htmlFor="doReview">Leave a review!</Label> */}
                 </ReviewToggle>
                 <ReviewWrapper>
                     <Overlay className={isEnabled ? "hidden" : ""}></Overlay>
@@ -135,7 +133,7 @@ const CourseReview = () => {
                     </CourseInfo>
                 </ReviewWrapper>
                 <SubmitField>
-                    <CancelButton onClick={() => {navigate("/account")}}>Cancel</CancelButton>
+                    <CancelButton onClick={() => {navigate("/update-account/:userId")}}>Cancel</CancelButton>
                     <SaveButton>Save course</SaveButton>
                 </SubmitField>
             </ReviewContent> 

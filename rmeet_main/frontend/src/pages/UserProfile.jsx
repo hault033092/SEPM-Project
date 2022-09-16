@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ProfileImg from "../components/ProfileImg";
 import DefaultImg from "../lib/img/icon/user.svg";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const UserProfile = () => {
 	const { userId } = useParams();
     console.log("userId: ", userId)
+
+	const navigate = useNavigate();
+
+	const [userProfile, setUserProfile] = useState([]);
+
+	const config = {
+        headers: {
+          "auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmY5YzRmOWFiM2Y2NTNhM2Y4NWUwYjkiLCJpYXQiOjE2NjA1MzY2NjV9.7hIsloOEB1AwY0BjDhn3U5LsThFmQQnm_uPgrOt-i6s",
+		}// },
+        // params: {
+        //     "userId": "62f9c4f9ab3f653a3f85e0b9"
+        // }
+      }
+    
+      useEffect(() => {
+        axios
+          .get(
+            `localhost:8080/api/user/62f9c4f9ab3f653a3f85e0b9`,
+            config
+          )
+          .then((response) => {
+            setUserProfile(response.data)
+          })
+      }, [])
+      console.log(userProfile)
+
 	return (
 		<ProfileContainer>
 			<Heading>User Profile</Heading>
@@ -15,15 +44,16 @@ const UserProfile = () => {
 					<Title>Personal Info</Title>
 					<ProfileImg src={DefaultImg} width='8rem' height='8rem' />
 					<Field>
-						<Label htmlFor='email'>Email:</Label>
-						<InputField
-							id='email'
-							type='email'
-							value='s1234567@rmit.edu.vn'></InputField>
+						<Label htmlFor='username'>Username:</Label>
+						<InputField id='username' type='text' value={userProfile.userName}></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor='username'>Username:</Label>
-						<InputField id='username' type='text' value='John Doe'></InputField>
+                        <Label htmlFor="gender">Gender:</Label>
+                        <InputField id='gender' type='text' value={userProfile.gender}></InputField>
+                    </Field>
+					<Field>
+						<Label htmlFor='email'>Email:</Label>
+						<InputField id='email' type='email' value={userProfile.user}></InputField>
 					</Field>
 					<Field>
 						<Label htmlFor='password'>Password:</Label>
@@ -49,17 +79,20 @@ const UserProfile = () => {
 							type='textarea'
 							rows='5'
 							spellcheck='false'
-							value='Pop culture fanatic. Incurable food specialist. Beer buff. Baconaholic. Twitter enthusiast. Music fan.'></Area>
+							value={userProfile.bio}></Area>
 					</Field>
 					<Field>
 						<Label htmlFor='courses'>Completed course(s):</Label>
 						<Area
 							id='courses'
 							type='textarea'
-							rows='10'
+							rows='7'
 							spellcheck='false'
 							value=''></Area>
 					</Field>
+					<SubmitField>
+                        <UpdateButton onClick={() => {navigate("/update-account/:userId")}}>Update Info</UpdateButton>                
+                    </SubmitField>
 				</AcademicInfo>
 			</ProfileContent>
 		</ProfileContainer>
@@ -117,7 +150,7 @@ const PersonalInfo = styled.div`
 	border-top-left-radius: 1rem;
 	border-bottom-left-radius: 1rem;
 	border-right: 0.2rem solid #000054;
-	padding: 1.2rem 1.2rem 10rem 1.2rem;
+	padding: 1.2rem 1.2rem 4.6rem 1.2rem;
 
 	@media screen and (max-width: 1199px) {
 		height: 80vh;
@@ -130,7 +163,7 @@ const PersonalInfo = styled.div`
 `;
 
 const AcademicInfo = styled.div`
-	height: inherit;
+	height: 100%;
 	width: 65%;
 	display: flex;
 	align-items: center;
@@ -140,7 +173,7 @@ const AcademicInfo = styled.div`
 	border-top-right-radius: 1rem;
 	border-bottom-right-radius: 1rem;
 	border-left: 0.2rem solid #000054;
-	padding: 1.2rem 1.2rem 8rem 1.2rem;
+	padding: 1.2rem;
 
 	@media screen and (max-width: 1199px) {
 		height: 80vh;
@@ -196,6 +229,27 @@ const Area = styled.textarea`
 		transform: scaleX(1.05);
 		background-color: lightskyblue;
 	}
+`;
+
+const SubmitField = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+const UpdateButton = styled.button`
+    width: 50%;
+    border-radius: 1rem;
+    border: none;
+    padding: 0.5rem 0;
+    background-color: red;
+    color: #FFFFFF;
+    font-weight: 700;
+    transition: 0.25s ease-in-out;
+
+    &:hover {
+        opacity: 0.75;
+    }
 `;
 
 export default UserProfile;
