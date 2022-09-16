@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
+    major: {
+      type: String,
+    },
+
     posts: [
       {
         type: mongoose.Types.ObjectId,
