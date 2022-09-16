@@ -186,16 +186,35 @@ const BoardMain = () => {
 		}
 	};
 
-	const getSearchResult = () => {
-		const semesterKeyword = year + semester;
-		const res = postList.filter(post => {
-			if (post.semester === semesterKeyword) {
-				return true;
-			}
-		});
-
-		console.log("res", res);
-		setPostList(res);
+	const getSearchResult = async () => {
+		setIsSpinner(true);
+		const client = getClient();
+		try {
+			let response = await client
+				.get("/api/posts/getPosts")
+				.then(response => {
+					setPostList(response.data);
+					const res = postList.filter(post => {
+						console.log(post);
+						if (post.semester !== undefined && post.year !== undefined) {
+							if (post.semester === semester && post.year === year) {
+								return true;
+							}
+						}
+					});
+					console.log(semester);
+					console.log("res", res);
+					setPostList(res);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const _onSearchValChange = e => {
