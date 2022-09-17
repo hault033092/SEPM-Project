@@ -141,11 +141,11 @@ const CourseMain = () => {
 	};
 
 	const getSearchResult = () => {
-		console.log(course)
+		console.log(course);
 		const client = getClient();
 		getCourses(client);
 		const res = courseList.filter(c => {
-			console.log(c.courseName)
+			console.log(c.courseName);
 			if (c.courseName.includes(course)) {
 				return true;
 			}
@@ -186,6 +186,10 @@ const CourseMain = () => {
 		setCourse(value);
 	};
 
+	const generateRandomNum = (maxVal, minVal) => {
+		return Math.floor(Math.random() * (maxVal - minVal + 1) + minVal);
+	};
+
 	return (
 		<Screen>
 			<StyleTitle>Course</StyleTitle>
@@ -223,15 +227,18 @@ const CourseMain = () => {
 				<Spinner isVisible={isSpinner} />
 			) : (
 				<CourseCont>
-					{Object.values(courseList).map((course, index) => (
-						<Course
-							key={index}
-							courseID={course._id}
-							courseName={course.courseName}
-							LecturerName={course.lecturerName}
-							rateValue={course.__v}
-						/>
-					))}
+					{Object.values(courseList).map((course, index) => {
+						const rate = generateRandomNum(1, 5);
+						return (
+							<Course
+								key={index}
+								courseID={course._id}
+								courseName={course.courseName}
+								LecturerName={course.lecturerName}
+								rateValue={rate}
+							/>
+						);
+					})}
 				</CourseCont>
 			)}
 		</Screen>
