@@ -68,11 +68,12 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 
 	useEffect(() => {
 		setIsValid(username && pwd && pwdConfirm && !errorMessage);
+
 	}, [username, pwd, pwdConfirm, errorMessage]);
 
 	const registerUser = async userInfo => {
 		const client = axios.create({
-			baseURL: "http://localhost:8080/api/user/registration",
+			baseURL: "http://localhost:8080/api/user/register",
 		});
 
 		setIsSpinner(true);
@@ -120,44 +121,27 @@ const CreateAccount = ({ studentEmail, setIsSpinner }) => {
 			userName: username,
 			email: email.current,
 			password: pwd,
-			path: pfImg,
+			gender: "No Answer",
+			bio: "No Answer",
+			major: "No Answer",
+			profileImg: pfImg,
 		};
 		registerUser(accountInfo);
 	};
 
-	const _handleUploadPic = async e => {
-		setIsSpinner(true);
-		const selectedFile = e.target.files[0];
-		try {
-			const config = {
-				headers: {
-					"content-type": "application/x-www-form-urlencoded",
-					"auth-token":
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzMzkwMjY1MDBhZWJjZTFkOTlmOTMiLCJpYXQiOjE2NjE1MzA2NDh9.brEWTDLemp8ctjTcxZBW3uLTICgMvFVdUx-9yNdgFHI",
-				},
-			};
-			let fd = new FormData();
-			fd.append("picture", selectedFile);
-			return axios
-				.post("http://localhost:8080/api/userProfile/uploadPicture", fd, config)
-				.then(response => {
-					setIsSpinner(false);
-					setPfImg(response.data);
-				})
-				.catch(error => {
-					console.log(error);
-					setErrorMessage(error.response.data);
-				});
-		} catch (error) {
-			console.error(error);
-		}
-		setIsSpinner(false);
+	const _handleUploadPic = url => {
+		setPfImg(url);
 	};
 
 	return (
 		<form>
 			<FlexContainer>
-				<ProfileImg src={pfImg} onUploadPhoto={_handleUploadPic} isShowButton />
+				<ProfileImg
+					src={pfImg}
+					onUploadPhoto={_handleUploadPic}
+					setIsSpinner={setIsSpinner}
+					isShowButton
+				/>
 			</FlexContainer>
 			<InputWrapper>
 				<SubWrapper>
