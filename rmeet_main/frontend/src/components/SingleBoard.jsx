@@ -120,7 +120,32 @@ const SingleBoard = ({
 		profileImg.current = getImage();
 	}, []);
 
+<<<<<<< Updated upstream
 	const getImage = () => {};
+=======
+	const getImage = async () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		try {
+			let response = await client
+				.get(`/api/user/${post.userId}`)
+				.then(response => {
+					console.log(typeof response.data.profileImg);
+					setPfImg(response.data.profileImg);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+>>>>>>> Stashed changes
 
 	const _updateNumOfLike = () => {
 		setIsLikePost(prev => !prev);
