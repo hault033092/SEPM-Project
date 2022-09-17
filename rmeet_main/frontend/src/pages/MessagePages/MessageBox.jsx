@@ -19,7 +19,6 @@ const MessageBox = () => {
 
 	return (
 		<MessageBoxContainer>
-			{/* <Heading>Your messages</Heading> */}
 			<MessageBoxContent>
 				<ActionBar>
 					<BackIcon
@@ -82,15 +81,6 @@ const MessageBoxContainer = styled.div`
 		padding: 7rem 0 0 0;
 	}
 `;
-
-// const Heading = styled.h1`
-// 	font-family: "Orbitron", sans-serif;
-// 	font-size: 2rem;
-// 	text-transform: uppercase;
-// 	text-align: center;
-// 	color: black;
-// 	font-weight: 900;
-// `;
 
 const MessageBoxContent = styled.div`
 	height: 100%;
