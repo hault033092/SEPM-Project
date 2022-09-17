@@ -66,9 +66,8 @@ const ValidationMessage = styled.p`
 	font-size: 1vw;
 	font-weight: 400;
 	margin: 5px;
-	color: ${props => props.color};
+	color: ${(props) => props.color};
 `;
-
 
 /* Data */
 const errMsg = "Please enter the username.";
@@ -80,7 +79,7 @@ const MessageMain = () => {
 
 	const navigation = useNavigate();
 
-	const _onSearchValChange = e => {
+	const _onSearchValChange = (e) => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
 		}
@@ -101,7 +100,7 @@ const MessageMain = () => {
 		setChat("");
 	};
 
-	const _handleMessageEvent = value => {
+	const _handleMessageEvent = (value) => {
 		setChat(value);
 	};
 
@@ -119,7 +118,7 @@ const MessageMain = () => {
 					valuesList={sampleCourseList}
 				/>
 				<ErrMsgWrapper>
-					<ValidationMessage color='#E60028'>{errorMessage}</ValidationMessage>
+					<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
 				</ErrMsgWrapper>
 			</SearchBarWrapper>
 
@@ -129,14 +128,18 @@ const MessageMain = () => {
 					lastMessage={
 						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
 					}
-					onNavigate={() => {}}
+					onNavigate={() => {
+						navigation("/message-box/:chatId");
+					}}
 				/>
 				<Message
 					recipient={"lovely cat"}
 					lastMessage={
 						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
 					}
-					onNavigate={() => {}}
+					onNavigate={() => {
+						// navigation("/message-box/:chatId");
+					}}
 				/>
 				<Message
 					recipient={"lovely cat"}

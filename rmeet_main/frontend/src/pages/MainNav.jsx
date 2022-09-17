@@ -23,6 +23,7 @@ import CourseReview from "./CourseReview";
 
 /* Message Pages */
 import MessageMain from "./MessagePages/MessageMain";
+import MessageBox from "./MessagePages/MessageBox";
 
 /* Account Pages */
 import Account from "./Account";
@@ -45,6 +46,7 @@ const MainNav = () => {
 						<Route exact path="/course/detail" element={<CourseDetail />} />
 						<Route path="/review-course" element={<CourseReview />} />
 						<Route path="/message" element={<MessageMain />} />
+						<Route path="/message-box/:chatId" element={<MessageBox />}></Route>
 						<Route path="/my-profile/:userId" element={<UserProfile />} />
 						<Route path="/view-profile/:userId" element={<UserProfile />} />
 						<Route path="/update-account/:userId" element={<Account />} />
