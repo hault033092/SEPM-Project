@@ -295,11 +295,9 @@ const BoardDetail = () => {
 			let response = await client
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
-					const commentsArr = [];
+					console.log("123", response.data);
 					const add = {
-						comments: commentsArr,
-						numOfComment: commentsArr.length,
-						createdAt: "dd-mm-yyyy",
+						numOfComment: response.length,
 					};
 					const post = { ...add, ...response.data };
 					if (post.like === undefined) {
