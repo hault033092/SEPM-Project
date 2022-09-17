@@ -1,9 +1,11 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { user } from "../lib/img/icon";
 import axios from "axios";
+import Spinner from "../components/Spinner";
+import { CurrentUserContext } from "../contexts/CurrentUser";
 
 import ProfileImg from "../components/ProfileImg";
 
@@ -17,21 +19,11 @@ const Account = () => {
 	const [profileImg, setProfileImg] = useState(user);
 	const [username, setUsername] = useState("");
 	const [gender, setGender] = useState("");
+	const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
+	const { setCurrentUser } = useContext(CurrentUserContext);
 
 	const _handleProfileImgChange = e => {
-		const {
-			target: { files },
-		} = e;
-
-		const theFile = files[0];
-		const reader = new FileReader();
-		reader.onloadend = readDataCompleted => {
-			const {
-				currentTarget: { result },
-			} = readDataCompleted;
-			setProfileImg(result);
-		};
-		reader.readAsDataURL(theFile);
+		setProfileImg(e);
 	};
 
 	const config = {
@@ -51,6 +43,7 @@ const Account = () => {
 	};
 
 	const submitUpdateInfo = async () => {
+		setIsSpinnerVisible(true);
 		axios.put(
 			`http://localhost:8080/api/user/updateProfile/${userId}`,
 			config,
@@ -58,17 +51,55 @@ const Account = () => {
 				userName: "",
 			}
 		);
+		setIsSpinnerVisible(false);
 	};
 
 	useEffect(() => {
+		setIsSpinnerVisible(true);
 		axios
 			.get(`http://localhost:8080/api/user/${userId}`, config)
 			.then(response => {
 				setUserProfile(response.data);
 			});
+		setIsSpinnerVisible(false);
+		getImage();
 		submitUpdateInfo();
 	}, []);
 	console.log(userProfile);
+
+	const getImage = async () => {
+		setIsSpinnerVisible(true);
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		try {
+			let response = await client
+				.get(`/api/user/${userId}`)
+				.then(response => {
+					console.log(response.data.profileImg);
+					setUserProfile(response.data.profileImg);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinnerVisible(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const signOut = () => {
+		window.sessionStorage.setItem("uid", "");
+		window.sessionStorage.setItem("token", "");
+		setCurrentUser({ uid: null, token: null });
+		navigate("/");
+	};
 
 	return (
 		<AccountContainer>
@@ -88,11 +119,13 @@ const Account = () => {
 						<InputField
 							id='username'
 							type='text'
-							value={userProfile.userName}></InputField>
+							value={userProfile.userName}
+							onChange={handleUsernameChange}
+						/>
 					</Field>
 					<Field>
 						<Label htmlFor='gender'>Gender:</Label>
-						<SelectBox id='gender'>
+						<SelectBox id='gender' onChange={handleGenderChange}>
 							<Option value=''>{userProfile.gender}</Option>
 							<Option value='male'>Male</Option>
 							<Option value='female'>Female</Option>
@@ -104,16 +137,20 @@ const Account = () => {
 						<InputField
 							id='email'
 							type='email'
-							defaultValue={userProfile.email}></InputField>
+							defaultValue={userProfile.email}
+							onChange={() => {}}
+						/>
 					</Field>
 					<Field>
 						<Label htmlFor='password'>Password:</Label>
 						<InputField
 							id='password'
 							type='password'
-							defaultValue='aaaaaaaa'></InputField>
+							defaultValue='aaaaaaaa'
+							onChange={() => {}}
+						/>
 					</Field>
-					<Button>Sign out</Button>
+					<Button onClick={signOut}>Sign out</Button>
 					<Button>Delete Account</Button>
 				</PersonalInfo>
 				<AcademicInfo>
@@ -123,7 +160,9 @@ const Account = () => {
 						<InputField
 							id='major'
 							type='text'
-							value={userProfile.major}></InputField>
+							value={userProfile.major}
+							onChange={() => {}}
+						/>
 					</Field>
 					<Field>
 						<Label htmlFor='bio'>Your Bio:</Label>
@@ -132,7 +171,9 @@ const Account = () => {
 							type='textarea'
 							rows='5'
 							spellcheck='false'
-							value={userProfile.bio}></Area>
+							value={userProfile.bio}
+							onChange={() => {}}
+						/>
 					</Field>
 					<Field>
 						<Label htmlFor='courses'>Completed course(s):</Label>
@@ -141,7 +182,9 @@ const Account = () => {
 							type='textarea'
 							rows='7'
 							spellcheck='false'
-							value=''></Area>
+							value=''
+							onChange={() => {}}
+						/>
 						<AddButton
 							onClick={() => {
 								navigate("/review-course");
@@ -160,6 +203,7 @@ const Account = () => {
 					</SubmitField>
 				</AcademicInfo>
 			</AccountContent>
+			<Spinner isVisible={isSpinnerVisible} isFullSize />
 		</AccountContainer>
 	);
 };
