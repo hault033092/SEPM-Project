@@ -37,25 +37,25 @@ const MainNav = () => {
 				<>
 					<NavBar />
 					<Routes>
-						<Route path='/' element={<Home />} />
-						<Route exact path='/board' element={<BoardMain />} />
-						<Route path='/board/:postId' element={<BoardDetail />} />
-						<Route path='/board/create-post' element={<CreatePost />} />
-						<Route exact path='/course' element={<CourseMain />} />
-						<Route exact path='/course/detail' element={<CourseDetail />} />
-						<Route path='/review-course' element={<CourseReview />} />
-						<Route path='/message' element={<MessageMain />} />
-						<Route path='/my-profile/:userId' element={<UserProfile />} />
-						<Route path='/view-profile/:userId' element={<UserProfile />} />
-						<Route path='/update-account/:userId' element={< Account />} />
+						<Route path="/" element={<Home />} />
+						<Route exact path="/board" element={<BoardMain />} />
+						<Route path="/board/:postId" element={<BoardDetail />} />
+						<Route path="/board/create-post" element={<CreatePost />} />
+						<Route exact path="/course" element={<CourseMain />} />
+						<Route exact path="/course/detail" element={<CourseDetail />} />
+						<Route path="/review-course" element={<CourseReview />} />
+						<Route path="/message" element={<MessageMain />} />
+						<Route path="/my-profile/:userId" element={<UserProfile />} />
+						<Route path="/view-profile/:userId" element={<UserProfile />} />
+						<Route path="/update-account/:userId" element={<Account />} />
 					</Routes>
 				</>
 			) : (
 				<Routes>
-					<Route path='/' element={<Signin />} />
-					<Route path='/signup' element={<Signup />} />
-					<Route path='/forgotPassword' element={<Signup />} />
-					<Route path='/resetPassword' element={<ResetPassword />} />
+					<Route path="/" element={<Signin />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/forgotPassword" element={<Signup />} />
+					<Route path="/resetPassword" element={<ResetPassword />} />
 				</Routes>
 			)}
 		</>
