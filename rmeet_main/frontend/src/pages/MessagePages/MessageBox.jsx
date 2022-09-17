@@ -8,7 +8,7 @@ const MessageBox = () => {
 	const navigate = useNavigate();
 	const [newMessage, setNewMessage] = useState("");
 
-	const handleNewMessageChange = (event) => {
+	const handleNewMessageChange = event => {
 		setNewMessage(event.target.value);
 	};
 
@@ -25,41 +25,39 @@ const MessageBox = () => {
 						src={backArrow}
 						onClick={() => {
 							navigate("/message");
-						}}
-					></BackIcon>
-					<Username>username</Username>
+						}}></BackIcon>
+					<Username>lovely cat</Username>
 				</ActionBar>
 				<MessageList>
-					<MessageItem className="message-item my-message">Hello</MessageItem>
-					<MessageItem className="message-item received-message">
+					<MessageItem className='message-item my-message'>Hello</MessageItem>
+					<MessageItem className='message-item received-message'>
 						Hi
 					</MessageItem>
-					<MessageItem className="message-item my-message">
+					<MessageItem className='message-item my-message'>
 						How are you?
 					</MessageItem>
-					<MessageItem className="message-item received-message">
+					<MessageItem className='message-item received-message'>
 						I'm fine!
 					</MessageItem>
-					<MessageItem className="message-item my-message">
+					<MessageItem className='message-item my-message'>
 						That's great
 					</MessageItem>
-					<MessageItem className="message-item received-message">
+					<MessageItem className='message-item received-message'>
 						Okay, bye :D
 					</MessageItem>
-					<MessageItem className="message-item my-message">
+					<MessageItem className='message-item my-message'>
 						See you soon!
 					</MessageItem>
-					<MessageItem className="message-item received-message">
+					<MessageItem className='message-item received-message'>
 						I don't think so :D
 					</MessageItem>
 				</MessageList>
 				<ChatSection>
 					<ChatBox
-						defaultValue=""
+						defaultValue=''
 						onChange={handleNewMessageChange}
-						placeholder="Enter message..."
-						rows="3"
-					></ChatBox>
+						placeholder='Enter message...'
+						rows='3'></ChatBox>
 					<SendButton>Send</SendButton>
 				</ChatSection>
 			</MessageBoxContent>
