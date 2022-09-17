@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import styled, { ThemeContext } from "styled-components";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 /*Components */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,9 +10,6 @@ import { solid, regular } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { FlexContainer } from "../components/FlexContainer";
 import ProfileImg from "../components/ProfileImg";
 import DropBox from "./DropBox";
-
-/*Context */
-import { CurrentUserContext } from "../contexts/CurrentUser";
 
 const StyledContainer = styled.div`
 	display: ${props => (props.display ? props.display : "flex")};
@@ -108,7 +106,7 @@ const SingleBoard = ({
 	setFocusedPost,
 }) => {
 	const isMyPost = useRef(null);
-	const profileImg = useRef(null);
+	const [pfImg, setPfImg] = useState("");
 	const theme = useContext(ThemeContext);
 	const [isLikePost, setIsLikePost] = useState(false);
 
@@ -117,10 +115,33 @@ const SingleBoard = ({
 	useEffect(() => {
 		// check whether the post was written by the curren user
 		isMyPost.current = post.userId === window.sessionStorage.getItem("uid");
-		profileImg.current = getImage();
+		getImage();
 	}, []);
 
-	const getImage = () => {};
+	const getImage = async () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		try {
+			let response = await client
+				.get(`/api/user/${post.userId}`)
+				.then(response => {
+					console.log(response.data.profileImg);
+					setPfImg(response.data.profileImg);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	console.log(pfImg);
 
 	const _updateNumOfLike = () => {
 		setIsLikePost(prev => !prev);
@@ -152,7 +173,7 @@ const SingleBoard = ({
 		<MainCont className='mainCont' theme={theme} isNavHidden={isNavHidden}>
 			<StyledContainer className='subCont' content='space-between' width='100%'>
 				<ProfileImg
-					src={"" /* writer profile img */}
+					src={pfImg}
 					width='5vw'
 					height='5vw'
 					isShowProfile={true}
