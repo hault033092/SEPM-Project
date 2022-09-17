@@ -164,7 +164,7 @@ const SingleBoard = ({
 	};
 
 	const navigateToProfileDetail = () => {
-		navigation("/view-profile/" + post.user);
+		navigation("/view-profile/" + post.userId);
 	};
 
 	return (

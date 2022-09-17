@@ -16,19 +16,14 @@ const UserProfile = () => {
 
 	const config = {
 		headers: {
-			"auth-token":
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI1M2M3MmZjNmJhOTRmM2NjNzdhMzIiLCJpYXQiOjE2NjM0MDI1OTV9.WBNE2ZBhc0k4PcFKmFPtsAtGa7x7aCkwf8YgcLjGzLY",
+			"auth-token": window.sessionStorage.getItem("token"),
 		},
-	};
-
-	const params = {
-		userId: "63253c72fc6ba94f3cc77a32",
 	};
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/api/user/${params.userId}`, config)
-			.then((response) => {
+			.get(`http://localhost:8080/api/user/${userId}`, config)
+			.then(response => {
 				setUserProfile(response.data);
 			});
 	}, []);
@@ -40,76 +35,68 @@ const UserProfile = () => {
 			<ProfileContent>
 				<PersonalInfo>
 					<Title>Personal Info</Title>
-					<ProfileImg src={userProfile.profileImg} width="8rem" height="8rem" />
+					<ProfileImg src={userProfile.profileImg} width='8rem' height='8rem' />
 					<Field>
-						<Label htmlFor="username">Username:</Label>
+						<Label htmlFor='username'>Username:</Label>
 						<InputField
-							id="username"
-							type="text"
-							value={userProfile.userName}
-						></InputField>
+							id='username'
+							type='text'
+							value={userProfile.userName}></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor="gender">Gender:</Label>
+						<Label htmlFor='gender'>Gender:</Label>
 						<InputField
-							id="gender"
-							type="text"
-							value={userProfile.gender}
-						></InputField>
+							id='gender'
+							type='text'
+							value={userProfile.gender}></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor="email">Email:</Label>
+						<Label htmlFor='email'>Email:</Label>
 						<InputField
-							id="email"
-							type="email"
-							value={userProfile.email}
-						></InputField>
+							id='email'
+							type='email'
+							value={userProfile.email}></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor="password">Password:</Label>
+						<Label htmlFor='password'>Password:</Label>
 						<InputField
-							id="password"
-							type="password"
-							value="aaaaaaaa"
-						></InputField>
+							id='password'
+							type='password'
+							value='aaaaaaaa'></InputField>
 					</Field>
 				</PersonalInfo>
 				<AcademicInfo>
 					<Title>Academic Info</Title>
 					<Field>
-						<Label htmlFor="major">Major:</Label>
+						<Label htmlFor='major'>Major:</Label>
 						<InputField
-							id="major"
-							type="text"
-							value={userProfile.major}
-						></InputField>
+							id='major'
+							type='text'
+							value={userProfile.major}></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor="bio">Bio:</Label>
+						<Label htmlFor='bio'>Bio:</Label>
 						<Area
-							id="bio"
-							type="textarea"
-							rows="5"
-							spellcheck="false"
-							value={userProfile.bio}
-						></Area>
+							id='bio'
+							type='textarea'
+							rows='5'
+							spellcheck='false'
+							value={userProfile.bio}></Area>
 					</Field>
 					<Field>
-						<Label htmlFor="courses">Completed course(s):</Label>
+						<Label htmlFor='courses'>Completed course(s):</Label>
 						<Area
-							id="courses"
-							type="textarea"
-							rows="7"
-							spellcheck="false"
-							value=""
-						></Area>
+							id='courses'
+							type='textarea'
+							rows='7'
+							spellcheck='false'
+							value=''></Area>
 					</Field>
 					<SubmitField>
 						<UpdateButton
 							onClick={() => {
-								navigate("/update-account/:userId");
-							}}
-						>
+								navigate(`/update-account/${userId}`);
+							}}>
 							Update Info
 						</UpdateButton>
 					</SubmitField>
