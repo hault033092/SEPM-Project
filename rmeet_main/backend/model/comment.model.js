@@ -3,10 +3,11 @@ const mongoose = require('mongoose')
 const commentSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Types.ObjectId, ref: 'User' },
-    postId: { type: mongoose.Types.ObjectId, ref: 'Post' },
-    content: { type: String, required: true, max: 1000, min: 6 },
+    userName: { type: String, ref: 'User' },
+    post: { type: mongoose.Types.ObjectId, ref: 'Post' },
+    content: { type: String, required: true },
   },
-  { timestamp: true }
+  { timestamps: true }
 )
 
 module.exports = mongoose.model('Comment', commentSchema)

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
 const Comment = require('../model/comment.model')
+const Post = require('../model/post.model')
 
 // Get all comments
 router.get('/getComments', verify, async (req, res) => {
@@ -23,16 +24,21 @@ router.get('/getComment/:commentId', verify, async (req, res) => {
 })
 
 // Create comment
-router.post('/createComment', verify, async (req, res) => {
+router.post('/createComment/:postId', verify, async (req, res) => {
   const newComment = new Comment({
     userId: req.user._id,
+    userName: req.user.userName,
+    post: req.params.postId,
     content: req.body.content,
   })
 
   //
   try {
     await newComment.save()
-    res.send({ newComment: newComment._id })
+    const updatedPost = await Post.findById({ _id: req.params.postId })
+    updatedPost.comments.push(newComment)
+
+    res.send('Comment created!')
   } catch (error) {
     res.status(400).send(error)
   }

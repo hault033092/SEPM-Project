@@ -1,16 +1,22 @@
 ///////// Post
-    "title": "hello",
-    "content": "this is a 69th testing post",
-    "semester": "B",
-    "year": 2022,
-    "like": 1,
+        "courseName": ""
+        "title": "hello",
+        "content": "this is a 69th testing post",
+        "semester": "B",
+        "year": 2022,
+        "like": 1,
 
 ///////// User
-    "userName": "haule9298",
-    "email" : "haule9298@gmail.com",
-    "password": "haule929888"
+    "email": "haule9298@gmail.com",
+    "password": "haule929888",
+    "userName": "Le Trung Hau",
+    "gender": "Non-binary",
+    "bio": "Non-binary but love binary",
+    "major": "Binarologist"
 
 ///////// Profile
     "userName": "Le Trung Hau",
     "gender": "64bits",
     "bio": "just a demo"
+
+https://res.cloudinary.com/rmeettest/image/upload/v1663384513/user-images/h1jv21jnwhdhhuqzgk2n.png
