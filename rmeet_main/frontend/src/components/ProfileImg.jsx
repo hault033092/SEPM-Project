@@ -49,7 +49,13 @@ const StyledInput = styled.input.attrs(() => ({
 	display: none;
 `;
 
-const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
+const PhotoButton = ({
+	onUploadPhoto,
+	setImgSrc,
+	width,
+	height,
+	setIsSpinner,
+}) => {
 	const _onUploadPhoto = async e => {
 		// const {
 		// 	target: { files },
@@ -67,30 +73,31 @@ const PhotoButton = ({ onUploadPhoto, setImgSrc, width, height }) => {
 		// reader.readAsDataURL(theFile);
 		const selectedFile = e.target.files[0];
 		try {
+			setIsSpinner(true);
 			const config = {
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
 					"auth-token":
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzAzMzkwMjY1MDBhZWJjZTFkOTlmOTMiLCJpYXQiOjE2NjE1MzA2NDh9.brEWTDLemp8ctjTcxZBW3uLTICgMvFVdUx-9yNdgFHI",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI0OWIxNjU2NWFiYjRlNGI0YjAyZGMiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjMzNDMzOTB9.WXewXRMiuqk-HbZKYdXG-x80TyrSmcaE0F9X7uTZ8wE",
 				},
 			};
 			let fd = new FormData();
-			fd.append("picture", selectedFile);
+			fd.append("image", selectedFile);
 			return axios
-				.post("http://localhost:8080/api/userProfile/uploadImage", fd, config)
-				.then(response => {
-					console.log(response.data);
-					setImgSrc(response.data);
-					return response.data;
+				.post("http://localhost:8080/api/profileImg/uploadImage", fd, config)
+				.then(async response => {
+					setImgSrc(response.data.profileImgUrl);
+					onUploadPhoto(response.data.profileImgUrl);
 				})
 				.catch(error => {
 					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
 				});
 		} catch (error) {
 			console.error(error);
 		}
-
-		const res = await onUploadPhoto(e);
 	};
 
 	return (
@@ -117,6 +124,7 @@ const ProfileImg = ({
 	isShowButton,
 	isShowProfile,
 	onShowProfile,
+	setIsSpinner,
 }) => {
 	const [isHover, setIsHover] = useState(false);
 	const [imgSrc, setImgSrc] = useState("");
@@ -170,6 +178,7 @@ const ProfileImg = ({
 					setImgSrc={setImgSrc}
 					width={width}
 					height={height}
+					setIsSpinner={setIsSpinner}
 				/>
 			)}
 		</Container>
@@ -194,6 +203,7 @@ ProfileImg.defaultProps = {
 	height: "6vw",
 	onUploadPhoto: () => {},
 	onShowProfile: () => {},
+	setIsSpinner: () => {},
 };
 
 export default ProfileImg;
