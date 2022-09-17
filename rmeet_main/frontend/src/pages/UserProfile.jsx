@@ -8,33 +8,31 @@ import axios from "axios";
 
 const UserProfile = () => {
 	const { userId } = useParams();
-    console.log("userId: ", userId)
+	console.log("userId: ", userId);
 
 	const navigate = useNavigate();
 
 	const [userProfile, setUserProfile] = useState([]);
 
 	const config = {
-        headers: {
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmY5YzRmOWFiM2Y2NTNhM2Y4NWUwYjkiLCJpYXQiOjE2NjA1MzY2NjV9.7hIsloOEB1AwY0BjDhn3U5LsThFmQQnm_uPgrOt-i6s",
-		}// },
-        // params: {
-        //     "userId": "62f9c4f9ab3f653a3f85e0b9"
-        // }
-      }
-    
-      useEffect(() => {
-        axios
-          .get(
-            `localhost:8080/api/user/62f9c4f9ab3f653a3f85e0b9`,
-            config
-          )
-          .then((response) => {
-            setUserProfile(response.data)
-          })
-      }, [])
-      console.log(userProfile)
+		headers: {
+			"auth-token":
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI0OGZiM2RhNzUzNDNlYTEzY2QxYzIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjMzNDEwNTh9.NeVT3ua_In317gteyLQEW9f5BmZ8aWUPO6jQjQ8QsPg",
+		},
+	};
+
+	const params = {
+		userId: "63253c72fc6ba94f3cc77a32",
+	};
+
+	useEffect(() => {
+		axios
+			.get(`http://localhost:8080/api/user/${params.userId}`, config)
+			.then((response) => {
+				setUserProfile(response.data);
+			});
+	}, []);
+	console.log(userProfile);
 
 	return (
 		<ProfileContainer>
@@ -42,57 +40,79 @@ const UserProfile = () => {
 			<ProfileContent>
 				<PersonalInfo>
 					<Title>Personal Info</Title>
-					<ProfileImg src={DefaultImg} width='8rem' height='8rem' />
+					<ProfileImg src={DefaultImg} width="8rem" height="8rem" />
 					<Field>
-						<Label htmlFor='username'>Username:</Label>
-						<InputField id='username' type='text' value={userProfile.userName}></InputField>
-					</Field>
-					<Field>
-                        <Label htmlFor="gender">Gender:</Label>
-                        <InputField id='gender' type='text' value={userProfile.gender}></InputField>
-                    </Field>
-					<Field>
-						<Label htmlFor='email'>Email:</Label>
-						<InputField id='email' type='email' value={userProfile.user}></InputField>
-					</Field>
-					<Field>
-						<Label htmlFor='password'>Password:</Label>
+						<Label htmlFor="username">Username:</Label>
 						<InputField
-							id='password'
-							type='password'
-							value='123456789'></InputField>
+							id="username"
+							type="text"
+							value={userProfile.userName}
+						></InputField>
+					</Field>
+					<Field>
+						<Label htmlFor="gender">Gender:</Label>
+						<InputField
+							id="gender"
+							type="text"
+							value={userProfile.gender}
+						></InputField>
+					</Field>
+					<Field>
+						<Label htmlFor="email">Email:</Label>
+						<InputField
+							id="email"
+							type="email"
+							value={userProfile.email}
+						></InputField>
+					</Field>
+					<Field>
+						<Label htmlFor="password">Password:</Label>
+						<InputField
+							id="password"
+							type="password"
+							value="aaaaaaaa"
+						></InputField>
 					</Field>
 				</PersonalInfo>
 				<AcademicInfo>
 					<Title>Academic Info</Title>
 					<Field>
-						<Label htmlFor='major'>Major:</Label>
+						<Label htmlFor="major">Major:</Label>
 						<InputField
-							id='major'
-							type='text'
-							value='Information Technology'></InputField>
+							id="major"
+							type="text"
+							value={userProfile.major}
+						></InputField>
 					</Field>
 					<Field>
-						<Label htmlFor='bio'>Bio:</Label>
+						<Label htmlFor="bio">Bio:</Label>
 						<Area
-							id='bio'
-							type='textarea'
-							rows='5'
-							spellcheck='false'
-							value={userProfile.bio}></Area>
+							id="bio"
+							type="textarea"
+							rows="5"
+							spellcheck="false"
+							value={userProfile.bio}
+						></Area>
 					</Field>
 					<Field>
-						<Label htmlFor='courses'>Completed course(s):</Label>
+						<Label htmlFor="courses">Completed course(s):</Label>
 						<Area
-							id='courses'
-							type='textarea'
-							rows='7'
-							spellcheck='false'
-							value=''></Area>
+							id="courses"
+							type="textarea"
+							rows="7"
+							spellcheck="false"
+							value=""
+						></Area>
 					</Field>
 					<SubmitField>
-                        <UpdateButton onClick={() => {navigate("/update-account/:userId")}}>Update Info</UpdateButton>                
-                    </SubmitField>
+						<UpdateButton
+							onClick={() => {
+								navigate("/update-account/:userId");
+							}}
+						>
+							Update Info
+						</UpdateButton>
+					</SubmitField>
 				</AcademicInfo>
 			</ProfileContent>
 		</ProfileContainer>
@@ -232,25 +252,24 @@ const Area = styled.textarea`
 `;
 
 const SubmitField = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 `;
 
 const UpdateButton = styled.button`
-    width: 50%;
-    border-radius: 1rem;
-    border: none;
-    padding: 0.5rem 0;
-    background-color: red;
-    color: #FFFFFF;
-    font-weight: 700;
-    transition: 0.25s ease-in-out;
+	width: 50%;
+	border-radius: 1rem;
+	border: none;
+	padding: 0.5rem 0;
+	background-color: red;
+	color: #ffffff;
+	font-weight: 700;
+	transition: 0.25s ease-in-out;
 
-    &:hover {
-        opacity: 0.75;
-    }
+	&:hover {
+		opacity: 0.75;
+	}
 `;
 
 export default UserProfile;
-
