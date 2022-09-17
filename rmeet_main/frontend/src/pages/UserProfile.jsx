@@ -1,275 +1,275 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import ProfileImg from "../components/ProfileImg";
-import DefaultImg from "../lib/img/icon/user.svg";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import ProfileImg from '../components/ProfileImg'
+import DefaultImg from '../lib/img/icon/user.svg'
+import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const UserProfile = () => {
-	const { userId } = useParams();
-	console.log("userId: ", userId);
+  const { userId } = useParams()
+  console.log('userId: ', userId)
 
-	const navigate = useNavigate();
+  const navigate = useNavigate()
 
-	const [userProfile, setUserProfile] = useState([]);
+  const [userProfile, setUserProfile] = useState([])
 
-	const config = {
-		headers: {
-			"auth-token":
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI0OGZiM2RhNzUzNDNlYTEzY2QxYzIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjMzNDEwNTh9.NeVT3ua_In317gteyLQEW9f5BmZ8aWUPO6jQjQ8QsPg",
-		},
-	};
+  const config = {
+    headers: {
+      'auth-token':
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI1M2M3MmZjNmJhOTRmM2NjNzdhMzIiLCJpYXQiOjE2NjM0MDI1OTV9.WBNE2ZBhc0k4PcFKmFPtsAtGa7x7aCkwf8YgcLjGzLY',
+    },
+  }
 
-	const params = {
-		userId: "63253c72fc6ba94f3cc77a32",
-	};
+  const params = {
+    userId: '63253c72fc6ba94f3cc77a32',
+  }
 
-	useEffect(() => {
-		axios
-			.get(`http://localhost:8080/api/user/${params.userId}`, config)
-			.then((response) => {
-				setUserProfile(response.data);
-			});
-	}, []);
-	console.log(userProfile);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/user/${params.userId}`, config)
+      .then((response) => {
+        setUserProfile(response.data)
+      })
+  }, [])
+  console.log(userProfile.userName)
 
-	return (
-		<ProfileContainer>
-			<Heading>User Profile</Heading>
-			<ProfileContent>
-				<PersonalInfo>
-					<Title>Personal Info</Title>
-					<ProfileImg src={DefaultImg} width="8rem" height="8rem" />
-					<Field>
-						<Label htmlFor="username">Username:</Label>
-						<InputField
-							id="username"
-							type="text"
-							value={userProfile.userName}
-						></InputField>
-					</Field>
-					<Field>
-						<Label htmlFor="gender">Gender:</Label>
-						<InputField
-							id="gender"
-							type="text"
-							value={userProfile.gender}
-						></InputField>
-					</Field>
-					<Field>
-						<Label htmlFor="email">Email:</Label>
-						<InputField
-							id="email"
-							type="email"
-							value={userProfile.email}
-						></InputField>
-					</Field>
-					<Field>
-						<Label htmlFor="password">Password:</Label>
-						<InputField
-							id="password"
-							type="password"
-							value="aaaaaaaa"
-						></InputField>
-					</Field>
-				</PersonalInfo>
-				<AcademicInfo>
-					<Title>Academic Info</Title>
-					<Field>
-						<Label htmlFor="major">Major:</Label>
-						<InputField
-							id="major"
-							type="text"
-							value={userProfile.major}
-						></InputField>
-					</Field>
-					<Field>
-						<Label htmlFor="bio">Bio:</Label>
-						<Area
-							id="bio"
-							type="textarea"
-							rows="5"
-							spellcheck="false"
-							value={userProfile.bio}
-						></Area>
-					</Field>
-					<Field>
-						<Label htmlFor="courses">Completed course(s):</Label>
-						<Area
-							id="courses"
-							type="textarea"
-							rows="7"
-							spellcheck="false"
-							value=""
-						></Area>
-					</Field>
-					<SubmitField>
-						<UpdateButton
-							onClick={() => {
-								navigate("/update-account/:userId");
-							}}
-						>
-							Update Info
-						</UpdateButton>
-					</SubmitField>
-				</AcademicInfo>
-			</ProfileContent>
-		</ProfileContainer>
-	);
-};
+  return (
+    <ProfileContainer>
+      <Heading>User Profile</Heading>
+      <ProfileContent>
+        <PersonalInfo>
+          <Title>Personal Info</Title>
+          <ProfileImg src={userProfile.profileImg} width='8rem' height='8rem' />
+          <Field>
+            <Label htmlFor='username'>Username:</Label>
+            <InputField
+              id='username'
+              type='text'
+              value={userProfile.userName}
+            ></InputField>
+          </Field>
+          <Field>
+            <Label htmlFor='gender'>Gender:</Label>
+            <InputField
+              id='gender'
+              type='text'
+              value={userProfile.gender}
+            ></InputField>
+          </Field>
+          <Field>
+            <Label htmlFor='email'>Email:</Label>
+            <InputField
+              id='email'
+              type='email'
+              value={userProfile.email}
+            ></InputField>
+          </Field>
+          <Field>
+            <Label htmlFor='password'>Password:</Label>
+            <InputField
+              id='password'
+              type='password'
+              value='aaaaaaaa'
+            ></InputField>
+          </Field>
+        </PersonalInfo>
+        <AcademicInfo>
+          <Title>Academic Info</Title>
+          <Field>
+            <Label htmlFor='major'>Major:</Label>
+            <InputField
+              id='major'
+              type='text'
+              value={userProfile.major}
+            ></InputField>
+          </Field>
+          <Field>
+            <Label htmlFor='bio'>Bio:</Label>
+            <Area
+              id='bio'
+              type='textarea'
+              rows='5'
+              spellcheck='false'
+              value={userProfile.bio}
+            ></Area>
+          </Field>
+          <Field>
+            <Label htmlFor='courses'>Completed course(s):</Label>
+            <Area
+              id='courses'
+              type='textarea'
+              rows='7'
+              spellcheck='false'
+              value=''
+            ></Area>
+          </Field>
+          <SubmitField>
+            <UpdateButton
+              onClick={() => {
+                navigate('/update-account/:userId')
+              }}
+            >
+              Update Info
+            </UpdateButton>
+          </SubmitField>
+        </AcademicInfo>
+      </ProfileContent>
+    </ProfileContainer>
+  )
+}
 
 const ProfileContainer = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	padding-top: 1.5rem;
-	margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 1.5rem;
+  margin: 0 auto;
 
-	@media screen and (max-width: 1199px) {
-		position: absolute;
-		justify-content: space-between;
-		padding: 7rem 0 0 0;
-	}
-`;
+  @media screen and (max-width: 1199px) {
+    position: absolute;
+    justify-content: space-between;
+    padding: 7rem 0 0 0;
+  }
+`
 
 const Heading = styled.h1`
-	font-family: "Orbitron", sans-serif;
-	font-size: 2rem;
-	text-transform: uppercase;
-	text-align: center;
-	color: black;
-	font-weight: 900;
-`;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  text-align: center;
+  color: black;
+  font-weight: 900;
+`
 
 const ProfileContent = styled.div`
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	@media screen and (max-width: 1199px) {
-		height: auto;
-		position: relative;
-		flex-direction: column;
-		padding: 1rem 0;
-	}
-`;
+  @media screen and (max-width: 1199px) {
+    height: auto;
+    position: relative;
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+`
 
 const PersonalInfo = styled.div`
-	height: inherit;
-	width: 25%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: column;
-	background-color: #00005433;
-	border-top-left-radius: 1rem;
-	border-bottom-left-radius: 1rem;
-	border-right: 0.2rem solid #000054;
-	padding: 1.2rem 1.2rem 4.6rem 1.2rem;
+  height: inherit;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #00005433;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border-right: 0.2rem solid #000054;
+  padding: 1.2rem 1.2rem 4.6rem 1.2rem;
 
-	@media screen and (max-width: 1199px) {
-		height: 80vh;
-		width: 90%;
-		border-top-right-radius: 1rem;
-		border-bottom-left-radius: 0;
-		border-bottom: 0.2rem solid #000054;
-		border-right: none;
-	}
-`;
+  @media screen and (max-width: 1199px) {
+    height: 80vh;
+    width: 90%;
+    border-top-right-radius: 1rem;
+    border-bottom-left-radius: 0;
+    border-bottom: 0.2rem solid #000054;
+    border-right: none;
+  }
+`
 
 const AcademicInfo = styled.div`
-	height: 100%;
-	width: 65%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: column;
-	background-color: #00005433;
-	border-top-right-radius: 1rem;
-	border-bottom-right-radius: 1rem;
-	border-left: 0.2rem solid #000054;
-	padding: 1.2rem;
+  height: 100%;
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #00005433;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-left: 0.2rem solid #000054;
+  padding: 1.2rem;
 
-	@media screen and (max-width: 1199px) {
-		height: 80vh;
-		width: 90%;
-		border-bottom-left-radius: 1rem;
-		border-top-right-radius: 0;
-		border-top: 0.2rem solid #000054;
-		border-left: none;
-	}
-`;
+  @media screen and (max-width: 1199px) {
+    height: 80vh;
+    width: 90%;
+    border-bottom-left-radius: 1rem;
+    border-top-right-radius: 0;
+    border-top: 0.2rem solid #000054;
+    border-left: none;
+  }
+`
 
 const Title = styled.h2`
-	font-family: "Orbitron", sans-serif;
-	font-size: 1.6rem;
-	color: #000054;
-`;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  color: #000054;
+`
 
 const Field = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`
 
 const Label = styled.label`
-	font-weight: 700;
-	color: #000054;
-	margin-right: 1rem;
-	width: 10rem;
-	display: flex;
-	align-items: center;
-`;
+  font-weight: 700;
+  color: #000054;
+  margin-right: 1rem;
+  width: 10rem;
+  display: flex;
+  align-items: center;
+`
 
 const InputField = styled.input`
-	border-radius: 1rem;
-	border: none;
-	text-align: center;
-	transition: 0.25s ease-in-out;
+  border-radius: 1rem;
+  border: none;
+  text-align: center;
+  transition: 0.25s ease-in-out;
 
-	&:focus {
-		transform: scale(1.05, 1.05);
-		background-color: lightskyblue;
-	}
-`;
+  &:focus {
+    transform: scale(1.05, 1.05);
+    background-color: lightskyblue;
+  }
+`
 
 const Area = styled.textarea`
-	padding: 0.5rem 1rem;
-	border-radius: 1rem;
-	border: none;
-	transition: 0.25s ease-in-out;
-	cursor: default;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border: none;
+  transition: 0.25s ease-in-out;
+  cursor: default;
 
-	&:focus {
-		transform: scaleX(1.05);
-		background-color: lightskyblue;
-	}
-`;
+  &:focus {
+    transform: scaleX(1.05);
+    background-color: lightskyblue;
+  }
+`
 
 const SubmitField = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-`;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
 
 const UpdateButton = styled.button`
-	width: 50%;
-	border-radius: 1rem;
-	border: none;
-	padding: 0.5rem 0;
-	background-color: red;
-	color: #ffffff;
-	font-weight: 700;
-	transition: 0.25s ease-in-out;
+  width: 50%;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.5rem 0;
+  background-color: red;
+  color: #ffffff;
+  font-weight: 700;
+  transition: 0.25s ease-in-out;
 
-	&:hover {
-		opacity: 0.75;
-	}
-`;
+  &:hover {
+    opacity: 0.75;
+  }
+`
 
-export default UserProfile;
+export default UserProfile
