@@ -333,11 +333,8 @@ const BoardMain = () => {
 					if (post.like === undefined) {
 						post.like = 0;
 					}
-					const commentsArr = [];
 					const add = {
-						comments: commentsArr,
-						numOfComment: commentsArr.length,
-						createdAt: "dd-mm-yyyy",
+						numOfComment: post.comments.length,
 					};
 
 					const res = { ...post, ...add };
