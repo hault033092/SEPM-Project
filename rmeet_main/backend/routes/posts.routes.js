@@ -25,6 +25,7 @@ router.get('/getPost/:postId', verify, async (req, res) => {
       _id: gotPost._id,
       userId: gotPost.userId,
       userName: gotPost.userName,
+      userImgUrl: gotPost.userImgUrl,
       title: gotPost.title,
       content: gotPost.content,
       semester: gotPost.semester,
@@ -57,6 +58,7 @@ router.post('/createPost', verify, async (req, res) => {
   const newPost = new Post({
     userId: req.user._id,
     userName: req.user.userName,
+    userImgUrl: req.user.profileImg,
     // courseId: courseId,
     title: req.body.title,
     content: req.body.content,

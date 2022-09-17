@@ -12,6 +12,11 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
 
+    userImgUrl: {
+      typy: String,
+      ref: 'User',
+    },
+
     courseName: {
       type: String,
       required: true,

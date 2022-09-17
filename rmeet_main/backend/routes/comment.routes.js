@@ -28,6 +28,7 @@ router.post('/createComment/:postId', verify, async (req, res) => {
   const newComment = new Comment({
     userId: req.user._id,
     userName: req.user.userName,
+    userImgUrl: req.user.profileImg,
     post: req.params.postId,
     content: req.body.content,
   })
@@ -47,7 +48,7 @@ router.post('/createComment/:postId', verify, async (req, res) => {
 // Delete comment
 router.delete('/deleteComment/:commentId', verify, async (req, res) => {
   try {
-    const removedComment = await Comment.deleteOne({
+    await Comment.deleteOne({
       _id: req.params.commentId,
     })
     res.send('Comment Removed!')
