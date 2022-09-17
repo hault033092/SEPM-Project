@@ -66,7 +66,7 @@ const ValidationMessage = styled.p`
 	font-size: 1vw;
 	font-weight: 400;
 	margin: 5px;
-	color: ${(props) => props.color};
+	color: ${props => props.color};
 `;
 
 /* Data */
@@ -79,7 +79,7 @@ const MessageMain = () => {
 
 	const navigation = useNavigate();
 
-	const _onSearchValChange = (e) => {
+	const _onSearchValChange = e => {
 		if (errorMessage === errMsg) {
 			setErrorMessage("");
 		}
@@ -100,7 +100,7 @@ const MessageMain = () => {
 		setChat("");
 	};
 
-	const _handleMessageEvent = (value) => {
+	const _handleMessageEvent = value => {
 		setChat(value);
 	};
 
@@ -118,7 +118,7 @@ const MessageMain = () => {
 					valuesList={sampleCourseList}
 				/>
 				<ErrMsgWrapper>
-					<ValidationMessage color="#E60028">{errorMessage}</ValidationMessage>
+					<ValidationMessage color='#E60028'>{errorMessage}</ValidationMessage>
 				</ErrMsgWrapper>
 			</SearchBarWrapper>
 
@@ -129,45 +129,53 @@ const MessageMain = () => {
 						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
 					}
 					onNavigate={() => {
+						navigation("/message-box/lovely-cat");
+					}}
+				/>
+				<Message
+					recipient={"bubble"}
+					lastMessage={
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed scelerisque arcu eu tincidunt scelerisque. Sed tincidunt, sem et varius convallis, neque tortor condimentum arcu, in rutrum neque tortor ut ligula. Vivamus pellentesque quis nibh non iaculis. Aenean in leo velit. Pellentesque at dui non mauris vehicula bibendum nec eu dolor. "
+					}
+					onNavigate={() => {
 						navigation("/message-box/:chatId");
 					}}
 				/>
 				<Message
-					recipient={"lovely cat"}
+					recipient={"appleapple"}
 					lastMessage={
-						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+						"Praesent eu sem volutpat, fringilla felis id, pellentesque nulla. Aenean a mollis odio. Praesent odio eros, dictum in tincidunt ege..."
 					}
 					onNavigate={() => {
-						// navigation("/message-box/:chatId");
+						navigation("/message-box/:chatId");
 					}}
 				/>
 				<Message
-					recipient={"lovely cat"}
+					recipient={"blackDog"}
 					lastMessage={
-						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+						"elementum eget sem. Duis tempor, lacus eu dapibus fermentum, dolor est tempor nunc, a molestie sem erat id dolor..."
 					}
-					onNavigate={() => {}}
+					onNavigate={() => {
+						navigation("/message-box/:chatId");
+					}}
 				/>
 				<Message
-					recipient={"lovely cat"}
+					recipient={"pizza"}
 					lastMessage={
-						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+						"Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestasu..."
 					}
-					onNavigate={() => {}}
+					onNavigate={() => {
+						navigation("/message-box/:chatId");
+					}}
 				/>
 				<Message
-					recipient={"lovely cat"}
+					recipient={"crying cat"}
 					lastMessage={
-						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
+						"Cras tincidunt libero sed magna pellentesque ultrices. Nulla gravida mattis consectetur..."
 					}
-					onNavigate={() => {}}
-				/>
-				<Message
-					recipient={"lovely cat"}
-					lastMessage={
-						"He is really clear on what you need to learn to get a good grade. Are you willing to stu..."
-					}
-					onNavigate={() => {}}
+					onNavigate={() => {
+						navigation("/message-box/:chatId");
+					}}
 				/>
 			</MessageCont>
 		</Screen>
