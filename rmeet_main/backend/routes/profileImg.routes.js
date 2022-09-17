@@ -30,23 +30,18 @@ const ProfileImg = require('../model/profileImg.model')
 // })
 
 // Upload profile image to cloudinary
-router.post(
-  '/uploadImage',
-  verify,
-  upload.single('image'),
-  async (req, res) => {
-    const newProfileImg = new ProfileImg({
-      profilePicUrl: req.file.path,
-    })
+router.post('/uploadImage', upload.single('image'), async (req, res) => {
+  const newProfileImg = new ProfileImg({
+    profileImgUrl: req.file.path,
+  })
 
-    try {
-      await newProfileImg.save()
-      res.send({ profilePicUrl: req.file.path })
-    } catch (error) {
-      res.status(400).send(error)
-    }
+  try {
+    await newProfileImg.save()
+    res.send({ profileImgUrl: req.file.path })
+  } catch (error) {
+    res.status(400).send(error)
   }
-)
+})
 
 // Update profile picture
 router.patch(

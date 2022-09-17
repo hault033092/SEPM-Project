@@ -10,6 +10,7 @@ const registerValidation = (data) => {
     gender: Joi.string(),
     bio: Joi.string(),
     major: Joi.string(),
+    profileImg: Joi.string(),
   })
   return schema.validate(data)
 }
