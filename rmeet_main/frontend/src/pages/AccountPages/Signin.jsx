@@ -77,6 +77,7 @@ const Signin = () => {
 					setCurrentUser(currentUser);
 					window.sessionStorage.setItem("uid", decodeToken._id);
 					window.sessionStorage.setItem("token", response.data);
+					window.sessionStorage.setItem("username", decodeToken.userName);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);

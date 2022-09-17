@@ -97,6 +97,7 @@ const Account = () => {
 	const signOut = () => {
 		window.sessionStorage.setItem("uid", "");
 		window.sessionStorage.setItem("token", "");
+		window.sessionStorage.setItem("username", "");
 		setCurrentUser({ uid: null, token: null });
 		navigate("/");
 	};
