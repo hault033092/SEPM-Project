@@ -27,4 +27,4 @@ localhost:8080/api/comment/deleteComment/:commentId
 localhost:8080/api/comment/updateComment/:commentId
 
 // Upload image
-localhost:8080/api/profileImg/upload
+localhost:8080/api/profileImg/uploadImage
