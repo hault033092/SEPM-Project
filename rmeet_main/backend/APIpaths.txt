@@ -4,16 +4,7 @@ localhost:8080/api/user/:userId (Method: GET, get user by id)
 localhost:8080/api/user/register (Method: GET)
 localhost:8080/api/user/login (Method: GET)
 localhost:8080/api/user/:userId (Method: DELETE, delete a user by id )
-localhost:8080/api/user/:userId (Method: PATCH, update a user by id)
-
-
-/// User Profile
-localhost:8080/api/userProfile/getProfile/:profileId
-localhost:8080/api/userProfile/getProfileByUser/:userId
-localhost:8080/api/userProfile/uploadImage
-localhost:8080/api/userProfile/updateImage
-localhost:8080/api/userProfile/createProfile
-localhost:8080/api/userProfile/updateProfile/:profileId
+localhost:8080/api/user/updateProfile/:userId (Method: PUT, update a user by id)
 
 /// Posts
 localhost:8080/api/posts/getPosts
@@ -35,3 +26,5 @@ localhost:8080/api/comment/createComment
 localhost:8080/api/comment/deleteComment/:commentId
 localhost:8080/api/comment/updateComment/:commentId
 
+// Upload image
+localhost:8080/api/profileImg/uploadImage

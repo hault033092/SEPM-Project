@@ -2,6 +2,8 @@ const router = require('express').Router()
 const User = require('../model/user.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const verify = require('./verifyToken')
+const upload = require('../config/upload')
 const { registerValidation, loginValidation } = require('../validation')
 
 // Create a user with validation
@@ -23,13 +25,17 @@ router.post('/register', async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
   const user = new User({
-    // userName: req.body.userName,
     email: req.body.email,
     password: hashedPassword,
+    userName: req.body.userName,
+    gender: req.body.gender,
+    bio: req.body.bio,
+    major: req.body.major,
+    profileImg: req.body.profileImg,
   })
 
   try {
-    const savedUser = await user.save()
+    await user.save()
     res.send({ user: user._id })
   } catch (err) {
     res.status(400).send(err)
@@ -51,15 +57,12 @@ router.post('/login', async (req, res) => {
   )
   if (!validPassword) return res.status(400).send('Invalid password!')
 
-  //Create token
-  const token = jwt.sign(
-    { _id: foundUser._id, role: 'admin' },
-    process.env.TOKEN_SECRET
-  )
+  // Create token
+  const token = jwt.sign({ _id: foundUser._id }, process.env.TOKEN_SECRET)
   res.header('auth-token', token).send(token)
 })
 
-//Get all users
+// Get all users
 router.get('/getUsers', async (req, res) => {
   try {
     const gotUsers = await User.find()
@@ -69,8 +72,8 @@ router.get('/getUsers', async (req, res) => {
   }
 })
 
-//Get user by a specific ID
-router.get('/:userId', async (req, res) => {
+// Get user by a specific ID
+router.get('/:userId', verify, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId)
     res.json(user)
@@ -79,8 +82,8 @@ router.get('/:userId', async (req, res) => {
   }
 })
 
-//Delete specific users (all if necessary) by ID
-router.delete('/:userId', async (req, res) => {
+// Delete specific users (all if necessary) by ID
+router.delete('/:userId', verify, async (req, res) => {
   try {
     const removedUser = await User.remove({ _id: req.params.userId }) //Mongo generates id by this format
     res.json('User removed!')
@@ -89,16 +92,26 @@ router.delete('/:userId', async (req, res) => {
   }
 })
 
-//Find user by ID and update said user's attributes
-router.patch('/updateProfile/:userID', async (req, res) => {
+// Find user by ID and update said user's attributes
+router.put('/updateProfile/:userId', verify, async (req, res) => {
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
   try {
-    const userID = req.params.userID
-    const updatedData = req.body
-    const options = { new: true }
-    const updatedUser = await User.findByIdAndUpdate(
-      userID,
-      updatedData,
-      options
+    const updatedUser = await User.updateOne(
+      {
+        _id: req.params.userId,
+      },
+      {
+        $set: {
+          email: req.body.email,
+          password: hashedPassword,
+          userName: req.body.userName,
+          gender: req.body.gender,
+          bio: req.body.bio,
+          major: req.body.major,
+        },
+      }
     )
     res.json(updatedUser)
   } catch (error) {

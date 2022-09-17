@@ -11,6 +11,16 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    semester: {
+      type: String,
+      required: true,
+    },
+
+    lecturerName: {
+      type: String,
+      required: true,
+    },
   },
   { timestamp: true }
 )

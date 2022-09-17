@@ -33,7 +33,7 @@ const NavBar = () => {
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/board">Board</NavbarItems>
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/course">Course</NavbarItems>
         <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/message">Message</NavbarItems>
-        <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/account">Account</NavbarItems>
+        <NavbarItems onClick={() => {setExpandedNavbar(!expandedNavbar)}}to="/my-profile/:userId">Account</NavbarItems>
       </NavbarWrapper>
     </Navbar>
   )

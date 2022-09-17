@@ -2,7 +2,7 @@ const router = require('express').Router()
 const verify = require('./verifyToken')
 const Post = require('../model/post.model')
 const User = require('../model/user.model')
-const Profile = require('../model/profile.model')
+// const Profile = require('../model/profile.model')
 const { postValidate } = require('../validation')
 
 // Get all post
@@ -24,6 +24,8 @@ router.get('/getPost/:postId', verify, async (req, res) => {
     res.json({ message: error })
   }
 })
+
+// Get
 
 // Create post
 router.post('/createPost', verify, async (req, res) => {

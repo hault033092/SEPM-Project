@@ -141,8 +141,6 @@ const SingleBoard = ({
 		}
 	};
 
-	console.log(pfImg);
-
 	const _updateNumOfLike = () => {
 		setIsLikePost(prev => !prev);
 	};

@@ -8,7 +8,7 @@ import Canvas from "../lib/img/study.png"
 import OES from "../lib/img/online-course.png"
 import Allocate from "../lib/img/allocate.png"
 import Library from "../lib/img/library.png"
-import MainLogoSrc from "../lib/img/logo.svg";
+import MainLogoSrc from "../lib/img/logo.svg"
 
 const Home = () => {
     return (
