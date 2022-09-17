@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,15 +24,52 @@ const EditBtnWrapper = styled(FlexContainer)`
 	align-items: space-between;
 `;
 
-const EditComment = ({ oldComment, handleOnCancel }) => {
-	const [value, setValue] = useState(oldComment);
+const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
+	const [value, setValue] = useState(oldComment.content);
+	const [isSpinner, setIsSpinner] = useState(false);
+	const navigation = useNavigate();
 
 	const _handleOnSubmit = () => {
-		console.log("reload website to display a list of comments");
+		const client = getClient();
+		updateComment(client);
+		setEdit(false);
 	};
 
 	const _handleValueChange = e => {
 		setValue(e.target.value);
+	};
+
+	const getClient = () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		return client;
+	};
+
+	const updateComment = async client => {
+		setIsSpinner(true);
+		try {
+			const commentObj = {
+				content: value,
+			};
+			let response = await client
+				.patch(`/api/comment/updateComment/${oldComment._id}`, commentObj)
+				.then(response => {
+					console.log(response);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+				.finally(() => {
+					setIsSpinner(false);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -131,32 +168,54 @@ const StyledText = styled.p`
 	}
 `;
 
-const Comment = ({ commentInfo, isCurrentUserComment, onDelete }) => {
-	const writerInfo = useRef({ username: "pizza", profileImg: "" });
+const Comment = ({ commentInfo, onDelete }) => {
+	const [pfImg, setPfImg] = useState("");
 	const [isEdit, setEdit] = useState(false);
+	const [isCurrentUserComment, setIsCurrentUserComment] = useState(false);
 
 	const navigation = useNavigate();
+
+	useEffect(() => {
+		getUserInfo();
+	}, []);
+
+	const getUserInfo = async () => {
+		setIsCurrentUserComment(
+			commentInfo.userId === window.sessionStorage.getItem("uid")
+		);
+
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		try {
+			let response = await client
+				.get(`/api/user/${commentInfo.userId}`)
+				.then(response => {
+					setPfImg(response.data.profileImg);
+				})
+				.catch(error => {
+					console.log(error);
+				})
+				.finally(() => {});
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const _handleEdit = () => {
 		setEdit(true);
 	};
 
 	const _handleDelete = () => {
-		onDelete();
+		onDelete(commentInfo._id);
 	};
 
 	const _handleOnCancel = () => {
 		setEdit(false);
-	};
-
-	const _onEditSubmit = () => {};
-
-	const getCommentWriterInfo = () => {
-		// get comment writer's profile image from API
-		// writer id = commentInfo.writerID
-		// const {username, profileImg} = fetch(``);
-		// const userInfo = {username, profileImg}
-		return { username: "cornsoup", profileImg: "" };
 	};
 
 	const navigateToProfileDetail = userID => {
@@ -166,7 +225,7 @@ const Comment = ({ commentInfo, isCurrentUserComment, onDelete }) => {
 	return (
 		<CommentCont>
 			<ProfileImg
-				src={writerInfo.current.profileImg}
+				src={pfImg}
 				width='4.5vw'
 				height='4.5vw'
 				isShowProfile={true}
@@ -175,15 +234,16 @@ const Comment = ({ commentInfo, isCurrentUserComment, onDelete }) => {
 			<CommentWrapper>
 				{isEdit ? (
 					<EditComment
-						oldComment={commentInfo.content}
+						oldComment={commentInfo}
 						handleOnCancel={_handleOnCancel}
+						setEdit={setEdit}
 					/>
 				) : (
 					<TextWrapper>
 						<HeaderWrapper>
 							<UserNameDateWrapper>
 								<StyledText fontSize={1.5} fontWeight='600'>
-									{writerInfo.current.username}
+									{commentInfo.userName}
 								</StyledText>
 								<StyledText fontSize={0.5} margin='0 0 0 1%' isUnderline={true}>
 									{commentInfo.createdAt}
@@ -252,7 +312,6 @@ const StyleTitle = styled.h1`
 
 const BoardCont = styled.div`
 	width: 100%;
-	height: 100%;
 `;
 
 const BoardDetail = () => {
@@ -295,7 +354,6 @@ const BoardDetail = () => {
 			let response = await client
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
-					console.log("123", response.data);
 					const add = {
 						numOfComment: response.length,
 					};
@@ -314,7 +372,7 @@ const BoardDetail = () => {
 		}
 	};
 
-	const _onDelete = () => {
+	const _onDelete = commentId => {
 		setIsModalShow(false);
 		setDeleteTarget("");
 		if (deleteTarget === "post") {
@@ -322,6 +380,10 @@ const BoardDetail = () => {
 
 			navigation("/board");
 			return;
+		} else {
+			const client = getClient();
+			deleteComment(client, commentId);
+			console.log("md", commentId);
 		}
 
 		// delete comment
@@ -343,9 +405,50 @@ const BoardDetail = () => {
 	};
 
 	const _handleCreateCmt = () => {
-		setNewComment("");
-		console.log("send request to create a new comment");
-		console.log("reload list of comment");
+		const client = getClient();
+		createComment(client);
+	};
+
+	const createComment = async client => {
+		try {
+			const commentObj = {
+				userId: window.sessionStorage.getItem("uid"),
+				userName: window.sessionStorage.getItem("username"),
+				post: currentPost.postId,
+				content: newComment,
+			};
+
+			let response = await client
+				.post(`/api/comment/createComment/${postId}`, commentObj)
+				.then(response => {
+					console.log("123", response.data);
+					setNewComment("");
+					navigation(`/board/${postId}`);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const deleteComment = async (client, commentId) => {
+		console.log("here", commentId);
+		try {
+			let response = await client
+				.post(`/api/comment/deleteComment/${commentId}`)
+				.then(response => {
+					console.log("123", response.data);
+					setNewComment("");
+					navigation(`/board/${postId}`);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -365,7 +468,6 @@ const BoardDetail = () => {
 						<Comment
 							key={index}
 							commentInfo={item}
-							isCurrentUserComment={true /* MEMO */}
 							onDelete={_onClickDeleteComment}
 						/>
 					);
