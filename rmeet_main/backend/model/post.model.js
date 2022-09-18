@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema(
     },
 
     userImgUrl: {
-      typy: String,
+      type: String,
       ref: 'User',
     },
 
