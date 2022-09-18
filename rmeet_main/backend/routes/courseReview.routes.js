@@ -23,17 +23,30 @@ router.get('/getReview/:reviewId', verify, async (req, res) => {
   }
 })
 
-// Create course
-router.post('/createReview', verify, async (req, res) => {
-  const newReview = new Course({
-    user: req.user._id,
+// assignments: [
+// {
+//   type: req.body.type,
+//   quantity: req.body.quantity,
+// },
+// ],
 
+// Create review
+router.post('/createReview/:courseId', verify, async (req, res) => {
+  const foundCourse = await Course.findOne({ _id: req.params.courseId })
+
+  const newReview = new Review({
+    userId: req.user._id,
+    userName: req.user.name,
+    userImgUrl: req.user.profileImg,
+    courseId: req.params.courseId,
     content: req.body.content,
+    rating: req.body.rating,
   })
 
   try {
     await newReview.save()
-    res.send('Course created successfully!')
+    foundCourse.reviews.push(newReview)
+    res.send('Review created successfully!')
   } catch (error) {
     res.status(400).send(error)
   }
@@ -54,7 +67,7 @@ router.delete('/deleteReview/:reviewId', verify, async (req, res) => {
 // Update course
 router.patch('/updateCourse/:courseId', verify, async (req, res) => {
   try {
-    const updatedCourse = await Post.updateOne(
+    await Post.updateOne(
       {
         courseId: req.params.courseId,
       },
