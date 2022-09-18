@@ -1,124 +1,146 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Rating from "@mui/material/Rating";
 
 const CourseReview = () => {
+	const { userId } = useParams();
+	console.log("userId: ", userId);
+
 	const navigate = useNavigate();
 
-	const [isEnabled, setIsEnabled] = useState("false");
-	const [rating, setRating] = useState(0.0);
+	const [isEnabled, setIsEnabled] = useState("true");
+	const [data, setData] = useState([]);
 	const [courseName, setCourseName] = useState("");
+	const [rating, setRating] = useState(0.0);
 
 	const toggleOverlayDiv = () => {
 		setIsEnabled(!isEnabled);
 	};
 
-	const onCourseName = e => {
-		setCourseName(e.target.value);
+	const handleCourseName = async (e) => {
+		const editedCourseName = e.target.value;
+		setCourseName(editedCourseName);
 	};
+
+	const submitCourseReview = async () => {
+		setData(courseName);
+	};
+
+	useEffect(() => {
+		console.log("data list:");
+		console.log(data);
+	}, [data]);
 
 	return (
 		<ReviewContainer>
 			<Heading>Account Details</Heading>
 			<ReviewContent>
-				<Label htmlFor='courseName'>*Course name:</Label>
+				<Label htmlFor="courseName">*Course name:</Label>
 				<ReviewInputField
-					id='courseName'
-					type='text'
+					id="courseName"
+					type="text"
 					value={courseName}
-					onChange={onCourseName}
-					placeholder='Enter course name'
-					required></ReviewInputField>
+					placeholder="Enter course name"
+					required
+					onChange={handleCourseName}
+				></ReviewInputField>
 				<ReviewToggle>
 					<Text>Please write a review to help other students:</Text>
 					<ReviewInputField
 						onClick={toggleOverlayDiv}
-						id='skipReview'
-						type='checkbox'
-						value='Skip'
-						name='choice'
-						style={{ width: "auto" }}></ReviewInputField>
-					<Label htmlFor='skipReview'>Skip for now!</Label>
+						id="skipReview"
+						type="checkbox"
+						value="Skip"
+						name="choice"
+						style={{ width: "auto" }}
+						defaultChecked={isEnabled}
+					></ReviewInputField>
+					<Label htmlFor="skipReview">Skip for now!</Label>
 				</ReviewToggle>
 				<ReviewWrapper>
-					<Overlay className={isEnabled ? "hidden" : ""}></Overlay>
+					<Overlay className={!isEnabled ? "hidden" : ""}></Overlay>
 					<MainReview>
 						<ReviewSection>
 							<Title>Overall Review</Title>
 							<ReviewField>
-								<Label htmlFor='courseNameReview'>Course:</Label>
+								<Label htmlFor="courseNameReview">Course:</Label>
 								<ReviewInputField
-									id='courseNameReview'
-									type='text'
-									value=''
-									placeholder='Enter course name'></ReviewInputField>
+									id="courseNameReview"
+									type="text"
+									value=""
+									placeholder="Enter course name"
+								></ReviewInputField>
 							</ReviewField>
 							<ReviewField>
-								<Label htmlFor='rating'>Rating (1-5):</Label>
+								<Label htmlFor="rating">Rating (1-5):</Label>
 								<StyledRating
-									name='half-rating'
+									name="half-rating"
 									defaultValue={0}
 									value={rating}
 									precision={0.5}
 									onChange={(event, newRating) => {
 										setRating(newRating);
-									}}></StyledRating>
+									}}
+								></StyledRating>
 							</ReviewField>
 							<SelectField>
 								<SelectGroup>
-									<Label htmlFor='semester'>Semester:</Label>
-									<SelectBox id='semester'>
-										<Option value=''></Option>
-										<Option value='october'>October</Option>
-										<Option value='june'>June</Option>
-										<Option value='february'>February</Option>
+									<Label htmlFor="semester">Semester:</Label>
+									<SelectBox id="semester">
+										<Option value=""></Option>
+										<Option value="october">October</Option>
+										<Option value="june">June</Option>
+										<Option value="february">February</Option>
 									</SelectBox>
 								</SelectGroup>
 								<SelectGroup>
-									<Label htmlFor='year'>Year:</Label>
-									<SelectBox id='year'>
-										<Option value=''></Option>
-										<Option value='2022'>2022B</Option>
-										<Option value='2022'>2022A</Option>
-										<Option value='2021'>2021C</Option>
+									<Label htmlFor="year">Year:</Label>
+									<SelectBox id="year">
+										<Option value=""></Option>
+										<Option value="2022">2022B</Option>
+										<Option value="2022">2022A</Option>
+										<Option value="2021">2021C</Option>
 									</SelectBox>
 								</SelectGroup>
 							</SelectField>
 							<ReviewField>
-								<Label htmlFor='lecturerName'>Lecturer:</Label>
+								<Label htmlFor="lecturerName">Lecturer:</Label>
 								<ReviewInputField
-									id='lecturerName'
-									type='text'
-									value=''
-									placeholder='Enter lecturer name'></ReviewInputField>
+									id="lecturerName"
+									type="text"
+									value=""
+									placeholder="Enter lecturer name"
+								></ReviewInputField>
 							</ReviewField>
-							<Label htmlFor='review'>Detailed review:</Label>
+							<Label htmlFor="review">Detailed review:</Label>
 							<Area
-								id='review'
-								type='textarea'
-								rows='2'
-								spellcheck='false'
-								value=''></Area>
+								id="review"
+								type="textarea"
+								rows="2"
+								spellcheck="false"
+								value=""
+							></Area>
 						</ReviewSection>
 						<AssignmentSection>
 							<Title>Assignments</Title>
 							<ReviewField>
-								<Label htmlFor='type'>Assignment type:</Label>
-								<SelectBox id='type'>
-									<Option value=''></Option>
-									<Option value='quiz'>Quiz</Option>
-									<Option value='team'>Team</Option>
-									<Option value='individual'>Individual</Option>
+								<Label htmlFor="type">Assignment type:</Label>
+								<SelectBox id="type">
+									<Option value=""></Option>
+									<Option value="quiz">Quiz</Option>
+									<Option value="team">Team</Option>
+									<Option value="individual">Individual</Option>
 								</SelectBox>
 							</ReviewField>
 							<ReviewField>
-								<Label htmlFor='quantity'>Quantity:</Label>
+								<Label htmlFor="quantity">Quantity:</Label>
 								<ReviewInputField
-									id='quantity'
-									type='number'
-									value=''></ReviewInputField>
+									id="quantity"
+									type="number"
+									value=""
+								></ReviewInputField>
 							</ReviewField>
 							<AddButton>+ Add assignment</AddButton>
 						</AssignmentSection>
@@ -129,99 +151,109 @@ const CourseReview = () => {
 							<Text>Study mode:</Text>
 							<RadioGroup>
 								<ReviewInputField
-									id='mode1'
-									type='radio'
-									value='Offline'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='mode1'>Offline</Label>
+									id="mode1"
+									type="radio"
+									value="Offline"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="mode1">Offline</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='mode2'
-									type='radio'
-									value='Online'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='mode2'>Online</Label>
+									id="mode2"
+									type="radio"
+									value="Online"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="mode2">Online</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='mode3'
-									type='radio'
-									value='Hybrid'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='mode3'>Hybrid</Label>
+									id="mode3"
+									type="radio"
+									value="Hybrid"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="mode3">Hybrid</Label>
 							</RadioGroup>
 						</CourseInfoField>
 						<CourseInfoField>
 							<Text>Course type:</Text>
 							<RadioGroup>
 								<ReviewInputField
-									id='type1'
-									type='radio'
-									value='Lecture'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='type1'>Lecture only</Label>
+									id="type1"
+									type="radio"
+									value="Lecture"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="type1">Lecture only</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='type2'
-									type='radio'
-									value='Tutorial'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='type2'>Tutorial only</Label>
+									id="type2"
+									type="radio"
+									value="Tutorial"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="type2">Tutorial only</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='type3'
-									type='radio'
-									value='Both'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='type3'>Hybrid</Label>
+									id="type3"
+									type="radio"
+									value="Both"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="type3">Hybrid</Label>
 							</RadioGroup>
 						</CourseInfoField>
 						<CourseInfoField>
 							<Text>Recommended:</Text>
 							<RadioGroup>
 								<ReviewInputField
-									id='first'
-									type='radio'
-									value='1st'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='first'>1st year</Label>
+									id="first"
+									type="radio"
+									value="1st"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="first">1st year</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='second'
-									type='radio'
-									value='2nd'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='second'>2nd year</Label>
+									id="second"
+									type="radio"
+									value="2nd"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="second">2nd year</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='third'
-									type='radio'
-									value='3rd'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='third'>3rd year</Label>
+									id="third"
+									type="radio"
+									value="3rd"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="third">3rd year</Label>
 							</RadioGroup>
 							<RadioGroup>
 								<ReviewInputField
-									id='any'
-									type='radio'
-									value='all'
-									name='option'
-									style={{ width: "auto" }}></ReviewInputField>
-								<Label htmlFor='any'>Anyone</Label>
+									id="any"
+									type="radio"
+									value="all"
+									name="option"
+									style={{ width: "auto" }}
+								></ReviewInputField>
+								<Label htmlFor="any">Anyone</Label>
 							</RadioGroup>
 						</CourseInfoField>
 					</CourseInfo>
@@ -229,13 +261,19 @@ const CourseReview = () => {
 				<SubmitField>
 					<CancelButton
 						onClick={() => {
-							navigate(
-								`/update-account/${window.sessionStorage.getItem("uid")}`
-							);
-						}}>
+							navigate(`/update-account/${userId}`);
+						}}
+					>
 						Cancel
 					</CancelButton>
-					<SaveButton>Save course</SaveButton>
+					<SaveButton
+						onClick={() => {
+							submitCourseReview();
+							navigate(`/update-account/${userId}`);
+						}}
+					>
+						Save course
+					</SaveButton>
 				</SubmitField>
 			</ReviewContent>
 		</ReviewContainer>

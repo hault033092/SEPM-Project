@@ -24,7 +24,7 @@ const Account = () => {
 	const [bio, setBio] = useState("");
 	const [major, setMajor] = useState("");
 
-	const _handleProfileImgChange = e => {
+	const _handleProfileImgChange = (e) => {
 		setProfileImg(e);
 	};
 
@@ -34,12 +34,12 @@ const Account = () => {
 		},
 	};
 
-	const handleUsernameChange = async e => {
+	const handleUsernameChange = async (e) => {
 		const editedUserName = e.target.value;
 		setUsername(editedUserName);
 	};
 
-	const handleGenderChange = async e => {
+	const handleGenderChange = async (e) => {
 		const editedGender = e.target.value;
 		setGender(editedGender);
 	};
@@ -60,7 +60,7 @@ const Account = () => {
 		setIsSpinnerVisible(true);
 		axios
 			.get(`http://localhost:8080/api/user/${userId}`, config)
-			.then(response => {
+			.then((response) => {
 				setUserProfile(response.data);
 			});
 		setIsSpinnerVisible(false);
@@ -80,11 +80,11 @@ const Account = () => {
 		try {
 			let response = await client
 				.get(`/api/user/${userId}`)
-				.then(response => {
+				.then((response) => {
 					console.log(response.data.profileImg);
 					setUserProfile(response.data.profileImg);
 				})
-				.catch(error => {
+				.catch((error) => {
 					console.log(error);
 				})
 				.finally(() => {
@@ -111,44 +111,39 @@ const Account = () => {
 					<Title>Personal Info</Title>
 					<ProfileImg
 						src={userProfile.profileImg}
-						width='8rem'
-						height='8rem'
+						width="8rem"
+						height="8rem"
 						onChangePhoto={_handleProfileImgChange}
 						isShowButton
 					/>
 					<Field>
-						<Label htmlFor='username'>Username:</Label>
+						<Label htmlFor="username">Username:</Label>
 						<InputField
-							id='username'
-							type='text'
+							id="username"
+							type="text"
 							value={userProfile.userName}
 							onChange={handleUsernameChange}
 						/>
 					</Field>
 					<Field>
-						<Label htmlFor='gender'>Gender:</Label>
-						<SelectBox id='gender' onChange={handleGenderChange}>
-							<Option value=''>{userProfile.gender}</Option>
-							<Option value='male'>Male</Option>
-							<Option value='female'>Female</Option>
-							<Option value='unspecified'>Unspecified</Option>
-						</SelectBox>
-					</Field>
-					<Field>
-						<Label htmlFor='email'>Email:</Label>
+						<Label htmlFor="gender">Gender:</Label>
 						<InputField
-							id='email'
-							type='email'
-							value={userProfile.email}
-							readOnly
+							id="gender"
+							type="text"
+							value={userProfile.gender}
+							onChange={handleGenderChange}
 						/>
 					</Field>
 					<Field>
-						<Label htmlFor='password'>Password:</Label>
+						<Label htmlFor="email">Email:</Label>
+						<InputField id="email" type="email" value={userProfile.email} />
+					</Field>
+					<Field>
+						<Label htmlFor="password">Password:</Label>
 						<InputField
-							id='password'
-							type='password'
-							defaultValue='aaaaaaaa'
+							id="password"
+							type="password"
+							defaultValue="aaaaaaaa"
 							onChange={() => {}}
 						/>
 					</Field>
@@ -158,45 +153,43 @@ const Account = () => {
 				<AcademicInfo>
 					<Title>Academic Info</Title>
 					<Field>
-						<Label htmlFor='major'>Major:</Label>
+						<Label htmlFor="major">Major:</Label>
 						<InputField
-							id='major'
-							type='text'
+							id="major"
+							type="text"
 							placeholder={userProfile.major}
 							value={major}
-							onChange={e => {
+							onChange={(e) => {
 								setMajor(e.target.value);
 							}}
 						/>
 					</Field>
 					<Field>
-						<Label htmlFor='bio'>Your Bio:</Label>
+						<Label htmlFor="bio">Your Bio:</Label>
 						<Area
-							id='bio'
-							type='textarea'
-							rows='5'
-							spellcheck='false'
+							id="bio"
+							type="textarea"
+							rows="3"
+							spellcheck="false"
 							placeholder={userProfile.bio}
 							value={bio}
-							onChange={e => {
+							onChange={(e) => {
 								setBio(e.target.value);
 							}}
 						/>
 					</Field>
 					<Field>
-						<Label htmlFor='courses'>Completed course(s):</Label>
-						<Area
-							id='courses'
-							type='textarea'
-							rows='7'
-							spellcheck='false'
-							value=''
-							onChange={() => {}}
-						/>
+						<Label>Completed course(s):</Label>
+						<CoursesList>
+							{/* {data.map((course) => 
+								<CourseIten>{course.courseName}</CourseIten>
+							)} */}
+						</CoursesList>
 						<AddButton
 							onClick={() => {
-								navigate("/review-course");
-							}}>
+								navigate(`/review-course/${userId}`);
+							}}
+						>
 							+ Add Course
 						</AddButton>
 					</Field>
@@ -204,7 +197,8 @@ const Account = () => {
 						<CancelButton
 							onClick={() => {
 								navigate(`/my-profile/${userId}`);
-							}}>
+							}}
+						>
 							Cancel Changes
 						</CancelButton>
 						<SaveButton>Save Changes</SaveButton>
@@ -358,6 +352,17 @@ const Area = styled.textarea`
 		transform: scaleX(1.05);
 		background-color: lightskyblue;
 	}
+`;
+
+const CoursesList = styled.div`
+	height: 12rem;
+	width: 100%;
+	display: flex;
+	background-color: #ffffff;
+	padding: 0.5rem 1rem;
+	border-radius: 1rem;
+	border: none;
+	overflow-y: scroll;
 `;
 
 const SubmitField = styled.div`

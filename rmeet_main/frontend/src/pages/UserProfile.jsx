@@ -23,7 +23,7 @@ const UserProfile = () => {
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8080/api/user/${userId}`, config)
-			.then(response => {
+			.then((response) => {
 				setUserProfile(response.data);
 			});
 	}, []);
@@ -35,68 +35,76 @@ const UserProfile = () => {
 			<ProfileContent>
 				<PersonalInfo>
 					<Title>Personal Info</Title>
-					<ProfileImg src={userProfile.profileImg} width='8rem' height='8rem' />
+					<ProfileImg src={userProfile.profileImg} width="8rem" height="8rem" />
 					<Field>
-						<Label htmlFor='username'>Username:</Label>
+						<Label htmlFor="username">Username:</Label>
 						<InputField
-							id='username'
-							type='text'
-							value={userProfile.userName}></InputField>
+							id="username"
+							type="text"
+							value={userProfile.userName}
+							readOnly="readonly"
+						/>
 					</Field>
 					<Field>
-						<Label htmlFor='gender'>Gender:</Label>
+						<Label htmlFor="gender">Gender:</Label>
 						<InputField
-							id='gender'
-							type='text'
-							value={userProfile.gender}></InputField>
+							id="gender"
+							type="text"
+							value={userProfile.gender}
+							readOnly="readonly"
+						/>
 					</Field>
 					<Field>
-						<Label htmlFor='email'>Email:</Label>
+						<Label htmlFor="email">Email:</Label>
 						<InputField
-							id='email'
-							type='email'
-							value={userProfile.email}></InputField>
+							id="email"
+							type="email"
+							value={userProfile.email}
+							readOnly="readonly"
+						/>
 					</Field>
 					<Field>
-						<Label htmlFor='password'>Password:</Label>
+						<Label htmlFor="password">Password:</Label>
 						<InputField
-							id='password'
-							type='password'
-							value='aaaaaaaa'></InputField>
+							id="password"
+							type="password"
+							value="aaaaaaaa"
+							readOnly="readonly"
+						/>
 					</Field>
 				</PersonalInfo>
 				<AcademicInfo>
 					<Title>Academic Info</Title>
 					<Field>
-						<Label htmlFor='major'>Major:</Label>
+						<Label htmlFor="major">Major:</Label>
 						<InputField
-							id='major'
-							type='text'
-							value={userProfile.major}></InputField>
+							id="major"
+							type="text"
+							value={userProfile.major}
+							readOnly="readonly"
+						/>
 					</Field>
 					<Field>
-						<Label htmlFor='bio'>Bio:</Label>
+						<Label htmlFor="bio">Bio:</Label>
 						<Area
-							id='bio'
-							type='textarea'
-							rows='5'
-							spellcheck='false'
-							value={userProfile.bio}></Area>
+							id="bio"
+							type="textarea"
+							rows="3"
+							spellcheck="false"
+							value={userProfile.bio}
+							readOnly="readonly"
+						></Area>
 					</Field>
 					<Field>
-						<Label htmlFor='courses'>Completed course(s):</Label>
-						<Area
-							id='courses'
-							type='textarea'
-							rows='7'
-							spellcheck='false'
-							value=''></Area>
+						<Label htmlFor="courses">Completed course(s):</Label>
+						<CoursesList></CoursesList>
 					</Field>
 					<SubmitField>
 						<UpdateButton
 							onClick={() => {
 								navigate(`/update-account/${userId}`);
-							}}>
+							}}
+						>
 							Update Info
 						</UpdateButton>
 					</SubmitField>
@@ -236,6 +244,17 @@ const Area = styled.textarea`
 		transform: scaleX(1.05);
 		background-color: lightskyblue;
 	}
+`;
+
+const CoursesList = styled.div`
+	height: 12rem;
+	width: 100%;
+	display: flex;
+	background-color: #ffffff;
+	padding: 0.5rem 1rem;
+	border-radius: 1rem;
+	border: none;
+	overflow-y: scroll;
 `;
 
 const SubmitField = styled.div`
