@@ -59,7 +59,7 @@ const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
 			let response = await client
 				.patch(`/api/comment/updateComment/${oldComment._id}`, commentObj)
 				.then(response => {
-					console.log(response);
+					window.location.reload();
 				})
 				.catch(error => {
 					console.log(error);
@@ -211,7 +211,8 @@ const Comment = ({ commentInfo, onDelete }) => {
 	};
 
 	const _handleDelete = () => {
-		onDelete(commentInfo._id);
+		const client = getClient();
+		deleteComment(client, commentInfo["_id"]);
 	};
 
 	const _handleOnCancel = () => {
@@ -220,6 +221,32 @@ const Comment = ({ commentInfo, onDelete }) => {
 
 	const navigateToProfileDetail = userID => {
 		navigation("/account/" + userID);
+	};
+
+	const getClient = () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		return client;
+	};
+
+	const deleteComment = async (client, commentId) => {
+		try {
+			let response = await client
+				.delete(`/api/comment/deleteComment/${commentId}`)
+				.then(response => {
+					window.location.reload();
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -355,7 +382,7 @@ const BoardDetail = () => {
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
 					const add = {
-						numOfComment: response.length,
+						numOfComment: "0",
 					};
 					const post = { ...add, ...response.data };
 					if (post.like === undefined) {
@@ -421,9 +448,8 @@ const BoardDetail = () => {
 			let response = await client
 				.post(`/api/comment/createComment/${postId}`, commentObj)
 				.then(response => {
-					console.log("123", response.data);
 					setNewComment("");
-					navigation(`/board/${postId}`);
+					window.location.reload();
 				})
 				.catch(error => {
 					console.log(error);
@@ -439,9 +465,8 @@ const BoardDetail = () => {
 			let response = await client
 				.post(`/api/comment/deleteComment/${commentId}`)
 				.then(response => {
-					console.log("123", response.data);
 					setNewComment("");
-					navigation(`/board/${postId}`);
+					window.location.reload();
 				})
 				.catch(error => {
 					console.log(error);

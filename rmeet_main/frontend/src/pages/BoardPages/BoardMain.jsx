@@ -334,7 +334,7 @@ const BoardMain = () => {
 						post.like = 0;
 					}
 					const add = {
-						numOfComment: post.comments.length,
+						numOfComment: "0",
 					};
 
 					const res = { ...post, ...add };
