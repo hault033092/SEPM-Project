@@ -78,6 +78,7 @@ const Signin = () => {
 					window.sessionStorage.setItem("uid", decodeToken._id);
 					window.sessionStorage.setItem("token", response.data);
 					window.sessionStorage.setItem("username", decodeToken.userName);
+					window.sessionStorage.setItem("userImgUrl", decodeToken.userImgUrl);
 				})
 				.catch(error => {
 					setErrorMessage(error.response.data);

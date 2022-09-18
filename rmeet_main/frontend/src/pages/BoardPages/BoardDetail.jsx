@@ -27,6 +27,7 @@ const EditBtnWrapper = styled(FlexContainer)`
 const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
 	const [value, setValue] = useState(oldComment.content);
 	const [isSpinner, setIsSpinner] = useState(false);
+
 	const navigation = useNavigate();
 
 	const _handleOnSubmit = () => {
@@ -59,7 +60,7 @@ const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
 			let response = await client
 				.patch(`/api/comment/updateComment/${oldComment._id}`, commentObj)
 				.then(response => {
-					console.log(response);
+					window.location.reload()
 				})
 				.catch(error => {
 					console.log(error);
@@ -175,6 +176,7 @@ const Comment = ({ commentInfo, onDelete }) => {
 
 	const navigation = useNavigate();
 
+
 	useEffect(() => {
 		getUserInfo();
 	}, []);
@@ -210,8 +212,9 @@ const Comment = ({ commentInfo, onDelete }) => {
 		setEdit(true);
 	};
 
-	const _handleDelete = () => {
-		onDelete(commentInfo._id);
+	const _handleDelete = e => {
+		const client = getClient();
+		deleteComment(client, commentInfo["_id"]);
 	};
 
 	const _handleOnCancel = () => {
@@ -220,6 +223,32 @@ const Comment = ({ commentInfo, onDelete }) => {
 
 	const navigateToProfileDetail = userID => {
 		navigation("/account/" + userID);
+	};
+
+	const getClient = () => {
+		const client = axios.create({
+			baseURL: "http://localhost:8080",
+			headers: {
+				"auth-token": window.sessionStorage.getItem("token"),
+			},
+		});
+
+		return client;
+	};
+
+	const deleteComment = async (client, commentId) => {
+		try {
+			let response = await client
+				.delete(`/api/comment/deleteComment/${commentId}`)
+				.then(response => {
+					window.location.reload()
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -362,7 +391,6 @@ const BoardDetail = () => {
 						post.like = 0;
 					}
 					setCurrentPost(post);
-					console.log("post : ", post);
 				})
 				.catch(error => {
 					console.log(error);
@@ -372,7 +400,7 @@ const BoardDetail = () => {
 		}
 	};
 
-	const _onDelete = commentId => {
+	const _onDelete = e => {
 		setIsModalShow(false);
 		setDeleteTarget("");
 		if (deleteTarget === "post") {
@@ -380,14 +408,7 @@ const BoardDetail = () => {
 
 			navigation("/board");
 			return;
-		} else {
-			const client = getClient();
-			deleteComment(client, commentId);
-			console.log("md", commentId);
 		}
-
-		// delete comment
-		// reload page
 	};
 
 	const _onClickDeletePost = () => {
@@ -421,27 +442,8 @@ const BoardDetail = () => {
 			let response = await client
 				.post(`/api/comment/createComment/${postId}`, commentObj)
 				.then(response => {
-					console.log("123", response.data);
 					setNewComment("");
-					navigation(`/board/${postId}`);
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const deleteComment = async (client, commentId) => {
-		console.log("here", commentId);
-		try {
-			let response = await client
-				.post(`/api/comment/deleteComment/${commentId}`)
-				.then(response => {
-					console.log("123", response.data);
-					setNewComment("");
-					navigation(`/board/${postId}`);
+					window.location.reload()
 				})
 				.catch(error => {
 					console.log(error);
