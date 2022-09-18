@@ -130,7 +130,6 @@ const SingleBoard = ({
 			let response = await client
 				.get(`/api/user/${post.userId}`)
 				.then(response => {
-					console.log(response.data.profileImg);
 					setPfImg(response.data.profileImg);
 				})
 				.catch(error => {

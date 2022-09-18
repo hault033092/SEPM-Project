@@ -27,6 +27,7 @@ const EditBtnWrapper = styled(FlexContainer)`
 const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
 	const [value, setValue] = useState(oldComment.content);
 	const [isSpinner, setIsSpinner] = useState(false);
+
 	const navigation = useNavigate();
 
 	const _handleOnSubmit = () => {
@@ -59,7 +60,7 @@ const EditComment = ({ oldComment, handleOnCancel, setEdit }) => {
 			let response = await client
 				.patch(`/api/comment/updateComment/${oldComment._id}`, commentObj)
 				.then(response => {
-					window.location.reload();
+					window.location.reload()
 				})
 				.catch(error => {
 					console.log(error);
@@ -175,6 +176,7 @@ const Comment = ({ commentInfo, onDelete }) => {
 
 	const navigation = useNavigate();
 
+
 	useEffect(() => {
 		getUserInfo();
 	}, []);
@@ -210,7 +212,7 @@ const Comment = ({ commentInfo, onDelete }) => {
 		setEdit(true);
 	};
 
-	const _handleDelete = () => {
+	const _handleDelete = e => {
 		const client = getClient();
 		deleteComment(client, commentInfo["_id"]);
 	};
@@ -239,7 +241,7 @@ const Comment = ({ commentInfo, onDelete }) => {
 			let response = await client
 				.delete(`/api/comment/deleteComment/${commentId}`)
 				.then(response => {
-					window.location.reload();
+					window.location.reload()
 				})
 				.catch(error => {
 					console.log(error);
@@ -389,7 +391,6 @@ const BoardDetail = () => {
 						post.like = 0;
 					}
 					setCurrentPost(post);
-					console.log("post : ", post);
 				})
 				.catch(error => {
 					console.log(error);
@@ -399,7 +400,7 @@ const BoardDetail = () => {
 		}
 	};
 
-	const _onDelete = commentId => {
+	const _onDelete = e => {
 		setIsModalShow(false);
 		setDeleteTarget("");
 		if (deleteTarget === "post") {
@@ -407,14 +408,7 @@ const BoardDetail = () => {
 
 			navigation("/board");
 			return;
-		} else {
-			const client = getClient();
-			deleteComment(client, commentId);
-			console.log("md", commentId);
 		}
-
-		// delete comment
-		// reload page
 	};
 
 	const _onClickDeletePost = () => {
