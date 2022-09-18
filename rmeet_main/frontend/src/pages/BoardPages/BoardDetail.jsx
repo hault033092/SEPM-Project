@@ -384,7 +384,7 @@ const BoardDetail = () => {
 				.get(`/api/posts/getPost/${postId}`)
 				.then(response => {
 					const add = {
-						numOfComment: response.length,
+						numOfComment: "0",
 					};
 					const post = { ...add, ...response.data };
 					if (post.like === undefined) {
@@ -443,7 +443,24 @@ const BoardDetail = () => {
 				.post(`/api/comment/createComment/${postId}`, commentObj)
 				.then(response => {
 					setNewComment("");
-					window.location.reload()
+					window.location.reload();
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const deleteComment = async (client, commentId) => {
+		console.log("here", commentId);
+		try {
+			let response = await client
+				.post(`/api/comment/deleteComment/${commentId}`)
+				.then(response => {
+					setNewComment("");
+					window.location.reload();
 				})
 				.catch(error => {
 					console.log(error);

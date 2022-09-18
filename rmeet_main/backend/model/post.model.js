@@ -7,6 +7,21 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
 
+    userName: {
+      type: String,
+      ref: 'User',
+    },
+
+    userImgUrl: {
+      type: String,
+      ref: 'User',
+    },
+
+    courseName: {
+      type: String,
+      required: true,
+    },
+
     title: {
       type: String,
       required: true,
@@ -30,6 +45,17 @@ const postSchema = new mongoose.Schema(
     like: {
       type: Number,
     },
+
+    isLiked: {
+      type: Boolean,
+    },
+
+    comments: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   { timestamps: true }
 )

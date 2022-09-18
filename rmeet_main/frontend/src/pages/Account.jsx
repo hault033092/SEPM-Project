@@ -11,7 +11,6 @@ import ProfileImg from "../components/ProfileImg";
 
 const Account = () => {
 	const { userId } = useParams();
-	console.log("userId: ", userId);
 
 	const [userProfile, setUserProfile] = useState([]);
 	const navigate = useNavigate();
@@ -21,6 +20,9 @@ const Account = () => {
 	const [gender, setGender] = useState("");
 	const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
 	const { setCurrentUser } = useContext(CurrentUserContext);
+
+	const [bio, setBio] = useState("");
+	const [major, setMajor] = useState("");
 
 	const _handleProfileImgChange = e => {
 		setProfileImg(e);
@@ -65,7 +67,6 @@ const Account = () => {
 		getImage();
 		submitUpdateInfo();
 	}, []);
-	console.log(userProfile);
 
 	const getImage = async () => {
 		setIsSpinnerVisible(true);
@@ -138,8 +139,8 @@ const Account = () => {
 						<InputField
 							id='email'
 							type='email'
-							defaultValue={userProfile.email}
-							onChange={() => {}}
+							value={userProfile.email}
+							readOnly
 						/>
 					</Field>
 					<Field>
@@ -161,8 +162,11 @@ const Account = () => {
 						<InputField
 							id='major'
 							type='text'
-							value={userProfile.major}
-							onChange={() => {}}
+							placeholder={userProfile.major}
+							value={major}
+							onChange={e => {
+								setMajor(e.target.value);
+							}}
 						/>
 					</Field>
 					<Field>
@@ -172,8 +176,11 @@ const Account = () => {
 							type='textarea'
 							rows='5'
 							spellcheck='false'
-							value={userProfile.bio}
-							onChange={() => {}}
+							placeholder={userProfile.bio}
+							value={bio}
+							onChange={e => {
+								setBio(e.target.value);
+							}}
 						/>
 					</Field>
 					<Field>

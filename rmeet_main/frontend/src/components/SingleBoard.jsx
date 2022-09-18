@@ -200,42 +200,10 @@ const SingleBoard = ({
 					{isDetail ? post.content : post.content.slice(0, 247) + "..."}
 				</StyledText>
 			</ContentCont>
-			<StyledContainer className='subCont' content='flex-end' width='100%'>
-				<IconMainCont>
-					<IconSubCont>
-						<IconWrapper isNavHidden={isNavHidden} onClick={navigateToDetail}>
-							<FontAwesomeIcon
-								icon={regular("comment")}
-								fontSize='2vw'
-								color={theme.commentGreen}
-							/>
-						</IconWrapper>
-						<StyledText weight={700} size='1vw' color={theme.commentGreen}>
-							{post.numOfComment}
-						</StyledText>
-					</IconSubCont>
-					<IconSubCont onClick={_updateNumOfLike}>
-						<IconWrapper>
-							{isLikePost ? (
-								<FontAwesomeIcon
-									icon={solid("heart")}
-									fontSize='2vw'
-									color={theme.heartPink}
-								/>
-							) : (
-								<FontAwesomeIcon
-									icon={regular("heart")}
-									fontSize='2vw'
-									color={theme.heartPink}
-								/>
-							)}
-						</IconWrapper>
-						<StyledText weight={700} size='1vw' color={theme.heartPink}>
-							{post.like}
-						</StyledText>
-					</IconSubCont>
-				</IconMainCont>
-			</StyledContainer>
+			<StyledContainer
+				className='subCont'
+				content='flex-end'
+				width='100%'></StyledContainer>
 		</MainCont>
 	);
 };

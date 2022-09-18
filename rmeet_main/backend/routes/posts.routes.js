@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const verify = require('./verifyToken')
 const Post = require('../model/post.model')
+const Comment = require('../model/comment.model')
 const User = require('../model/user.model')
 // const Profile = require('../model/profile.model')
 const { postValidate } = require('../validation')
@@ -8,8 +9,8 @@ const { postValidate } = require('../validation')
 // Get all post
 router.get('/getPosts', verify, async (req, res) => {
   try {
-    const getPosts = await Post.find()
-    res.json(getPosts)
+    const gotPosts = await Post.find()
+    res.json(gotPosts)
   } catch (err) {
     res.json({ message: err })
   }
@@ -17,9 +18,31 @@ router.get('/getPosts', verify, async (req, res) => {
 
 // Get post by id
 router.get('/getPost/:postId', verify, async (req, res) => {
+  const gotComments = await Comment.find({ post: req.params.postId })
   try {
-    const getPosts = await Post.findOne({ _id: req.params.postId })
-    res.json(getPosts)
+    const gotPost = await Post.findOne({ _id: req.params.postId })
+    res.json({
+      _id: gotPost._id,
+      userId: gotPost.userId,
+      userName: gotPost.userName,
+      userImgUrl: gotPost.userImgUrl,
+      title: gotPost.title,
+      content: gotPost.content,
+      semester: gotPost.semester,
+      year: gotPost.year,
+      like: gotPost.like,
+      comments: gotComments,
+    })
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+// Get post by user
+router.get('/getPostsByUser/:userId', verify, async (req, res) => {
+  try {
+    const foundPosts = await Post.find({ userId: req.params.userId })
+    res.json(foundPosts)
   } catch (error) {
     res.json({ message: error })
   }
@@ -32,10 +55,10 @@ router.post('/createPost', verify, async (req, res) => {
   const { error } = postValidate(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
-  console.log(verify)
-
   const newPost = new Post({
     userId: req.user._id,
+    userName: req.user.userName,
+    userImgUrl: req.user.profileImg,
     // courseId: courseId,
     title: req.body.title,
     content: req.body.content,
@@ -51,9 +74,6 @@ router.post('/createPost', verify, async (req, res) => {
   } catch (error) {
     res.status(400).send(error)
   }
-
-  // Populate
-  Post.findOne({ newPost: newPost._id }).populate('userProfile')
 })
 
 // Delete post

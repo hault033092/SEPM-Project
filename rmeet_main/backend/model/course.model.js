@@ -12,17 +12,41 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
 
-    semester: {
+    mode: {
       type: String,
-      required: true,
+    },
+
+    type: {
+      type: String,
+    },
+
+    year: {
+      type: Number,
+    },
+
+    recommendation: {
+      type: String,
     },
 
     lecturerName: {
       type: String,
-      required: true,
     },
+
+    assignments: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Assignment',
+      },
+    ],
+
+    reviews: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
   },
-  { timestamp: true }
+  { timestamps: true }
 )
 
 module.exports = mongoose.model('Course', courseSchema)

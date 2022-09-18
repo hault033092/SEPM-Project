@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const User = require('../model/user.model')
+const Post = require('../model/post.model')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const verify = require('./verifyToken')
@@ -58,7 +59,14 @@ router.post('/login', async (req, res) => {
   if (!validPassword) return res.status(400).send('Invalid password!')
 
   // Create token
-  const token = jwt.sign({ _id: foundUser._id }, process.env.TOKEN_SECRET)
+  const token = jwt.sign(
+    {
+      _id: foundUser._id,
+      userName: foundUser.userName,
+      userImgUrl: foundUser.profileImg,
+    },
+    process.env.TOKEN_SECRET
+  )
   res.header('auth-token', token).send(token)
 })
 
@@ -77,6 +85,21 @@ router.get('/:userId', verify, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId)
     res.json(user)
+  } catch (error) {
+    res.json({ message: error })
+  }
+})
+
+// Get posts of a user
+router.get('/getUserWithPosts/:userId', verify, async (req, res) => {
+  const foundPosts = await Post.find({ userId: req.params.userId })
+  try {
+    const foundUser = await User.findOne({ _id: req.params.userId })
+    res.json({
+      userId: foundUser._id,
+      userName: foundUser.userName,
+      userPosts: foundPosts,
+    })
   } catch (error) {
     res.json({ message: error })
   }
