@@ -17,11 +17,6 @@ const postSchema = new mongoose.Schema(
       ref: 'User',
     },
 
-    courseName: {
-      type: String,
-      required: true,
-    },
-
     title: {
       type: String,
       required: true,
